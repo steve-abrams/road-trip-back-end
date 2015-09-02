@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'homes#index'
   resources :trips
-  # get '' => 'homes#index'
-  # get '/' => 'home#index'
+  resources :posts
 
   # Example of regular route:
   # get 'trips/new' => 'trips#new'
