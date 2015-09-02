@@ -40,13 +40,13 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # config/environments/development.rb
-  MyApp::Application.configure do
-    config.react.variant = :development
-  end
+  # MyApp::Application.configure do
+  #   config.react.variant = :development
+  # end
 
 # config/environments/production.rb
-  MyApp::Application.configure do
-    config.react.variant = :production
-  end
+  # MyApp::Application.configure do
+  #   config.react.variant = :production
+  # end
 
 end
