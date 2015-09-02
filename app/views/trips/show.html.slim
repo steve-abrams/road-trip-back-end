@@ -1,3 +1,13 @@
 h1= @trip.name
 p= @trip.start_location
 =link_to "delete trip", @trip, method: :delete
+
+/ - @posts.each do |post|
+/   p= post.name
+
+= form_for @post do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.label :description
+  = f.text_area :description
+  = f.submit
