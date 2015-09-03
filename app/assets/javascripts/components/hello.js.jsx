@@ -124,7 +124,7 @@ var inputPractice = React.createClass({
     var value = this.state.value;
     return (
       <div>
-        <p>{value}</p>
+      <p>{value}</p>
         <input type="text" value={value} onChange={this.handleChange} />
       </div>
     )

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'homes#index'
   resources :trips
   resources :posts
+  resources :users
 
   # Example of regular route:
   # get 'trips/new' => 'trips#new'
