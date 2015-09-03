@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .jumbo{
   background-color: rgb(28, 146, 255);
   height: 40em;
@@ -5,5 +9,15 @@
 
 fieldset {
   float: right;
+  width: 100%;
+}
+
+.map {
+  height: 100%;
+}
+
+.sidebar {
+  background-color: blue;
+  height: 100%;
   width: 100%;
 }
