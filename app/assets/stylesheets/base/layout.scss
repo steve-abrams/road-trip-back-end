@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+li {
+  list-style-type: none;
+}
+
 .jumbo{
   background-color: rgb(28, 146, 255);
   height: 40em;
@@ -20,4 +24,10 @@ fieldset {
   background-color: blue;
   height: 100%;
   width: 100%;
+}
+
+.tripTabs li {
+  list-style-type: none;
+  color: white;
+
 }
