@@ -18,9 +18,8 @@ class TripsController < ApplicationController
   end
 
   def show
-    @trip = Trip.find(params[:id])
+    @trip = Trip.includes(:posts).find(params[:id])
     @post = Post.new
-    @posts = @trip.posts.all
   end
 
   def edit
