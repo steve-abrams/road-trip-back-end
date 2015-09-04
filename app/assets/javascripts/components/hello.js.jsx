@@ -138,16 +138,6 @@ var Interest = React.createClass({
   }
 })
 
-var TripTile = React.createClass({
-  render: function () {
-    return (
-      <div>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-        <a href="#"><p> Trip Name </p></a>
-      </div>
-    )
-  }
-})
 
 var NewTripButton = React.createClass({
   getInitialState: function() {
@@ -166,7 +156,6 @@ var NewTripButton = React.createClass({
     )
   }
 })
-
 var NewTripForm = React.createClass({
   render: function () {
     return (
@@ -199,8 +188,6 @@ var NewTripForm = React.createClass({
                   <div className="small-9 columns">
                     <input className="button round tiny" type="submit" value="Create Trip"/>
                   </div>
-
-
 
                 </div>
               </div>
@@ -299,7 +286,7 @@ var NewBlogPost = React.createClass({
   }
 })
 
-var newButton = React.createClass({
+var newPostButton = React.createClass({
     getInitialState: function() {
         return { showResults: false };
     },
@@ -317,7 +304,56 @@ var newButton = React.createClass({
 });
 
 
+//************ Tiles AJAX ***************
 
+
+var GetTiles = React.createClass({
+  getInitialState: function(){
+    return {value: ""}
+  },
+  componentDidMount: function(){
+    $.get('/trips', function(results){
+      if(this.isMounted()){
+        this.setState({
+          value: results,
+          trips: []
+        })
+      }
+    }.bind(this))
+  },
+  render: function () {
+    console.log(this.state.value);
+    for (var i = 0; i < this.state.value.length; i++) {
+      var trip = this.state.value[i]
+      console.log(trip.name);
+      this.state.trips.push(trip)
+    }
+    return (
+      <div>
+        < TripTile />
+      </div>
+    )
+  }
+})
+
+var TripTile = React.createClass({
+  // getInitialState: function(name){
+  //   return {
+  //     name: this.name
+  //   }
+  // },
+  name: "foo",
+  render: function () {
+    return (
+      <div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
+        <a href="#"><p> {this.name} </p></a>
+      </div>
+    )
+  }
+})
+
+//************ Example ***************
 
 var UserGist = React.createClass({
   getInitialState: function() {
@@ -326,10 +362,6 @@ var UserGist = React.createClass({
       lastGistUrl: ''
     };
   },
-
-
-  ///Here the props would be provided in the view { name: "{}"} which would be
-  /// provided by the server via the DB
   componentDidMount: function() {
     $.get('https://www.omdbapi.com/?s=disney', function(result) {
       var lastGist = result.Search;
