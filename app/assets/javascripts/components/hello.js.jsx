@@ -73,7 +73,7 @@ var navbar = React.createClass({
 //
 
 
-var newButton = React.createClass({
+var SettingsButtons = React.createClass({
     getInitialState: function() {
         return { showResults: false };
     },
@@ -93,18 +93,20 @@ var newButton = React.createClass({
 
 var ProfileInfo = React.createClass({
   render: function () {
-    <div>
-      <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-      <h1>'Enter your name'</h1>
-      <p> Miles Traveled&#58; 1,204 </p>
-      <p> Trips Taken&#58; 5 </p>
-      <p> Hometown&#58; Denver, CO, USA </p>
-      <p> Currently in Los Angeles, CA, USA </p>
-      <p> Favorite Place in the World&#58;</p>
-      <p> New York City, New York, USA</p>
-      <p> Interests and Activities&#58;</p>
-      < Interest />< Interest />< Interest />< Interest />< Interest />
-    </div>
+    return (
+      <div>
+        <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
+        <h1>'Enter your name'</h1>
+        <p> Miles Traveled&#58; 1,204 </p>
+        <p> Trips Taken&#58; 5 </p>
+        <p> Hometown&#58; Denver, CO, USA </p>
+        <p> Currently in Los Angeles, CA, USA </p>
+        <p> Favorite Place in the World&#58;</p>
+        <p> New York City, New York, USA</p>
+        <p> Interests and Activities&#58;</p>
+        < Interest />< Interest />< Interest />< Interest />< Interest />
+      </div>      
+    )
   }
 })
 
