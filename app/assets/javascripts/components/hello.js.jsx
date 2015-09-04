@@ -75,17 +75,18 @@ var navbar = React.createClass({
 
 var SettingsButtons = React.createClass({
     getInitialState: function() {
-        return { showResults: false };
+        return { showResults: true };
     },
-    onClick: function() {
+    toggleForm: function() {
         this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+        console.log(this.state.showResults);
     },
     render: function() {
         return (
           <div>
               <a href="#"><span className='fi-widget edit-settings'></span></a>
-              <a href="#"><span className='fi-pencil edit-profile' onClick={this.onClick}></span></a>
-                { this.state.showinfo ? <EditProfileInfo /> : <ProfileInfo /> }
+              <a href="#"><span className='fi-pencil edit-profile' onClick={this.toggleForm}></span></a>
+                { this.state.showResults ? <ProfileInfo /> : <EditProfileInfo /> }
           </div>
         )
     }
@@ -105,7 +106,7 @@ var ProfileInfo = React.createClass({
         <p> New York City, New York, USA</p>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
-      </div>      
+      </div>
     )
   }
 })
@@ -127,100 +128,7 @@ var EditProfileInfo = React.createClass({
  }
 })
 
-// var ProfileInfo = React.createClass({
-//   getInitialState: function () {
-//     return {
-//       info: <div>
-//         <div>
-//             <a href="#"><span className='fi-widget edit-settings'></span></a>
-//             <a href="#"><span className='fi-pencil edit-profile' onClick={this.showProfileForm}></span></a>
-//               { this.state.showinfo ? <ProfileInfoEdit /> : null }
-//         </div>
-//         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-//         <h1>'Enter your name'</h1>
-//         <p> Miles Traveled&#58; 1,204 </p>
-//         <p> Trips Taken&#58; 5 </p>
-//         <p> Hometown&#58; Denver, CO, USA </p>
-//         <p> Currently in Los Angeles, CA, USA </p>
-//         <p> Favorite Place in the World&#58;</p>
-//         <p> New York City, New York, USA</p>
-//         <p> Interests and Activities&#58;</p>
-//         < Interest />< Interest />< Interest />< Interest />< Interest />
-//         </div>
-//     }
-//   },
-//   showProfileForm: function() {
-//       if (this.state.showResults === true) {
-//         this.setState({
-//           info: <div>
-//             <div>
-//                 <a href="#"><span className='fi-widget edit-settings'></span></a>
-//                 <a href="#"><span className='fi-pencil edit-profile' onClick={this.showProfileForm}></span></a>
-//                   { this.state.showResults ? <ProfileInfoEdit /> : null }
-//             </div>
-//             <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-//             <h1>'Enter your name'</h1>
-//             <p> Miles Traveled&#58; 1,204 </p>
-//             <p> Trips Taken&#58; 5 </p>
-//             <p> Hometown&#58; Denver, CO, USA </p>
-//             <p> Currently in Los Angeles, CA, USA </p>
-//             <p> Favorite Place in the World&#58;</p>
-//             <p> New York City, New York, USA</p>
-//             <p> Interests and Activities&#58;</p>
-//             < Interest />< Interest />< Interest />< Interest />< Interest />
-//             </div>
-//           });
-//       } else {
-//        this.setState({
-//          info: <div>
-//            <div>
-//                <a href="#"><span className='fi-widget edit-settings'></span></a>
-//                <a href="#"><span className='fi-pencil edit-profile' onClick={this.showProfileForm}></span></a>
-//                  { this.state.showResults ? <ProfileInfoEdit /> : null }
-//            </div>
-//            <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-//            <input type='text' placeholder="Your Name"/>
-//            <p> Miles Traveled&#58; 1,204 </p>
-//            <p> Trips Taken&#58; 5 </p>
-//            <input type='text' placeholder="Hometown"/>
-//            <p> Currently in Los Angeles, CA, USA </p>
-//            <input type='text' placeholder="Your favorite place"/>
-//            <p> Interests and Activities&#58;</p>
-//            < Interest />< Interest />< Interest />< Interest />< Interest />
-//            </div>
-//         })
-//       }
-//
-//   },
-//   render: function () {
-//     return (
-//       <div>
-//         {this.state.info}
-//       </div>
-//     )
-//   },
-// })
 
-
-
-
-var ProfileInfoEdit = React.createClass({
-  render: function () {
-    return (
-      <form>
-        <div className="row">
-          <div className="small-3 columns">
-            <label for="right-label" className="right"> Label </label>
-          </div>
-          <div className="small-9 columns">
-            <input type="text" id="right-label" placeholder="Inline Text Input" />
-          </div>
-          <input type='submit' value='Update Profile' className='button' />
-        </div>
-      </form>
-    )
-  }
-})
 
 var Interest = React.createClass({
   render: function () {
@@ -240,15 +148,69 @@ var TripTile = React.createClass({
     )
   }
 })
-        // trip cover photo
 
 var NewTripButton = React.createClass({
+  getInitialState: function() {
+      return { showResults: false };
+  },
+  toggleForm: function() {
+      this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+      console.log(this.state.showResults);
+  },
   render: function () {
     return (
-      <button className='new-trip button round tiny'><span className='fi-plus'></span> Create New Trip </button>
+      <div>
+        <button className='new-trip button round tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
+        { this.state.showResults ? <NewTripForm /> : null }
+      </div>
     )
   }
 })
+
+var NewTripForm = React.createClass({
+  render: function () {
+    return (
+      <div>
+          <form method="post" action="/trips">
+            <div className="row">
+              <div className="small-8">
+                <div className="row">
+
+                  <div className="small-9 columns">
+                    <input name="trip[name]" type="text" id="right-label" placeholder="Trip name" />
+                  </div>
+
+                  <div className="small-9 columns">
+                    <input name="trip[start_location]" type="text" id="right-label" placeholder="Starting City" />
+                  </div>
+
+                  <div className="small-9 columns">
+                    <input name="trip[end_location]" type="text" id="right-label" placeholder="Ending City" />
+                  </div>
+
+                  <div className="small-9 columns">
+                    <input name="trip[start_date]" type="date" id="right-label" placeholder="Start Date" />
+                  </div>
+
+                  <div className="small-9 columns">
+                    <input name="trip[end_date]" type="date" id="right-label" placeholder="End Date" />
+                  </div>
+
+                  <div className="small-9 columns">
+                    <input className="button round tiny" type="submit" value="Create Trip"/>
+                  </div>
+
+
+
+                </div>
+              </div>
+            </div>
+          </form>
+      </div>
+    )
+  }
+})
+
 
 var inputStuff = React.createClass({
   getInitialState: function() {
