@@ -1,1 +1,43 @@
+// $primary: #CFE795;
+// light green
+// $secondary: #6A8182;
+// blue-gray
+$white: #F4FFF8;
+// off-white
+$trueWhite: #FFFFFF;
 
+$primary: #000000;
+$secondary: #000000;
+
+body {
+  color: $white;
+  h1 {
+    color: $white;
+  }
+}
+
+nav.top-bar {
+  background-color: $primary;
+  a {
+    color: $white;
+  }
+}
+
+.profilePage {
+  background-color: transparentize($primary, 0.6);
+
+}
+
+ul.polaroids, .tripTabs {
+  li {
+    background-color: $white;
+  }
+}
+
+.jumbo{
+  // background-color: $primary;
+}
+
+.sidebar {
+  background-color: transparentize($primary, 0.3);
+}

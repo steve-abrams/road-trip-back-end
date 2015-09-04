@@ -35,8 +35,91 @@ var navbar = React.createClass({
   }
 })
 
+var ProfileInfo = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <SettingsButtons />
+        <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
+        <h1> Jazzy Jeff </h1>
+        <p> Miles Traveled&#58; 1,204 </p>
+        <p> Trips Taken&#58; 5 </p>
+        <p> Hometown&#58; Denver, CO, USA </p>
+        <p> Currently in Los Angeles, CA, USA </p>
+        <p> Favorite Place in the World&#58;</p>
+        <p> New York City, New York, USA</p>
+        <p> Interests and Activities&#58;</p>
+        < Interest />< Interest />< Interest />< Interest />< Interest />
+      </div>
+    )
+  }
+})
+
+var SettingsButtons = React.createClass({
+    getInitialState: function() {
+        return { showResults: false };
+    },
+    showProfileForm: function() {
+        this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+    },
+    render: function() {
+        return (
+          <div>
+              <a href="#"><span className='fi-widget edit-settings'></span></a>
+              <a href="#"><span className='fi-pencil edit-profile' onClick={this.showProfileForm}></span></a>
+                { this.state.showResults ? <ProfileInfoEdit /> : null }
+          </div>
+        );
+    }
+});
 
 
+
+var ProfileInfoEdit = React.createClass({
+  render: function () {
+    return (
+      <form>
+        <div className="row">
+          <div className="small-3 columns">
+            <label for="right-label" className="right"> Label </label>
+          </div>
+          <div className="small-9 columns">
+            <input type="text" id="right-label" placeholder="Inline Text Input" />
+          </div>
+          <input type='submit' value='Update Profile' className='button' />
+        </div>
+      </form>
+    )
+  }
+})
+
+var Interest = React.createClass({
+  render: function () {
+    return (
+      <button className='interests button round tiny'> keyword </button>
+    )
+  }
+})
+
+var TripTile = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
+        <a href="#"><p> Trip Name </p></a>
+      </div>
+    )
+  }
+})
+        // trip cover photo
+
+var NewTripButton = React.createClass({
+  render: function () {
+    return (
+      <button className='new-trip button round tiny'><span className='fi-plus'></span> Create New Trip </button>
+    )
+  }
+})
 
 var inputStuff = React.createClass({
   getInitialState: function() {
