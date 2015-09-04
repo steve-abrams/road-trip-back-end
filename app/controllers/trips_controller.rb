@@ -1,7 +1,12 @@
 class TripsController < ApplicationController
+  protect_from_forgery :except => [:update, :delete, :create]
 
   def index
     @trips = Trip.all
+    respond_to do |format|
+      format.html
+      format.json {render json: @trips}
+    end
   end
 
   def new
@@ -9,17 +14,25 @@ class TripsController < ApplicationController
   end
 
   def create
-    @trip = Trip.new(trip_params)
-    if @trip.save
-      redirect_to trip_path(@trip.id)
-    else
-      render :new
+    p '=============================================='
+    p trip_params
+    p '=============================================='
+    respond_to do |format|
+      format.html
+      format.json {
+        @trip = Trip.create(trip_params)
+        render json: @trip
+      }
     end
   end
 
   def show
     @trip = Trip.includes(:posts).find(params[:id])
     @post = Post.new
+    respond_to do |format|
+      format.html
+      format.json {render json: @trip, include: :posts}
+    end
   end
 
   def edit
