@@ -16,18 +16,96 @@ fieldset {
   width: 100%;
 }
 
+nav.top-bar {
+  background-color: #6A8182;
+}
+
+.dash {
+  background-color: #F4FFF8;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  width: 80%;
+  margin: 5%;
+}
+
+.interests {
+  display: inline-block;
+}
+
+.profile-settings {
+  margin: 5%;
+  .edit-profile {
+    float: right;
+  }
+  .edit-settings {
+    float: left;
+  }
+}
+
 .map {
   height: 100%;
 }
 
 .sidebar {
-  background-color: blue;
+  background-color: #CFE795;
   height: 100%;
   width: 100%;
+  color: #6A8182;
+  text-align: center;
+  h1 {
+    color: #6A8182;
+  }
+}
+
+ul.polaroids {
+  clear: both;
+  display: inline-block;
+  li {
+    -webkit-transition: -webkit-transform .15s linear;
+    height: 15%;
+    width: 15%;
+    background-color: white;
+    margin: 2%;
+    display: inline-block;
+    vertical-align: top;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  li:hover {
+    -webkit-transition: -webkit-transform .15s linear;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    position: relative;
+    z-index: 5;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+  }
+  img {
+   height: 90%;
+   width: 90%;
+   margin: 5%
+  }
+  p {
+    text-align: center;
+  }
+}
+
+ul.button-group.round.even-1 {
+  float: right;
+  margin-right: 5%;
+}
+
+.button.round.tiny.new-trip {
+  margin-left: 5%;
+}
+
+.trips {
+  height: 100%;
+  margin-top: 5%;
+  overflow: scroll;
 }
 
 .tripTabs li {
   list-style-type: none;
   color: white;
-
 }
