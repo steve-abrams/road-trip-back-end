@@ -39,20 +39,56 @@ var ProfileInfo = React.createClass({
   render: function () {
     return (
       <div>
-        <ul className="button-group round profile-settings">
-          <li className="edit-settings"><a href="#"><span className='fi-widget'></span></a></li>
-          <li className="edit-profile"><a href="#"><span className='fi-pencil'></span></a></li>
-        </ul>
+        <SettingsButtons />
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
         <h1> Jazzy Jeff </h1>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 5 </p>
-        <p> Currently in Denver, CO </p>
+        <p> Hometown&#58; Denver, CO, USA </p>
+        <p> Currently in Los Angeles, CA, USA </p>
         <p> Favorite Place in the World&#58;</p>
         <p> New York City, New York, USA</p>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
       </div>
+    )
+  }
+})
+
+var SettingsButtons = React.createClass({
+    getInitialState: function() {
+        return { showResults: false };
+    },
+    showProfileForm: function() {
+        this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+    },
+    render: function() {
+        return (
+          <div>
+              <a href="#"><span className='fi-widget edit-settings'></span></a>
+              <a href="#"><span className='fi-pencil edit-profile' onClick={this.showProfileForm}></span></a>
+                { this.state.showResults ? <ProfileInfoEdit /> : null }
+          </div>
+        );
+    }
+});
+
+
+
+var ProfileInfoEdit = React.createClass({
+  render: function () {
+    return (
+      <form>
+        <div className="row">
+          <div className="small-3 columns">
+            <label for="right-label" className="right"> Label </label>
+          </div>
+          <div className="small-9 columns">
+            <input type="text" id="right-label" placeholder="Inline Text Input" />
+          </div>
+          <input type='submit' value='Update Profile' className='button' />
+        </div>
+      </form>
     )
   }
 })

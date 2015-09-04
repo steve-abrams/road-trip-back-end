@@ -1,39 +1,43 @@
-$primary: #CFE795;
+// $primary: #CFE795;
 // light green
-$secondary: #6A8182;
+// $secondary: #6A8182;
 // blue-gray
 $white: #F4FFF8;
 // off-white
 $trueWhite: #FFFFFF;
 
+$primary: #000000;
+$secondary: #000000;
+
+body {
+  color: $white;
+  h1 {
+    color: $white;
+  }
+}
+
 nav.top-bar {
-  background-color: $secondary;
+  background-color: $primary;
   a {
     color: $white;
   }
 }
 
-ul.polaroids, .tripTabs {
-  li {
-    background-color: $trueWhite;
-  }
+.profilePage {
+  background-color: transparentize($primary, 0.6);
+
 }
 
-.dash {
-  background-color: $white;
-  h1 {
-    color: $secondary;
+ul.polaroids, .tripTabs {
+  li {
+    background-color: $white;
   }
 }
 
 .jumbo{
-  background-color: $primary;
+  // background-color: $primary;
 }
 
 .sidebar {
-  background-color: $primary;
-  color: $secondary;
-  h1 {
-    color: $secondary;
-  }
+  background-color: transparentize($primary, 0.3);
 }
