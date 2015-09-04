@@ -2,36 +2,31 @@
   box-sizing: border-box;
 }
 
-li {
-  list-style-type: none;
-}
-
-.jumbo{
-  background-color: rgb(28, 146, 255);
-  height: 40em;
-}
-
 fieldset {
   float: right;
   width: 100%;
 }
 
-nav.top-bar {
-  background-color: #6A8182;
+.button.round.tiny.new-trip {
+  margin-left: 5%;
 }
 
-.dash {
-  background-color: #F4FFF8;
+.interests {
+  display: inline-block;
+}
+
+.jumbo{
+  height: 40em;
+}
+
+.map {
+  height: 100%;
 }
 
 .profile-pic {
   border-radius: 50%;
   width: 80%;
   margin: 5%;
-}
-
-.interests {
-  display: inline-block;
 }
 
 .profile-settings {
@@ -44,19 +39,15 @@ nav.top-bar {
   }
 }
 
-.map {
-  height: 100%;
-}
-
 .sidebar {
-  background-color: #CFE795;
   height: 100%;
   width: 100%;
-  color: #6A8182;
-  text-align: center;
-  h1 {
-    color: #6A8182;
-  }
+}
+
+.trips {
+  height: 100%;
+  margin-top: 5%;
+  overflow: scroll;
 }
 
 ul.polaroids {
@@ -66,7 +57,6 @@ ul.polaroids {
     -webkit-transition: -webkit-transform .15s linear;
     height: 15%;
     width: 15%;
-    background-color: white;
     margin: 2%;
     display: inline-block;
     vertical-align: top;
@@ -85,27 +75,9 @@ ul.polaroids {
    width: 90%;
    margin: 5%
   }
-  p {
-    text-align: center;
-  }
 }
 
 ul.button-group.round.even-1 {
   float: right;
   margin-right: 5%;
-}
-
-.button.round.tiny.new-trip {
-  margin-left: 5%;
-}
-
-.trips {
-  height: 100%;
-  margin-top: 5%;
-  overflow: scroll;
-}
-
-.tripTabs li {
-  list-style-type: none;
-  color: white;
 }
