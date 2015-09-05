@@ -1,5 +1,6 @@
 var navbar = React.createClass({
   render: function(){
+    console.log(document);
     return (
       <nav className="top-bar" data-topbar="" role="navigation">
         <ul className="title-area">

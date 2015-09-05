@@ -1,13 +1,12 @@
 // $primary: #CFE795;
 // light green
-// $secondary: #6A8182;
+$secondary: #008CBA;
 // blue-gray
 $white: #F4FFF8;
 // off-white
 $trueWhite: #FFFFFF;
 
 $primary: #000000;
-$secondary: #000000;
 
 body {
   color: $white;
@@ -29,7 +28,20 @@ ul.polaroids, .tripTabs {
   }
 }
 
+.about-us {
+  border: 20px solid transparentize($primary, 0.1);
+  background-color: $white;
+  color: $primary;
+  h1 {
+    color: $primary;
+  }
+}
+
 .profilePage {
+  background-color: transparentize($primary, 0.6);
+}
+
+.landingPage {
   background-color: transparentize($primary, 0.6);
 }
 
