@@ -45,7 +45,14 @@ var EditProfileInfo = React.createClass({
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 5 </p>
         <input type='text' placeholder="Hometown"/>
-        <p> Currently in Los Angeles, CA, USA </p>
+        <div className="switch round small">
+          <p>Show Current City&#58; </p>
+          <input id="yes-no" type="checkbox" />
+          <label htmlFor="yes-no">
+            <span className="switch-on"> On </span>
+            <span className="switch-off"> Off </span>
+          </label>
+        </div>
         <input type='text' placeholder="Your favorite place"/>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
