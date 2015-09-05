@@ -23,19 +23,14 @@ nav.top-bar {
   }
 }
 
-.profilePage {
-  background-color: transparentize($primary, 0.6);
-
-}
-
 ul.polaroids, .tripTabs {
   li {
     background-color: $white;
   }
 }
 
-.jumbo{
-  // background-color: $primary;
+.profilePage {
+  background-color: transparentize($primary, 0.6);
 }
 
 .sidebar {

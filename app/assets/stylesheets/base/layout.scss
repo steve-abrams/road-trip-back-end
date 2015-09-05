@@ -2,16 +2,6 @@
   box-sizing: border-box;
 }
 
-.profilePage {
-  background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
-  background-repeat: no-repeat;
-  -webkit-background-size: cover;
- -moz-background-size: cover;
- -o-background-size: cover;
- width: 100% !important;
- z-index: 0;
-}
-
 fieldset {
   float: right;
   width: 100%;
@@ -31,6 +21,16 @@ fieldset {
 
 .map {
   height: 100%;
+}
+
+.profilePage {
+  background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  width: 100% !important;
+  z-index: 0;
 }
 
 .profile-pic {

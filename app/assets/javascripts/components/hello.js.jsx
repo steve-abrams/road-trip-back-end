@@ -2,34 +2,34 @@ var navbar = React.createClass({
   render: function(){
     return (
       <nav className="top-bar" data-topbar="" role="navigation">
-      <ul className="title-area">
-      <li className="name">
-      <h1>
-      <a href="/"> Home</a>
-      </h1>
-      </li>
-      <li className="toggle-topbar menu-icon">
-      <a href="#"><span>Menu</span></a>
-      </li>
-      </ul>
-      <section className="top-bar-section">
-      <ul className="right">
-      <li className="active">
-      <a href=""> Right Button Active</a>
-      </li>
-      <li className="has-dropdown">
-      <a href="/trips">Trips</a>
-      <ul className="dropdown">
-      <li>
-      <a href="/trips"> My Trips</a>
-      </li>
-      <li className="active">
-      <a href="/trips/new"> New Trip</a>
-      </li>
-      </ul>
-      </li>
-      </ul>
-      </section>
+        <ul className="title-area">
+          <li className="name">
+            <h1>
+            <a href="/"> Home</a>
+            </h1>
+          </li>
+          <li className="toggle-topbar menu-icon">
+            <a href="#"><span>Menu</span></a>
+          </li>
+        </ul>
+        <section className="top-bar-section">
+          <ul className="right">
+            <li className="active">
+              <a href=""> Right Button Active</a>
+            </li>
+            <li className="has-dropdown">
+              <a href="/trips">Trips</a>
+              <ul className="dropdown">
+                <li>
+                  <a href="/trips"> My Trips</a>
+                </li>
+                <li className="active">
+                  <a href="/trips/new"> New Trip</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
       </nav>
     );
   }
@@ -43,7 +43,6 @@ var navbar = React.createClass({
 // },
 
 
-///Here the props would be provided in the view { name: "{}"} which would be
 /// provided by the server via the DB
 // componentDidMount: function() {
 //   $.get('https://www.omdbapi.com/?s=disney', function(result) {
@@ -72,168 +71,6 @@ var navbar = React.createClass({
 // });
 //
 
-
-var SettingsButtons = React.createClass({
-  getInitialState: function() {
-    return { showResults: true };
-  },
-  toggleForm: function() {
-    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-    console.log(this.state.showResults);
-  },
-  render: function() {
-    return (
-      <div>
-      <a href="#"><span className='fi-widget edit-settings'></span></a>
-      <a href="#"><span className='fi-pencil edit-profile' onClick={this.toggleForm}></span></a>
-      { this.state.showResults ? <ProfileInfo /> : <EditProfileInfo /> }
-      </div>
-    )
-  }
-});
-
-var ProfileInfo = React.createClass({
-  render: function () {
-    return (
-      <div>
-      <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-      <h1>'Enter your name'</h1>
-      <p> Miles Traveled&#58; 1,204 </p>
-      <p> Trips Taken&#58; 5 </p>
-      <p> Hometown&#58; Denver, CO, USA </p>
-      <p> Currently in Los Angeles, CA, USA </p>
-      <p> Favorite Place in the World&#58;</p>
-      <p> New York City, New York, USA</p>
-      <p> Interests and Activities&#58;</p>
-      < Interest />< Interest />< Interest />< Interest />< Interest />
-      </div>
-    )
-  }
-})
-
-var EditProfileInfo = React.createClass({
-  render: function () {
-    return (
-      <div>
-      <input type='text' placeholder="Your Name"/>
-      <p> Miles Traveled&#58; 1,204 </p>
-      <p> Trips Taken&#58; 5 </p>
-      <input type='text' placeholder="Hometown"/>
-      <p> Currently in Los Angeles, CA, USA </p>
-      <input type='text' placeholder="Your favorite place"/>
-      <p> Interests and Activities&#58;</p>
-      < Interest />< Interest />< Interest />< Interest />< Interest />
-      </div>
-    )
-  }
-})
-
-
-
-var Interest = React.createClass({
-  render: function () {
-    return (
-      <button className='interests button round tiny'> keyword </button>
-    )
-  }
-})
-
-
-var NewTripButton = React.createClass({
-  getInitialState: function() {
-    return { showResults: false };
-  },
-  toggleForm: function() {
-    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-    console.log(this.state.showResults);
-  },
-  render: function () {
-    return (
-      <div>
-      <button className='new-trip button round tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
-      { this.state.showResults ? <NewTripForm /> : null }
-      </div>
-    )
-  }
-})
-var NewTripForm = React.createClass({
-  render: function () {
-    return (
-      <div>
-      <form method="post" action="/trips">
-      <div className="row">
-      <div className="small-8">
-      <div className="row">
-
-      <div className="small-9 columns">
-      <input name="trip[name]" type="text" id="right-label" placeholder="Trip name" />
-      </div>
-
-      <div className="small-9 columns">
-      <input name="trip[start_location]" type="text" id="right-label" placeholder="Starting City" />
-      </div>
-
-      <div className="small-9 columns">
-      <input name="trip[end_location]" type="text" id="right-label" placeholder="Ending City" />
-      </div>
-
-      <div className="small-9 columns">
-      <input name="trip[start_date]" type="date" id="right-label" placeholder="Start Date" />
-      </div>
-
-      <div className="small-9 columns">
-      <input name="trip[end_date]" type="date" id="right-label" placeholder="End Date" />
-      </div>
-
-      <div className="small-9 columns">
-      <input className="button round tiny" type="submit" value="Create Trip"/>
-      </div>
-
-      </div>
-      </div>
-      </div>
-      </form>
-      </div>
-    )
-  }
-})
-
-
-var inputStuff = React.createClass({
-  getInitialState: function() {
-    return {value: 'Hello!'};
-  },
-  handleChange: function(event) {
-    this.setState({value: event.target.value});
-  },
-  render: function() {
-    var value = this.state.value;
-    return (
-      <div>
-      <div><h2>{value}</h2></div>
-      <input type="text" value={value} onChange={this.handleChange} /></div>
-    )
-  }
-})
-
-
-
-var LikeButton = React.createClass({
-  getInitialState: function() {
-    return {liked: false};
-  },
-  handleClick: function(event) {
-    this.setState({liked: !this.state.liked});
-  },
-  render: function() {
-    var text = this.state.liked ? 'like' : 'haven\'t liked';
-    return (
-      <p onClick={this.handleClick}>
-      You {text} this. Click ta Switch.
-      </p>
-    );
-  }
-});
 
 // var BlogPosts = React.createClass({
 //   render: function () {
@@ -304,85 +141,25 @@ var newPostButton = React.createClass({
 });
 
 
-//************ Tiles AJAX ***************
 
+//// *********** Examples *************
 
-var GetTiles = React.createClass({
-  getInitialState: function(){
-    return {value: ""}
+var inputStuff = React.createClass({
+  getInitialState: function() {
+    return {value: 'Hello!'};
   },
-  componentDidMount: function(){
-    $.get('/trips', function(results){
-      if(this.isMounted()){
-        this.setState({
-          value: results
-        })
-      }
-    }.bind(this))
+  handleChange: function(event) {
+    this.setState({value: event.target.value});
   },
-  render: function () {
-    var trips = this.state.value
-    var allTrips = []
-    for (var i = 0; i < trips.length; i++) {
-      allTrips.push(<TripTile trip={trips[i]}/>)
-    }
+  render: function() {
+    var value = this.state.value;
     return (
-      <ul className="polaroids large-12 columns">
-        {allTrips}
-      </ul>
-    );
-  }
-})
-
-
-
-var TripTile = React.createClass({
-  render: function () {
-    var trip = this.props.trip;
-    return (
-      <li>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-          <a href="#"><p> {trip.name} </p></a>
-      </li>
+      <div>
+      <div><h2>{value}</h2></div>
+      <input type="text" value={value} onChange={this.handleChange} /></div>
     )
   }
 })
-
-//************ Example ***************
-
-var UserGist = React.createClass({
-  getInitialState: function() {
-    return {
-      username: '',
-      lastGistUrl: ''
-    };
-  },
-  componentDidMount: function() {
-    $.get('https://www.omdbapi.com/?s=disney', function(result) {
-      var lastGist = result.Search;
-      console.log(lastGist)
-      if (this.isMounted()) {
-        this.setState({
-          stuff: lastGist,
-          username: 'NICK',
-          lastGistUrl: 'https://api.github.com/users/octocat/gists'
-        });
-      }
-    }.bind(this));
-  },
-
-  render: function() {
-    return (
-      <div>
-      {this.state.username}s DISNEY API RESULTS
-      <a href={this.state.lastGistUrl}>HERE</a>.
-      <h2>There are {this.stuff} results:</h2>
-      <p>{this.state.stuff}</p>
-      </div>
-    );
-  }
-});
-
 
 var inputPractice = React.createClass({
   getInitialState: function() {
@@ -413,3 +190,20 @@ var selectFruit = React.createClass({
     )
   }
 })
+
+var LikeButton = React.createClass({
+  getInitialState: function() {
+    return {liked: false};
+  },
+  handleClick: function(event) {
+    this.setState({liked: !this.state.liked});
+  },
+  render: function() {
+    var text = this.state.liked ? 'like' : 'haven\'t liked';
+    return (
+      <p onClick={this.handleClick}>
+      You {text} this. Click ta Switch.
+      </p>
+    );
+  }
+});
