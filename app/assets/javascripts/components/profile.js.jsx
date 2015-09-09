@@ -135,6 +135,7 @@ var GetTiles = React.createClass({
   },
   componentDidMount: function(){
     $.get('/trips', function(results){
+      console.log(results);
       if(this.isMounted()){
         this.setState({
           value: results
