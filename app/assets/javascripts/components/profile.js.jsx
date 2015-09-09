@@ -91,7 +91,7 @@ var NewTripForm = React.createClass({
   render: function () {
     return (
       <div>
-        <form method="post" action="/trips">
+        <form method="post" action={'/users/'+window.location.pathname.split('/')[2]+'/trips'}>
           <div className="row">
             <div className="small-8">
               <div className="row">
@@ -134,7 +134,7 @@ var GetTiles = React.createClass({
     return {value: ""}
   },
   componentDidMount: function(){
-    $.get('/trips', function(results){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
       console.log(results);
       if(this.isMounted()){
         this.setState({

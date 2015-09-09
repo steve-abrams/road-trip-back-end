@@ -2,7 +2,7 @@ class TripsController < ApplicationController
   protect_from_forgery :except => [:update, :delete, :create]
 
   def index
-    @trips = Trip.all
+    @trips = Trip.where(user_id: params[:user_id])
     respond_to do |format|
       format.html
       format.json {render json: @trips}
@@ -27,8 +27,9 @@ class TripsController < ApplicationController
 
   def create
     @trip = Trip.new(trip_params)
+    @trip.user_id = current_user.id
     if @trip.save
-      redirect_to trip_path(@trip.id)
+      redirect_to user_trip_path(current_user.id, @trip.id)
     else
       redirect_to root_path
     end
@@ -62,7 +63,7 @@ class TripsController < ApplicationController
   def update
     @trip = Trip.find(params[:id])
     if @trip.update(trip_params)
-      redirect_to trip_path(@trip.id)
+      redirect_to user_trip_path(@trip.user_id, @trip.id)
     else
       render :edit
     end
@@ -70,7 +71,7 @@ class TripsController < ApplicationController
 
   def destroy
     if Trip.find(params[:id]).destroy
-      redirect_to trips_path
+      redirect_to user_trips_path(current_user.id)
     else
       render :show
     end

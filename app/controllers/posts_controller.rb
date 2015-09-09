@@ -4,7 +4,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.trip_id = params[:trip_id]
     if @post.save
-      redirect_to trip_path(params[:trip_id])
+      redirect_to user_trip_path(current_user.id, params[:trip_id])
       flash[:notice] = "Post Successfully Saved"
     else
       flash[:notice] = "Post could not be saved"
@@ -17,7 +17,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     if @post.destroy
-      redirect_to trip_path(params[:trip_id])
+      redirect_to user_trip_path(current_user.id, params[:trip_id])
     end
   end
 

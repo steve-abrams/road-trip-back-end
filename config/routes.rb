@@ -5,11 +5,12 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'homes#index'
-  resources :trips, except: [:index] do
-    resources :posts
-  end
+  resources :users do
   resources :trips, defaults: {format: :json}, only: [:index]
-  resources :users
+    resources :trips, except: [:index] do
+      resources :posts
+    end
+  end
 
   # Example of regular route:
   get 'trips/new' => 'trips#new'
