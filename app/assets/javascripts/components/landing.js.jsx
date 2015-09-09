@@ -24,8 +24,7 @@ var SignupLoginButtons = React.createClass({
   render: function () {
     return (
       <div className="button-group round landing-buttons">
-      <a href="/users/sign_up"><button className="tiny"> Sign Up </button></a>
-      <a href="/users/sign_in"><button className="tiny"> Log In </button></a>
+      <a href="/users/sign_up"><button className="tiny"> Sing </button></a>
       </div>
     )
   }
