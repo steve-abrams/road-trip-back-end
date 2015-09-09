@@ -13,18 +13,38 @@ class TripsController < ApplicationController
     @trip = Trip.new
   end
 
+
+  # def create
+  #   @post = Post.new(post_params)
+  #   @post.trip_id = params[:trip_id]
+  #   if @post.save
+  #     redirect_to trip_path(params[:trip_id])
+  #     flash[:notice] = "Post Successfully Saved"
+  #   else
+  #     flash[:notice] = "Post could not be saved"
+  #   end
+  # end
+
   def create
-    p '=============================================='
-    p trip_params
-    p '=============================================='
-    respond_to do |format|
-      format.html
-      format.json {
-        @trip = Trip.create(trip_params)
-        render json: @trip
-      }
+    @trip = Trip.new(trip_params)
+    if @trip.save
+      redirect_to trip_path(@trip.id)
+    else
+      redirect_to root_path
     end
   end
+  # def create
+  #   p '=============================================='
+  #   p trip_params
+  #   p '=============================================='
+  #   respond_to do |format|
+  #     format.html
+  #     format.json {
+  #       @trip = Trip.create(trip_params)
+  #       render json: @trip
+  #     }
+  #   end
+  # end
 
   def show
     @trip = Trip.includes(:posts).find(params[:id])
