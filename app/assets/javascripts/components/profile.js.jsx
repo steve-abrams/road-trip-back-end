@@ -162,7 +162,7 @@ var TripTile = React.createClass({
     return (
       <li>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-        <a href="#"><p> {trip.name} </p></a>
+        <a href={"/trips/" + trip.id}><p> {trip.name} </p></a>
       </li>
     )
   }
