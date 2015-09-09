@@ -1,4 +1,3 @@
-= react_component('navbar')
 
 / h1= @trip.name
 / p= @trip.start_location
@@ -8,7 +7,7 @@
 /   h5= post.name
 /   p= post.description
 /   =link_to "Delete Post", [@trip, post], method: :delete, data: { confirm: 'Are you sure?'}
-/ 
+/
 / = form_for [@trip, @post] do |f|
 /   = f.label :name
 /   = f.text_field :name
