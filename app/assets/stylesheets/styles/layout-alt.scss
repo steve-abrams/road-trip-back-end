@@ -18,6 +18,11 @@ video {
   width: 100%;
 }
 
+.row {
+  width: 100%;
+  max-width: 100%;
+}
+
 .about-us {
   margin-top: 15%;
 }
@@ -56,10 +61,8 @@ video {
 .profilePage {
   background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
   background-repeat: no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  width: 100% !important;
+  background-size: cover;
+  overflow: scroll;
   z-index: 0;
 }
 
@@ -77,11 +80,6 @@ video {
   .edit-settings {
     float: left;
   }
-}
-
-.sidebar {
-  width: 20%;
-  height: 50%;
 }
 
 .trips {
