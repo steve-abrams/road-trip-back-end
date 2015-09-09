@@ -1,6 +1,11 @@
 var signinNavbar = React.createClass({
+  getInitialState: function() {
+    return { showResults: false};
+  },
+  toggleForm: function() {
+    this.state.showResults ? this.setState({ showResults: false}) : this.setState({ showResults: true})
+  },
   render: function(){
-    console.log(document);
     return (
       <nav className="top-bar" data-topbar="" role="navigation">
         <ul className="title-area">
@@ -15,20 +20,7 @@ var signinNavbar = React.createClass({
         </ul>
         <section className="top-bar-section">
           <ul className="right">
-            <li className="active">
-              <a href="/users/sign_in"> Login</a>
-            </li>
-            <li className="has-dropdown">
-              <a href="/trips">Trips</a>
-              <ul className="dropdown">
-                <li>
-                  <a href="/trips"> My Trips</a>
-                </li>
-                <li className="active">
-                  <a href="/trips/new"> New Trip</a>
-                </li>
-              </ul>
-            </li>
+            {this.state.showResults ? <LogInForm/> : <LogInButton  onClick={this.toggleForm}/>}
           </ul>
         </section>
       </nav>
@@ -38,7 +30,6 @@ var signinNavbar = React.createClass({
 
 var logoutNavbar = React.createClass({
   render: function(){
-    console.log(document);
     return (
       <nav className="top-bar" data-topbar="" role="navigation">
         <ul className="title-area">
@@ -56,21 +47,36 @@ var logoutNavbar = React.createClass({
             <li className="active">
               <a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
             </li>
-            <li className="has-dropdown">
-              <a href="/trips">Trips</a>
-              <ul className="dropdown">
-                <li>
-                  <a href="/trips"> My Trips</a>
-                </li>
-                <li className="active">
-                  <a href="/trips/new"> New Trip</a>
-                </li>
-              </ul>
-            </li>
           </ul>
         </section>
       </nav>
     );
+  }
+})
+
+var LogInForm = React.createClass({
+  render: function () {
+    return (
+            <form action="/users/sign_in" method='post'>
+             <li>
+               <input type="text" placeholder="email" name='user[email]'/>
+             </li>
+             <li>
+               <input type="password" name='user[password]' placeholder="password"/>
+             </li>
+             <li>
+               <input className='button small' type='submit' value='Login!'/>
+             </li>
+           </form>
+         )
+  }
+})
+
+var LogInButton = React.createClass({
+  render: function () {
+    return (<li className="active">
+              <a href="#" onClick={this.props.onClick}> Login</a>
+            </li>)
   }
 })
 
