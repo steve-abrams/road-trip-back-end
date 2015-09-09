@@ -30,10 +30,18 @@ ul.polaroids, .tripTabs {
 
 .about-us {
   border: 20px solid transparentize($primary, 0.1);
-  background-color: $white;
-  color: $primary;
+  background-color: transparentize($primary, 0.1);
+  color: $white;
   h1 {
-    color: $primary;
+    color: $white;
+  }
+  label {
+    color: $white;
+  }
+  button {
+    // position: absolute;
+    // bottom: 5%;
+    // left: 40%;
   }
 }
 
