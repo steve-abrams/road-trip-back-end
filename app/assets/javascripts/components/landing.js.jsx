@@ -1,16 +1,16 @@
 var CenterBlock = React.createClass({
   getInitialState: function() {
-    return { showResults: true };
+    return { showResults: true, message: "signUp"};
   },
   toggleForm: function() {
-    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+    this.state.showResults === true ? this.setState({ showResults: false, message: "about" }) : this.setState({ showResults: true, message: "signUp"})
   },
   render: function () {
     return (
       <div className="large-8 columns large-centered about-us">
-        { this.state.showResults ? <AboutUs /> : <SignUpForm /> }
+        { this.state.showResults ? <AboutUs /> : <SignUpForm />}
         <div className="button-group round landing-buttons">
-          <button className="tiny" onClick={this.toggleForm}> Sing </button>
+          <button className="tiny" onClick={this.toggleForm}> {this.state.message} </button>
         </div>
       </div>
     )
@@ -40,16 +40,8 @@ var SignUpForm = React.createClass({
           <input id='password' type="password" name="user[password]"/>
           <label htmlFor="password_confirmation">Confirm </label>
           <input id='password_confirmation' type="password" name="user[password_confirmation]"/>
-          <input type="submit" name="name" value="sing"/>
+          <input type="submit" className='button small round' name="name" value="sing"/>
         </form>
       )
     }
 })
-
-// var Login = React.createClass({
-//   render: function () {
-//     return (
-//
-//     )
-//   }
-// })
