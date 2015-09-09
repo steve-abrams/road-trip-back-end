@@ -1,4 +1,4 @@
-var navbar = React.createClass({
+var signinNavbar = React.createClass({
   render: function(){
     console.log(document);
     return (
@@ -16,7 +16,45 @@ var navbar = React.createClass({
         <section className="top-bar-section">
           <ul className="right">
             <li className="active">
-              <a href=""> Right Button Active</a>
+              <a href="/users/sign_in"> Login</a>
+            </li>
+            <li className="has-dropdown">
+              <a href="/trips">Trips</a>
+              <ul className="dropdown">
+                <li>
+                  <a href="/trips"> My Trips</a>
+                </li>
+                <li className="active">
+                  <a href="/trips/new"> New Trip</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+      </nav>
+    );
+  }
+})
+
+var logoutNavbar = React.createClass({
+  render: function(){
+    console.log(document);
+    return (
+      <nav className="top-bar" data-topbar="" role="navigation">
+        <ul className="title-area">
+          <li className="name">
+            <h1>
+            <a href="/"> Home</a>
+            </h1>
+          </li>
+          <li className="toggle-topbar menu-icon">
+            <a href="#"><span>Menu</span></a>
+          </li>
+        </ul>
+        <section className="top-bar-section">
+          <ul className="right">
+            <li className="active">
+              <a rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a>
             </li>
             <li className="has-dropdown">
               <a href="/trips">Trips</a>

@@ -14,7 +14,13 @@
   </head>
 
   <body>
-    <%= yield %>
 
+
+    <% if current_user %>
+      <%=react_component('logoutNavbar')%>
+    <%else%>
+      <%=react_component('signinNavbar')%>
+    <%end%>
+    <%= yield %>
   </body>
 </html>
