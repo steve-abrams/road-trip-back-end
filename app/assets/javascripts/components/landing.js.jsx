@@ -9,7 +9,7 @@ var CenterBlock = React.createClass({
     return (
       <div className="large-8 columns large-centered about-us">
         { this.state.showResults ? <AboutUs /> : <SignUpForm />}
-        <div className="button-group round landing-buttons">
+        <div className="button-group round landing-buttons centered">
           <button className="tiny" onClick={this.toggleForm}> {this.state.message} </button>
         </div>
       </div>

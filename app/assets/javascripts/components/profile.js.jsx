@@ -4,7 +4,6 @@ var SettingsButtons = React.createClass({
   },
   toggleForm: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-    console.log(this.state.showResults);
   },
   render: function() {
     return (
@@ -75,7 +74,6 @@ var NewTripButton = React.createClass({
   },
   toggleForm: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-    console.log(this.state.showResults);
   },
   render: function () {
     return (
@@ -135,7 +133,6 @@ var GetTiles = React.createClass({
   },
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
-      console.log(results);
       if(this.isMounted()){
         this.setState({
           value: results
@@ -163,7 +160,7 @@ var TripTile = React.createClass({
     return (
       <li>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-        <a href="#"><p> {trip.name} </p></a>
+        <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + trip.id }><p> {trip.name} </p></a>
       </li>
     )
   }
