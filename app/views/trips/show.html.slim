@@ -22,6 +22,7 @@
 
   / .row
 #map.map.large-8.columns
+script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw3VbC4_m1U846EfTxOCsfaOqa5HEuTEw&callback=initMap"
 .sidebar.large-4.columns
   <ul class="tabs" data-tab>
   <li class="tab-title small-4 active"><a href="#panel1">Travel Blog</a></li>
@@ -31,7 +32,7 @@
     <div class="tabs-content">
     <div class="content active" id="panel1">
       / div= react_component('NewBlogPost')
-      div= react_component('newButton')
+      = react_component('newPostButton')
       <ul className="example-orbit" data-orbit>
         <li>
           <img src="http://www.mrwallpaper.com/wallpapers/cute-kitty-1680x1050.jpg" alt="slide 1" />
@@ -63,5 +64,3 @@
   </div>
   / div.tripTabs= react_component('TripTabs')
   / div= react_component('BlogPosts')
-
-script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw3VbC4_m1U846EfTxOCsfaOqa5HEuTEw&callback=initMap"
