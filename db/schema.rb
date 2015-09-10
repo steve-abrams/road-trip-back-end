@@ -11,16 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20150910194422) do
+=======
+ActiveRecord::Schema.define(version: 20150910173544) do
+>>>>>>> 0d65c61893b696d834e329f637cfb2eb0f2b3e6f
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "posts", force: :cascade do |t|
+<<<<<<< HEAD
     t.string  "name"
     t.date    "date"
     t.string  "description"
     t.integer "trip_id"
+=======
+    t.string   "title"
+    t.date     "date"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "trip_id"
+    t.integer  "user_id"
+    t.float    "latitude"
+    t.float    "longitude"
+>>>>>>> 0d65c61893b696d834e329f637cfb2eb0f2b3e6f
   end
 
   create_table "trips", force: :cascade do |t|

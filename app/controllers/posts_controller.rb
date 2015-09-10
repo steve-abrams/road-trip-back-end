@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.trip_id = params[:trip_id]
+    @post.user_id = params[:user_id]
     if @post.save
       redirect_to user_trip_path(current_user.id, params[:trip_id])
       flash[:notice] = "Post Successfully Saved"
@@ -24,6 +25,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:name, :description, :date, :trip_id)
+    params.require(:post).permit(:title, :content, :latitude, :longitude, :trip_id, :user_id)
   end
 end
