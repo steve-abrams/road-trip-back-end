@@ -10,5 +10,13 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(resource)
     root_path
   end
+
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) << [:name, :hometown, :favorite_place, :show_city]
+  end
   # protect_from_forgery with: :exception
 end
