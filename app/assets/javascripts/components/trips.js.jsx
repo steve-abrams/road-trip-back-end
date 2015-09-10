@@ -52,3 +52,36 @@ var newPostButton = React.createClass({
     );
   }
 });
+
+var BlogCarousel = React.createClass({
+  getInitialState: function () {
+    return {posts: ''}
+  },
+  componentDidMount: function(){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '/posts', function(results){
+      if(this.isMounted()){
+        this.setState({
+          posts: results
+        })
+      }
+    }.bind(this))
+  },
+  render: function () {
+    var displayPosts = [];
+    for(var i = 0; i < this.state.posts.length; i++){
+      displayPosts.push(<div>
+                    <h4>{this.state.posts[i].title}</h4>
+                    <p>{this.state.posts[i].content}</p></div>
+                      )
+    }
+    return (
+      <div className="gallery js-flickity">
+        {displayPosts.map(function (post,i) {
+          return(
+            <div className='gallery-cell' key={i}>{post}</div>
+          )
+        })}
+      </div>
+    )
+  }
+})

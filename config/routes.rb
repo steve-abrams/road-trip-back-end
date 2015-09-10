@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   resources :users do
     resources :trips, defaults: {format: :json}, only: [:index]
     resources :trips, except: [:index] do
-      resources :posts
+      resources :posts, defaults: {format: :json}, only: [:index]
+      resources :posts, except: [:index]
     end
   end
 

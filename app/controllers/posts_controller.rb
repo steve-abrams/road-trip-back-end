@@ -1,5 +1,13 @@
 class PostsController < ApplicationController
 
+  def index
+    @posts = Post.where(trip_id: params[:trip_id], user_id: params[:user_id])
+    respond_to do |format|
+      format.html
+      format.json {render json: @posts}
+    end
+  end
+
   def create
     @post = Post.new(post_params)
     @post.trip_id = params[:trip_id]
