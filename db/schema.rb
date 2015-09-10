@@ -17,10 +17,12 @@ ActiveRecord::Schema.define(version: 20150903221107) do
   enable_extension "plpgsql"
 
   create_table "posts", force: :cascade do |t|
-    t.string  "name"
-    t.date    "date"
-    t.string  "description"
-    t.integer "trip_id"
+    t.string   "name"
+    t.date     "date"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "trip_id"
   end
 
   create_table "trips", force: :cascade do |t|
