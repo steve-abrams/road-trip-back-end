@@ -156,34 +156,6 @@ var LogInButton = React.createClass({
 //   }
 // })
 
-var NewBlogPost = React.createClass({
-  render: function () {
-    return (
-      <form>
-      <input type="text" placeholder="Title"></input>
-      <textarea cols="20" rows="10" placeholder="What did you do today?"></textarea>
-      <input type='submit' value='blog!' className='button'></input>
-      </form>
-    )
-  }
-})
-
-var newPostButton = React.createClass({
-  getInitialState: function() {
-    return { showResults: false };
-  },
-  onClick: function() {
-    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-  },
-  render: function() {
-    return (
-      <div>
-      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
-      { this.state.showResults ? <NewBlogPost /> : null }
-      </div>
-    );
-  }
-});
 
 
 
