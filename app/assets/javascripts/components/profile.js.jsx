@@ -36,25 +36,34 @@ var ProfileInfo = React.createClass({
 })
 
 var EditProfileInfo = React.createClass({
+  // function () {
+  //   $("#name").val()
+    // makes ajax
+  // }
   render: function () {
     return (
       <div>
+        <form action={'/users/' + window.location.pathname.split('/')[2]} method='post'>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <input type='text' placeholder="Your Name"/>
+        <input id='name' type='text' name='user[name]' placeholder="Your Name"/>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 5 </p>
-        <input type='text' placeholder="Hometown"/>
+        <input type='text' name='user[hometown]' placeholder="Hometown"/>
         <div className="switch round small">
           <p>Show Current City&#58; </p>
-          <input id="yes-no" type="checkbox" />
+          <input id="yes-no" name='user[show_city]' type="checkbox" />
           <label htmlFor="yes-no">
             <span className="switch-on"> On </span>
             <span className="switch-off"> Off </span>
           </label>
         </div>
-        <input type='text' placeholder="Your favorite place"/>
+        <input type='text' name='user[favorite_place]' placeholder="Your favorite place"/>
+        <input type='hidden' name='_method' value='patch'/>
+        <input type='submit' className='button round' value='Update Profile'/>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
+        </form>
+        <a href={'/users/' + window.location.pathname.split('/')[2]} data-method='delete' rel='nofollow' className='button round'>Delete</a>
       </div>
     )
   }
