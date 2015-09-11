@@ -87,7 +87,7 @@ var NewTripButton = React.createClass({
   render: function () {
     return (
       <div>
-        <button className='new-trip button round tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
+        <button id="new-trip-button" className='new-trip button round tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
         { this.state.showResults ? <NewTripForm /> : null }
       </div>
     )
@@ -136,9 +136,16 @@ var NewTripForm = React.createClass({
   }
 })
 
+
+
 var GetTiles = React.createClass({
   getInitialState: function(){
-    return {value: ""}
+    return {
+      value: "",
+      sortBy: "id",
+      sortProp: "Date Created",
+      asc: 1,
+      sortOrder: "Ascending"}
   },
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
@@ -149,38 +156,46 @@ var GetTiles = React.createClass({
       }
     }.bind(this))
   },
+  sortByProp: function (input) {
+    this.state.sortBy === "id" ? this.setState({ sortBy: "name", sortProp: "Trip Name" }) : this.setState({ sortBy: "id", sortProp: "Date Created"})
+  },
+  sortByAsc: function (input) {
+    this.state.asc === 1 ? this.setState({ asc: -1, sortOrder: "Descending" }) : this.setState({ asc: 1, sortOrder: "Ascending"  })
+  },
   render: function () {
     var trips = this.state.value
     var allTrips = []
     for (var i = 0; i < trips.length; i++) {
-      allTrips.push(<TripTile key={trips[i].id} ref={trips[i]}/>)
+      allTrips.push(<TripTile key={trips[i].id} ref={trips[i]} data={trips[i]}/>)
     }
     allTrips.sort(function (a, b) {
-      console.log("A:", a.name);
-      console.log("B:", b.name);
-      if(a.name < b.name) return -1;
-      if(a.name > b.name) return 1;
+      var prop = this.state.sortBy
+      var asc = this.state.asc
+      if(a.ref[prop] > b.ref[prop]) return asc;
+      if(a.ref[prop] < b.ref[prop]) return (0 - asc);
       return 0;
-    })
-    // allTrips.forEach(function (trip) {
-    //   console.log(trip);
-    // })
+    }.bind(this))
     return (
-      <ul className="polaroids large-12 columns">
-        {allTrips}
-      </ul>
+      <div>
+        <ul className="button-group round even-1">
+          <li onClick={this.sortByProp}><a className="tiny button" href="#">{this.state.sortProp}</a></li>
+          <li onClick={this.sortByAsc}><a className="tiny button" href="#">{this.state.sortOrder}</a></li>
+        </ul>
+        <ul className="polaroids large-12 columns">
+          {allTrips}
+        </ul>
+      </div>
     );
   }
 })
 
 var TripTile = React.createClass({
   render: function () {
-    // var trip = this.props.trip;
-    console.log(this.props.ref);
+    console.log(this.props.data);
     return (
       <li>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-        <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.key }><p> {this.props.data.name} </p></a>
+        <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }><p> {this.props.data.name} </p></a>
       </li>
     )
   }

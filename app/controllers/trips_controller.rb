@@ -33,12 +33,7 @@ class TripsController < ApplicationController
     # http.use_ssl = (url.scheme == "https")
     # response = http.request(req)
 
-<<<<<<< HEAD
 
-    # puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-    # puts response.body
-    # puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-=======
     url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key='+ENV['GOOGLEAPI'])
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
@@ -48,7 +43,6 @@ class TripsController < ApplicationController
     puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
     puts response.body
     puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
->>>>>>> 773a38c3a9b009074addc619c13d1a764eb6e8fe
 
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id
