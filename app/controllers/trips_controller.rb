@@ -27,18 +27,16 @@ class TripsController < ApplicationController
   # end
 
   def create
-
-    url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key='+ENV['GOOGLEAPI'])
-  req = Net::HTTP::Get.new(url.request_uri)
-  http = Net::HTTP.new(url.host, url.port)
-  http.use_ssl = (url.scheme == "https")
-  response = http.request(req)
-
+    # url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=' + ENV['GOOGLE_API'])
+    # req = Net::HTTP::Get.new(url.request_uri)
+    # http = Net::HTTP.new(url.host, url.port)
+    # http.use_ssl = (url.scheme == "https")
+    # response = http.request(req)
 
 
-    puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-    puts response.body
-    puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+    # puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+    # puts response.body
+    # puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id

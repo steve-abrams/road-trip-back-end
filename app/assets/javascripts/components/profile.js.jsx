@@ -153,8 +153,18 @@ var GetTiles = React.createClass({
     var trips = this.state.value
     var allTrips = []
     for (var i = 0; i < trips.length; i++) {
-      allTrips.push(<TripTile trip={trips[i]}/>)
+      allTrips.push(<TripTile key={trips[i].id} ref={trips[i]}/>)
     }
+    allTrips.sort(function (a, b) {
+      console.log("A:", a.name);
+      console.log("B:", b.name);
+      if(a.name < b.name) return -1;
+      if(a.name > b.name) return 1;
+      return 0;
+    })
+    // allTrips.forEach(function (trip) {
+    //   console.log(trip);
+    // })
     return (
       <ul className="polaroids large-12 columns">
         {allTrips}
@@ -165,11 +175,12 @@ var GetTiles = React.createClass({
 
 var TripTile = React.createClass({
   render: function () {
-    var trip = this.props.trip;
+    // var trip = this.props.trip;
+    console.log(this.props.ref);
     return (
       <li>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-        <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + trip.id }><p> {trip.name} </p></a>
+        <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.key }><p> {this.props.data.name} </p></a>
       </li>
     )
   }
