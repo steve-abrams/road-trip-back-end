@@ -29,12 +29,10 @@ class TripsController < ApplicationController
   def create
 
     url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key='+ENV['GOOGLEAPI'])
-  req = Net::HTTP::Get.new(url.request_uri)
-  http = Net::HTTP.new(url.host, url.port)
-  http.use_ssl = (url.scheme == "https")
-  response = http.request(req)
-
-
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response = http.request(req)
 
     puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
     puts response.body
