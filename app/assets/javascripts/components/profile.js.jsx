@@ -22,7 +22,7 @@ var ProfileInfo = React.createClass({
       <div>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
         <h1>'Name'</h1>
-        <p> Miles Traveled&#58; 1,204 </p>
+        <p> Miles Traveled&58 1,204 </p>
         <p> Trips Taken&#58; 5 </p>
         <p> Hometown&#58; Denver, CO, USA </p>
         <p> Currently in Los Angeles, CA, USA </p>

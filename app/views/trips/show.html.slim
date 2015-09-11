@@ -21,6 +21,8 @@
   / =react_component('map')
 
   / .row
+input(type='hidden', value={trip.city1}, id='city1')
+input(type='hidden', value={trip.city2}, id='city2')
 #map.map.large-8.columns
 script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw3VbC4_m1U846EfTxOCsfaOqa5HEuTEw&callback=initMap"
 .sidebar.large-4.columns
