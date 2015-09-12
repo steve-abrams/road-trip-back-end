@@ -27,14 +27,14 @@ class TripsController < ApplicationController
   # end
 
   def create
-    # url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=' + ENV['GOOGLE_API'])
-    # req = Net::HTTP::Get.new(url.request_uri)
-    # http = Net::HTTP.new(url.host, url.port)
-    # http.use_ssl = (url.scheme == "https")
-    # response = http.request(req)
+    start_location = params[:trip][:start_location]
+    end_location = params[:trip][:end_location]
+
+    start_location_city = start_location.split(',')[0]
+    start_location_state = start_location.split(',')[1]
 
 
-    url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key='+ENV['GOOGLEAPI'])
+    url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address='+start_location_city+',+'+start_location_state+'&key='+ENV['GOOGLEAPI'])
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
