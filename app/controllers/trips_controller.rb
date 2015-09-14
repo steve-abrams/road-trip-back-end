@@ -1,6 +1,7 @@
 class TripsController < ApplicationController
   protect_from_forgery :except => [:update, :delete, :create]
   require 'net/http'
+  require 'json'
 
   def index
     @trips = Trip.where(user_id: params[:user_id])
@@ -42,23 +43,21 @@ class TripsController < ApplicationController
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
     response1 = http.request(req)
+    res1 = JSON.parse(response1.body)
 
     url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address='+end_location_city+',+'+end_location_state+'&key='+ENV['GOOGLEAPI'])
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
     response2 = http.request(req)
-    puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-    puts response1.body
-    puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-    # puts response2.body
+    res2 = JSON.parse(response2.body)
 
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id
-    # @trip.start_location.lat = response1.body.results.geometry.location.lat
-    # @trip.start_location.lng = response1.body.results.geometry.location.lng
-    # @trip.end_location.lat = response2.body.results.geometry.location.lat
-    # @trip.end_location.lng = response2.body.results.geometry.location.lng
+    @trip.start_location_lat = res1["results"][0]["geometry"]["location"]["lat"]
+    @trip.start_location_lng = res1["results"][0]["geometry"]["location"]["lng"]
+    @trip.end_location_lat = res2["results"][0]["geometry"]["location"]["lat"]
+    @trip.end_location_lng = res2["results"][0]["geometry"]["location"]["lng"]
     if @trip.save
       redirect_to user_trip_path(current_user.id, @trip.id)
     else
@@ -82,9 +81,10 @@ class TripsController < ApplicationController
     p "*"*80
     p params
     @trip = Trip.includes(:posts).find(params[:id])
+    p @trip
     @post = Post.new
     respond_to do |format|
-      format.html
+      format.html 
       format.json {render json: @trip, include: :posts}
     end
   end

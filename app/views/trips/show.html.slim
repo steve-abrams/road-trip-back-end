@@ -21,10 +21,13 @@
   / =react_component('map')
 
   / .row
-/ input(type='hidden', value={trip.city1}, id='city1')
-/ input(type='hidden', value={trip.city2}, id='city2')
+div.hideMe
+  div#startLat= @trip.start_location_lat
+  div#startLng= @trip.start_location_lng
+  div#endLat= @trip.end_location_lat
+  div#endLng= @trip.end_location_lng
 #map.map.large-8.columns
-script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw3VbC4_m1U846EfTxOCsfaOqa5HEuTEw&callback=initMap"
+script async="" defer="" src='https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLEAPI']+'&callback=initMap'
 .sidebar.large-4.columns
   <ul class="tabs" data-tab>
   <li class="tab-title small-4 active"><a href="#panel1">Travel Blog</a></li>
