@@ -1,3 +1,18 @@
+var months = {
+  '01': "January",
+  '02': "February",
+  '03': "March",
+  '04': "April",
+  '05': "May",
+  '06': "June",
+  '07': "July",
+  '08': "August",
+  '09': "September",
+  '10': "October",
+  '11': "November",
+  '12': "December"
+}
+
 var TripsDash = React.createClass({
   render: function(){
   return(
@@ -67,20 +82,62 @@ var BlogCarousel = React.createClass({
     }.bind(this))
   },
   render: function () {
+    var allPosts = this.state.posts
     var displayPosts = [];
-    for(var i = 0; i < this.state.posts.length; i++){
-      displayPosts.push(<div>
-                    <h4>{this.state.posts[i].title}</h4>
-                    <p>{this.state.posts[i].content}</p></div>
-                      )
+    for(var i = 0; i < allPosts.length; i++){
+      displayPosts.push(< PostComponent key={allPosts[i].id} data={allPosts[i]} />)
     }
     return (
-      <div className="gallery js-flickity">
-        {displayPosts.map(function (post,i) {
-          return(
-            <div className='gallery-cell' key={i}>{post}</div>
-          )
-        })}
+      <div className="display-posts">
+        {displayPosts}
+      </div>
+    )
+  }
+})
+
+var PostComponent = React.createClass({
+  render: function () {
+    var data = this.props.data
+    return (
+      <div className="post-container">
+        <h1>{data.title}</h1>
+        <p>{data.content}</p>
+      </div>
+    )
+  }
+})
+
+var TripInfo = React.createClass({
+  getInitialState: function () {
+    return {
+      trip: "",
+      start_date: "",
+      end_date: ""
+    }
+  },
+  componentDidMount: function(){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
+      if(this.isMounted()){
+        var start_atts = results.start_date.split("-")
+        var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
+        var end_atts = results.end_date.split("-")
+        var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
+        this.setState({
+          trip: results,
+          start_date: start_date,
+          end_date: end_date
+        })
+      }
+    }.bind(this))
+  },
+  render: function () {
+    var trip = this.state.trip
+    return (
+      <div>
+        <h1>{trip.name}</h1>
+        <h3>Started in {trip.start_location}</h3>
+        <h3>Ended in {trip.end_location}</h3>
+        <h3>{this.state.start_date} to {this.state.end_date}</h3>
       </div>
     )
   }
