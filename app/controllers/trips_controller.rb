@@ -33,19 +33,32 @@ class TripsController < ApplicationController
     start_location_city = start_location.split(',')[0]
     start_location_state = start_location.split(',')[1]
 
+    end_location_city = end_location.split(',')[0]
+    end_location_state = end_location.split(',')[1]
+
 
     url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address='+start_location_city+',+'+start_location_state+'&key='+ENV['GOOGLEAPI'])
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
-    response = http.request(req)
+    response1 = http.request(req)
 
+    url = URI.parse('https://maps.googleapis.com/maps/api/geocode/json?address='+end_location_city+',+'+end_location_state+'&key='+ENV['GOOGLEAPI'])
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response2 = http.request(req)
     puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-    puts response.body
+    puts response1.body
     puts '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+    # puts response2.body
 
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id
+    # @trip.start_location.lat = response1.body.results.geometry.location.lat
+    # @trip.start_location.lng = response1.body.results.geometry.location.lng
+    # @trip.end_location.lat = response2.body.results.geometry.location.lat
+    # @trip.end_location.lng = response2.body.results.geometry.location.lng
     if @trip.save
       redirect_to user_trip_path(current_user.id, @trip.id)
     else
