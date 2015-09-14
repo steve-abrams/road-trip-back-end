@@ -21,23 +21,18 @@
 //= require foundation
 
 $(function(){ $(document).foundation(); });
-//
-// var map;
-// function initMap() {
-//   map = new google.maps.Map(document.getElementById('map'), {
-//     center: {lat: -34.397, lng: 150.644},
-//     zoom: 8
-//   });
-// }
+
 var map;
 function initMap() {
-  var city1 = {lat: 41.75, lng: -87.65};
-  var city2 = {lat: 39.79, lng: -86.14};
-  var city1 = $('#city1').val()
-  var city2 = $('#city2').val()
+  var startLat = $('#startLat').html()
+  var startLng = $('#startLng').html()
+  var endLat = $('#endLat').html()
+  var endLng = $('#endLng').html()
+
+  console.log(endLat, startLat,endLng, startLng, typeof endLat);
 
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: city1,
+    center: {lat: parseInt(startLat), lng: parseInt(startLng)},
     scrollwheel: false,
     zoom: 7
   });
@@ -53,8 +48,8 @@ function initMap() {
 
   // Set destination, origin and travel mode.
   var request = {
-    destination: city1,
-    origin: city2,
+    destination: {lat: Number(startLat), lng: Number(startLng)},
+    origin: {lat: Number(endLat), lng: Number(endLng)},
     travelMode: google.maps.TravelMode.DRIVING
   };
 
