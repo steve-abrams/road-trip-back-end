@@ -1,6 +1,6 @@
 var SettingsButtons = React.createClass({
   getInitialState: function() {
-    return { showResults: true, edited: false };
+    return { showResults: true, edited: false, profile: false};
   },
   toggleForm: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
@@ -22,6 +22,19 @@ var SettingsButtons = React.createClass({
         <a href="#"><i className='fi-widget edit-settings'></i></a>
         <a href="#"><i className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
           { this.state.showResults ? this.state.edited ? <EditedProfileInfo/> : <ProfileInfo /> : <EditProfileInfo onClick={this.doStuff} /> }
+          if (this.state.showResults) {
+            if (this.state.edited) {
+              if (this.state.profile) {
+                <EditedEditedProfile />
+              } else {
+                <EditedProfileInfo />
+              }
+            } else {
+              <ProfileInfo/>
+            }
+          } else {
+            <EditProfileInfo/>
+          }
       </div>
     )
   }
@@ -76,13 +89,37 @@ var EditedProfileInfo = React.createClass({
   }
 })
 
-var EditProfileInfo = React.createClass({
+var EditedEditedProfileInfo = React.createClass({
   render: function () {
-
+    var name = $('#editName').val()
+    var hometown = $('#editHometown').val()
+    var favoriteLoc = $('#editFavoritePlace').val()
     return (
       <div>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <input id='editName' type='text' name='user[name]' placeholder="Your Name"/>
+        <h1>{name}</h1>
+        <p> Miles Traveled&#58; 1,204 </p>
+        <p> Trips Taken&#58; 3 </p>
+        <p> Hometown&#58; {hometown}</p>
+        <p> Favorite Place in the World&#58;</p>
+        <p> {favoriteLoc}</p>
+        <p> Interests and Activities&#58;</p>
+        < Interest />< Interest />< Interest />< Interest />< Interest />
+      </div>
+    )
+  }
+})
+
+var EditProfileInfo = React.createClass({
+
+  render: function () {
+      var name = $('#editName').val()
+      var hometown = $('#editHometown').val()
+      var favoriteLoc = $('#editFavoritePlace').val()
+    return (
+      <div>
+        <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
+        <input id='editName' type='text' name='user[name]'/>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 5 </p>
         <input id='editHometown' type='text' name='user[hometown]' placeholder="Hometown"/>
@@ -94,7 +131,7 @@ var EditProfileInfo = React.createClass({
             <span className="switch-off"> Off </span>
           </label>
         </div>
-        <input id='editFavoritePlace' type='text' name='user[favorite_place]' placeholder="Your favorite place"/>
+        <input id='editFavoritePlace' type='text' name='user[favorite_place]' placeholder="Your favorite place" value={favoriteLoc}/>
         <input type='hidden' name='_method' value='patch'/>
         <button className='button round' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
         <p> Interests and Activities&#58;</p>
