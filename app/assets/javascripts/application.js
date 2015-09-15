@@ -20,7 +20,10 @@
 //= require_tree .
 //= require foundation
 
-$(function(){ $(document).foundation(); });
+// $(function(){ $(document).foundation(); });
+$(document).ready(function () {
+
+})
 
 var map;
 function initMap() {
