@@ -1,4 +1,3 @@
-
 .profilePage.large-12.columns
   .sidebar.large-3.columns
     =react_component('SettingsButtons')
@@ -7,58 +6,8 @@
     .trips
       =react_component('NewTripButton')
       =react_component('GetTiles')
-
-
-
-
-
-
-
-
-//*********************** Trip Show page **************************
-
-/ .row
-/ #map.map.large-8.columns
-/ .sidebar.large-4.columns
-/   <ul class="tabs" data-tab>
-/   <li class="tab-title small-4 active"><a href="#panel1">Travel Blog</a></li>
-/   <li class="tab-title small-4"><a href="#panel2">Trip Info</a></li>
-/   <li class="tab-title small-4"><a href="#panel3">To-Dos</a></li>
-/   </ul>
-/     <div class="tabs-content">
-/     <div class="content active" id="panel1">
-/       / div= react_component('NewBlogPost')
-/       div= react_component('newButton')
-/       <ul className="example-orbit" data-orbit>
-/       <li>
-/       <img src="http://www.mrwallpaper.com/wallpapers/cute-kitty-1680x1050.jpg" alt="slide 1" />
-/       <div className="orbit-caption">
-/       Caption One.
-/       </div>
-/       </li>
-/       <li className="active">
-/       <img src="http://cdn7.staztic.com/app/a/3099/3099339/cute-kitty-wallpaper-hd-2-3-s-307x512.jpg" alt="slide 2" />
-/       <div className="orbit-caption">
-/       Caption Two.
-/       </div>
-/       </li>
-/       <li>
-/       <img src="http://en.people.cn/mediafile/201005/07/F201005070843311986125905.jpg" alt="slide 3" />
-/       <div className="orbit-caption">
-/       Caption Three.
-/       </div>
-/       </li>
-/       </ul>
-/
-/     </div>
-/     <div class="content" id="panel2">
-/       <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
-/     </div>
-/     <div class="content" id="panel3">
-/       <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
-/     </div>
-/   </div>
-/   / div.tripTabs= react_component('TripTabs')
-/   / div= react_component('BlogPosts')
-/
-/ script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw3VbC4_m1U846EfTxOCsfaOqa5HEuTEw&callback=initMap"
+div.hideMe
+  div#profileName= @user.name
+  div#profileHometown= @user.hometown
+  div#favoriteLocation= @user.favorite_place
+  div#currentLocation= @user.show_city
