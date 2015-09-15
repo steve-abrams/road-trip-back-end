@@ -40,6 +40,13 @@ function initMap() {
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   var waypts = [];
+  var waypointsArr = JSON.parse($('#waypoints').html());
+  for (var i = 0; i < waypointsArr.length; i++) {
+    waypts.push({
+      location: waypointsArr[i],
+      stopover: true
+    });
+  }
   // WAYPOINTS FORMAT:
   //{
   //   location: 'Denver, CO',

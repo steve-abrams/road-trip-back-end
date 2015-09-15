@@ -68,6 +68,34 @@ var newPostButton = React.createClass({
   }
 });
 
+var NewDestinationButton = React.createClass({
+  getInitialState: function() {
+    return { showResults: false };
+  },
+  onClick: function() {
+    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+  },
+  render: function() {
+    return (
+      <div>
+      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add a new trip destination</button>
+      { this.state.showResults ? <NewDestinationForm /> : null }
+      </div>
+    );
+  }
+});
+
+var NewDestinationForm = React.createClass({
+  render: function () {
+    return (
+      <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/destinations'} method='post'>
+        <input type="text" name='destination[name]' placeholder="City, State"/>
+        <input type='submit' value='Add Stop' className='button'/>
+      </form>
+    )
+  }
+})
+
 var BlogCarousel = React.createClass({
   getInitialState: function () {
     return {posts: ''}
