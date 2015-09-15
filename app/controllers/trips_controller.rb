@@ -80,11 +80,10 @@ class TripsController < ApplicationController
   def show
     p "*"*80
     p params
-    @trip = Trip.includes(:posts).find(params[:id])
-    p @trip
+    @trip = Trip.includes(:posts).find(params[:id]) 
     @post = Post.new
     respond_to do |format|
-      format.html 
+      format.html
       format.json {render json: @trip, include: :posts}
     end
   end

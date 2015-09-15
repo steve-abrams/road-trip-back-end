@@ -38,6 +38,16 @@ video {
   height: auto;
 }
 
+.display-posts {
+  overflow: scroll;
+  height: 90%;
+  .post-container {
+    height: 200px;
+    width: 90%;
+    margin: 5%;
+  }
+}
+
 .interests {
   display: inline-block;
 }
