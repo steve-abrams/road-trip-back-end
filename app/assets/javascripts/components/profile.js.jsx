@@ -26,7 +26,7 @@ var SettingsButtons = React.createClass({
   doStuff: function () {
     var name = $("#editName").val()
     var hometown = $('#editHometown').val()
-    var favoriteloc = $('#editFavoritelocation').val()
+    var favoriteloc = $('#editFavoritePlace').val()
     $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, 'user[favorite_place]': favoriteloc, "_method": "patch"})
       .done(function (data) {
 
@@ -39,7 +39,7 @@ var SettingsButtons = React.createClass({
       <div className="profile-settings">
         <a href="#"><i className='fi-widget edit-settings'></i></a>
         <a href="#"><i className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
-          {this.state.showResults ? <ProfileInfo textname={this.state.name}/> : <EditProfileInfo onClick={this.doStuff} /> }
+          {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc}/> : <EditProfileInfo onClick={this.doStuff} /> }
       </div>
     )
   }
@@ -51,12 +51,12 @@ var ProfileInfo = React.createClass({
     return (
       <div>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <h1>{this.props.textname}</h1>
+        <h1>{this.props.name}</h1>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 3 </p>
-        <p> Hometown&#58; </p>
+        <p> Hometown&#58; {this.props.hometown}</p>
         <p> Favorite Place in the World&#58;</p>
-        <p> </p>
+        <p> {this.props.favorite} </p>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
       </div>
