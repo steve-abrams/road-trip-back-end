@@ -14,6 +14,8 @@ class DestinationsController < ApplicationController
     res1 = JSON.parse(response1.body)
 
     @destination.place_id = res1["results"][0]["place_id"]
+    @destination.lat = res1["results"][0]["geometry"]["location"]["lat"]
+    @destination.lng = res1["results"][0]["geometry"]["location"]["lng"]
 
     if @destination.save
       redirect_to user_trip_path(current_user.id, params[:trip_id])
@@ -26,7 +28,7 @@ class DestinationsController < ApplicationController
   private
 
   def destination_params
-    params.require(:destination).permit(:name, :trip_id, :place_id)
+    params.require(:destination).permit(:name, :trip_id, :place_id, :lat, :lng)
   end
 
 end
