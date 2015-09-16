@@ -1,88 +1,77 @@
 var SettingsButtons = React.createClass({
   getInitialState: function() {
-    return { showResults: true, edited: false };
+    return { showResults: true,
+              name: "",
+              hometown: "",
+              favoriteloc: ""};
+  },
+  componentDidMount: function(){
+      $.get('/users/' + window.location.pathname.split('/')[2] + '.json', function(results){
+        console.log(results);
+          if(this.isMounted()){
+            var name = results.name
+            var hometown = results.hometown
+            var favoriteloc = results.favorite_place
+            this.setState({
+              name: name,
+              hometown: hometown,
+              favoriteloc: favoriteloc,
+            })
+          }
+        }.bind(this))
   },
   toggleForm: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
   doStuff: function () {
-    this.setState({ showResults: true, edited: true })
-    console.log(this.state.edited, this.state.showResults);
     var name = $("#editName").val()
     var hometown = $('#editHometown').val()
-    var favoriteLoc = $('#editFavoriteLocation').val()
-
-    $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, 'user[favorite_place]': favoriteLoc, "_method": "patch"})
+    var favoriteloc = $('#editFavoritelocation').val()
+    $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, 'user[favorite_place]': favoriteloc, "_method": "patch"})
       .done(function (data) {
+
       })
+      this.componentDidMount()
+      this.setState({ showResults: true})
   },
   render: function() {
     return (
       <div className="profile-settings">
         <a href="#"><i className='fi-widget edit-settings'></i></a>
         <a href="#"><i className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
-          { this.state.showResults ? this.state.edited ? <EditedProfileInfo/> : <ProfileInfo /> : <EditProfileInfo onClick={this.doStuff} /> }
+          {this.state.showResults ? <ProfileInfo textname={this.state.name}/> : <EditProfileInfo onClick={this.doStuff} /> }
       </div>
     )
   }
 });
 
 var ProfileInfo = React.createClass({
-  getInitialState: function() {
-    return { showResults: true, edited: false };
-  },
-  toggleForm: function() {
-    this.state.showResults === true ? this.setState({ showResults: false, edited: true }) : this.setState({ showResults: true, edited: false })
-  },
+
   render: function () {
-    var name = $('#profileName').html()
-    var hometown = $('#profileHometown').html()
-    var favoriteLoc = $('#favoriteLocation').html()
-    var currentLoc = $('#currentLocation').html()
     return (
       <div>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <h1>{name}</h1>
+        <h1>{this.props.textname}</h1>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 3 </p>
-        <p> Hometown&#58; {hometown}</p>
+        <p> Hometown&#58; </p>
         <p> Favorite Place in the World&#58;</p>
-        <p> {favoriteLoc}</p>
+        <p> </p>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
       </div>
     )
   }
 })
-
-var EditedProfileInfo = React.createClass({
-  render: function () {
-    var name = $('#editName').val()
-    var hometown = $('#editHometown').val()
-    var favoriteLoc = $('#editFavoritePlace').val()
-    return (
-      <div>
-        <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <h1>{name}</h1>
-        <p> Miles Traveled&#58; 1,204 </p>
-        <p> Trips Taken&#58; 3 </p>
-        <p> Hometown&#58; {hometown}</p>
-        <p> Favorite Place in the World&#58;</p>
-        <p> {favoriteLoc}</p>
-        <p> Interests and Activities&#58;</p>
-        < Interest />< Interest />< Interest />< Interest />< Interest />
-      </div>
-    )
-  }
-})
-
 var EditProfileInfo = React.createClass({
   render: function () {
-
+      var name = $('#editName').val()
+      var hometown = $('#editHometown').val()
+      var favoriteloc = $('#editFavoritePlace').val()
     return (
       <div>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <input id='editName' type='text' name='user[name]' placeholder="Your Name"/>
+        <input id='editName' type='text' name='user[name]'/>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 5 </p>
         <input id='editHometown' type='text' name='user[hometown]' placeholder="Hometown"/>
@@ -94,7 +83,7 @@ var EditProfileInfo = React.createClass({
             <span className="switch-off"> Off </span>
           </label>
         </div>
-        <input id='editFavoritePlace' type='text' name='user[favorite_place]' placeholder="Your favorite place"/>
+        <input id='editFavoritePlace' type='text' name='user[favorite_place]' placeholder="Your favorite place" value={favoriteloc}/>
         <input type='hidden' name='_method' value='patch'/>
         <button className='button round' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
         <p> Interests and Activities&#58;</p>
@@ -104,6 +93,8 @@ var EditProfileInfo = React.createClass({
     )
   }
 })
+
+
 
 var Interest = React.createClass({
   render: function () {
@@ -129,6 +120,7 @@ var NewTripButton = React.createClass({
     )
   }
 })
+
 
 var NewTripForm = React.createClass({
   render: function () {
@@ -227,7 +219,6 @@ var GetTiles = React.createClass({
 
 var TripTile = React.createClass({
   render: function () {
-    console.log(this.props.data);
     return (
       <li>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
