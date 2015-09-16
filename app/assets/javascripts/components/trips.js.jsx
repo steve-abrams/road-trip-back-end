@@ -68,6 +68,34 @@ var newPostButton = React.createClass({
   }
 });
 
+var NewDestinationButton = React.createClass({
+  getInitialState: function() {
+    return { showResults: false };
+  },
+  onClick: function() {
+    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+  },
+  render: function() {
+    return (
+      <div>
+      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add a new trip destination</button>
+      { this.state.showResults ? <NewDestinationForm /> : null }
+      </div>
+    );
+  }
+});
+
+var NewDestinationForm = React.createClass({
+  render: function () {
+    return (
+      <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/destinations'} method='post'>
+        <input type="text" name='destination[name]' placeholder="City, State"/>
+        <input type='submit' value='Add Stop' className='button'/>
+      </form>
+    )
+  }
+})
+
 var BlogCarousel = React.createClass({
   getInitialState: function () {
     return {posts: ''}
@@ -112,7 +140,8 @@ var TripInfo = React.createClass({
     return {
       trip: "",
       start_date: "",
-      end_date: ""
+      end_date: "",
+      destinations: []
     }
   },
   componentDidMount: function(){
@@ -122,10 +151,14 @@ var TripInfo = React.createClass({
         var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
         var end_atts = results.end_date.split("-")
         var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
+        var destinations = results.destinations.map(function (e) {
+          return e.name;
+        });
         this.setState({
           trip: results,
           start_date: start_date,
-          end_date: end_date
+          end_date: end_date,
+          destinations: destinations
         })
       }
     }.bind(this))
@@ -138,6 +171,9 @@ var TripInfo = React.createClass({
         <h3>Started in {trip.start_location}</h3>
         <h3>Ended in {trip.end_location}</h3>
         <h3>{this.state.start_date} to {this.state.end_date}</h3>
+        {this.state.destinations.map(function (e) {
+          return (<h3 className='destination'>{e}</h3>)
+        })}
       </div>
     )
   }

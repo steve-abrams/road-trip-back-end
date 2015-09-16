@@ -10,19 +10,17 @@
     <%= javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
-    <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
-  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" >
+  <!-- Bad Roberto! -->
+  <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script> -->
   </head>
 
   <body>
-
-
     <% if current_user %>
       <%=react_component('logoutNavbar')%>
     <%else%>
       <%=react_component('signinNavbar')%>
     <%end%>
     <%= yield %>
-
   </body>
 </html>

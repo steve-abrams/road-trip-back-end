@@ -58,6 +58,12 @@ class TripsController < ApplicationController
     @trip.start_location_lng = res1["results"][0]["geometry"]["location"]["lng"]
     @trip.end_location_lat = res2["results"][0]["geometry"]["location"]["lat"]
     @trip.end_location_lng = res2["results"][0]["geometry"]["location"]["lng"]
+    p'================================================'
+    p res1["results"][0]["place_id"]
+    p res2["results"][0]["place_id"]
+    p'================================================'
+    @trip.start_place_id = res1["results"][0]["place_id"]
+    @trip.end_place_id = res2["results"][0]["place_id"]
     if @trip.save
       redirect_to user_trip_path(current_user.id, @trip.id)
     else
@@ -80,11 +86,12 @@ class TripsController < ApplicationController
   def show
     p "*"*80
     p params
-    @trip = Trip.includes(:posts).find(params[:id]) 
+    @trip = Trip.includes(:posts, :destinations).find(params[:id])
     @post = Post.new
+    @waypoints = @trip.destinations.map { |e| e.name }
     respond_to do |format|
       format.html
-      format.json {render json: @trip, include: :posts}
+      format.json {render json: @trip, include: [:posts, :destinations]}
     end
   end
 
@@ -110,7 +117,7 @@ class TripsController < ApplicationController
   end
 
   def trip_params
-    params.require(:trip).permit(:name, :start_location, :end_location, :start_date, :end_date)
+    params.require(:trip).permit(:name, :start_location, :end_location, :start_date, :end_date, :start_place_id, :end_place_id)
   end
 
 end

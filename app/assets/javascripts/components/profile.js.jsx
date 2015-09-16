@@ -1,54 +1,80 @@
 var SettingsButtons = React.createClass({
   getInitialState: function() {
-    return { showResults: true };
+    return { showResults: true,
+              name: "",
+              hometown: "",
+              favoriteloc: ""};
+  },
+  componentDidMount: function(){
+      $.get('/users/' + window.location.pathname.split('/')[2] + '.json', function(results){
+        console.log(results);
+          if(this.isMounted()){
+            var name = results.name
+            var hometown = results.hometown
+            var favoriteloc = results.favorite_place
+            this.setState({
+              name: name,
+              hometown: hometown,
+              favoriteloc: favoriteloc,
+            })
+          }
+        }.bind(this))
   },
   toggleForm: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
+  doStuff: function () {
+    var name = $("#editName").val()
+    var hometown = $('#editHometown').val()
+    var favoriteloc = $('#editFavoritePlace').val()
+    $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, 'user[favorite_place]': favoriteloc, "_method": "patch"})
+      .done(function (data) {
+
+      })
+      this.componentDidMount()
+      this.setState({ showResults: true})
+  },
   render: function() {
     return (
       <div className="profile-settings">
-        <a href="#"><span className='fi-widget edit-settings'></span></a>
-        <a href="#"><span className='fi-pencil edit-profile' onClick={this.toggleForm}></span></a>
-          { this.state.showResults ? <ProfileInfo /> : <EditProfileInfo /> }
+        <a href="#"><i className='fi-widget edit-settings'></i></a>
+        <a href="#"><i className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
+          {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc}/> : <EditProfileInfo onClick={this.doStuff} /> }
       </div>
     )
   }
 });
 
 var ProfileInfo = React.createClass({
+
   render: function () {
     return (
       <div>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <h1>'Name'</h1>
-        <p> Miles Traveled&58 1,204 </p>
-        <p> Trips Taken&#58; 5 </p>
-        <p> Hometown&#58; Denver, CO, USA </p>
-        <p> Currently in Los Angeles, CA, USA </p>
+        <h1>{this.props.name}</h1>
+        <p> Miles Traveled&#58; 1,204 </p>
+        <p> Trips Taken&#58; 3 </p>
+        <p> Hometown&#58; {this.props.hometown}</p>
         <p> Favorite Place in the World&#58;</p>
-        <p> New York City, New York, USA</p>
+        <p> {this.props.favorite} </p>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
       </div>
     )
   }
 })
-
 var EditProfileInfo = React.createClass({
-  // function () {
-  //   $("#name").val()
-    // makes ajax
-  // }
   render: function () {
+      var name = $('#editName').val()
+      var hometown = $('#editHometown').val()
+      var favoriteloc = $('#editFavoritePlace').val()
     return (
       <div>
-        <form action={'/users/' + window.location.pathname.split('/')[2]} method='post'>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <input id='name' type='text' name='user[name]' placeholder="Your Name"/>
+        <input id='editName' type='text' name='user[name]'/>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 5 </p>
-        <input type='text' name='user[hometown]' placeholder="Hometown"/>
+        <input id='editHometown' type='text' name='user[hometown]' placeholder="Hometown"/>
         <div className="switch round small">
           <p>Show Current City&#58; </p>
           <input id="yes-no" name='user[show_city]' type="checkbox" />
@@ -57,17 +83,18 @@ var EditProfileInfo = React.createClass({
             <span className="switch-off"> Off </span>
           </label>
         </div>
-        <input type='text' name='user[favorite_place]' placeholder="Your favorite place"/>
+        <input id='editFavoritePlace' type='text' name='user[favorite_place]' placeholder="Your favorite place" value={favoriteloc}/>
         <input type='hidden' name='_method' value='patch'/>
-        <input type='submit' className='button round' value='Update Profile'/>
+        <button className='button round' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
         <p> Interests and Activities&#58;</p>
         < Interest />< Interest />< Interest />< Interest />< Interest />
-        </form>
         <a href={'/users/' + window.location.pathname.split('/')[2]} data-method='delete' rel='nofollow' className='button round'>Delete</a>
       </div>
     )
   }
 })
+
+
 
 var Interest = React.createClass({
   render: function () {
@@ -93,6 +120,7 @@ var NewTripButton = React.createClass({
     )
   }
 })
+
 
 var NewTripForm = React.createClass({
   render: function () {
@@ -191,7 +219,6 @@ var GetTiles = React.createClass({
 
 var TripTile = React.createClass({
   render: function () {
-    console.log(this.props.data);
     return (
       <li>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
