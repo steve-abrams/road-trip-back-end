@@ -1,7 +1,8 @@
 div.test
-    video(autoplay poster="/images/snowclip.mp4" id="bgvid" loop)
-      source(src="https://ia802501.us.archive.org/12/items/AerialPhiladelphia631s4kres/aerial%20philadelphia%204%20-%207s%20-%204kres.mp4" type="video/mp4")
-    /   source(src=asset_path("philly.mp4") type="video/mp4")
+  / = video_tag ("birds.mp4", :autoplay => true :loop => true)
+  /   / video(autoplay id="bgvid" loop)
+  /   /   source(src="/videos/birds.mp4" type="video/mp4")
+  /   /   source(src=asset_path("philly.mp4") type="video/mp4")
 .landingPage.large-12.columns
 
   =react_component('CenterBlock')

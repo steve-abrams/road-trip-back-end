@@ -2,10 +2,16 @@
   .sidebar.large-3.columns
     =react_component('SettingsButtons')
   .dash.large-9.columns
-    h1 Welcome #{@user.name}
     .trips
       =react_component('NewTripButton')
       =react_component('GetTiles')
+ol.joyride-list data-joyride="" 
+  li data-id="edit-intro" data-options=("tip_location: top; prev_button: false") data-text="Next" 
+    p Who are you?
+  li data-button="End" data-prev-text="Prev" 
+    h4 Stop #1
+    p It works as a modal too!
+
 / div.hideMe
 /   div#profileName= @user.name
 /   div#profileHometown= @user.hometown

@@ -38,7 +38,7 @@ var SettingsButtons = React.createClass({
     return (
       <div className="profile-settings">
         <a href="#"><i className='fi-widget edit-settings'></i></a>
-        <a href="#"><i className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
+        <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
           {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc}/> : <EditProfileInfo onClick={this.doStuff} /> }
       </div>
     )
