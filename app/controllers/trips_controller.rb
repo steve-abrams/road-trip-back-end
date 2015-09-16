@@ -15,7 +15,18 @@ class TripsController < ApplicationController
     @trip = Trip.new
   end
 
+  def find_places
 
+    url = URI.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+params[:lat]+','+params[:lng]+'&radius='+params[:range]+'&types='+params[:category]+'&key=AIzaSyDmOB8SxrolgKfB1LgForsyS-Rf0pOijqQ')
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response1 = http.request(req)
+    res1 = JSON.parse(response1.body)
+
+    render :json => {:data => res1}
+
+  end
   # def create
   #   @post = Post.new(post_params)
   #   @post.trip_id = params[:trip_id]
