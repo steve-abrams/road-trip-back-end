@@ -152,7 +152,7 @@ var TripInfo = React.createClass({
         var end_atts = results.end_date.split("-")
         var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
-          return e.name;
+          return {name: e.name, lat: e.lat, lng: e.lng, place_id: e.place_id};
         });
         this.setState({
           trip: results,
@@ -172,8 +172,66 @@ var TripInfo = React.createClass({
         <h3>Ended in {trip.end_location}</h3>
         <h3>{this.state.start_date} to {this.state.end_date}</h3>
         {this.state.destinations.map(function (e) {
-          return (<h3 className='destination'>{e}</h3>)
-        })}
+          return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+        }, this)}
+      </div>
+    )
+  }
+})
+
+var Destination = React.createClass({
+  getInitialState: function () {
+    return {
+      togglePlacesForm: false,
+    }
+  },
+  onClick: function() {
+    this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
+  },
+  render: function () {
+    return (
+      <div>
+        <h3 className='destination' onClick={this.onClick}>{this.props.name}</h3>
+        { this.state.togglePlacesForm ? <PlacesForm lat={this.props.lat} lng={this.props.lng} googlePlaceId={this.props.placeid}/> : null }
+      </div>
+    )
+  }
+})
+
+var PlacesForm = React.createClass({
+  getInitialState: function() {
+    return {
+      searchResults: []
+    }
+  },
+  onClick: function (lat, lng, category, range) {
+    lat = this.props.lat;
+    lng = this.props.lng;
+    category = 'restaurant';
+    range = 500;
+    $.get('/find_places?lat='+lat+'&lng='+lng+'&range='+range+'&category='+category, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          searchResults: results
+        })
+      }
+    }.bind(this))
+  },
+  render: function () {
+    return (
+      <div>
+        <div className="icon-bar three-up">
+          <a className="item" onClick={this.onClick.bind(this, )}>
+            <label>Food</label>
+          </a>
+          <a className="item" onClick={this.onClick}>
+            <label>Hotels</label>
+          </a>
+          <a className="item" onClick={this.onClick}>
+            <label>Activities</label>
+          </a>
+        </div>
       </div>
     )
   }

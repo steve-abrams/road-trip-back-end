@@ -20,6 +20,7 @@
 //= require_tree .
 //= require foundation
 
+
 $(function(){ $(document).foundation(); });
 
 var map;
