@@ -7,6 +7,8 @@ $white: #F4FFF8;
 $trueWhite: #FFFFFF;
 
 $primary: #000000;
+$purple: red;
+
 
 body {
   color: $white;
@@ -30,8 +32,8 @@ ul.polaroids, .tripTabs {
 }
 
 .about-us {
-  border: 20px solid transparentize($primary, 0.1);
-  background-color: transparentize($primary, 0.1);
+  box-shadow: 0 0 5px 20px rgba(white, 0.2);
+  background-color: rgba($primary, 0.85);
   color: $white;
   h1 {
     color: $white;
@@ -40,9 +42,7 @@ ul.polaroids, .tripTabs {
     color: $white;
   }
   button {
-    // position: absolute;
-    // bottom: 5%;
-    // left: 40%;
+
   }
 }
 

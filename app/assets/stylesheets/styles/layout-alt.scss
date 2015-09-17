@@ -6,6 +6,9 @@ body, html {
   margin: 0;
   padding: 0;
 }
+body {
+  background: black;
+}
 
 fieldset {
   float: right;
@@ -15,6 +18,9 @@ fieldset {
 
 video {
   position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
   width: 100%;
 }
 
@@ -26,7 +32,10 @@ video {
 .about-us {
   margin-top: 15vh;
   width: 40%;
-  height: 55vh;
+  min-height: 300px;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 10px;
 }
 
 .button.round.tiny.new-trip {
@@ -138,4 +147,12 @@ ul.button-group.round.even-1 {
 
 .hideMe {
   display: none;
+}
+
+ul.right li.login-form {
+  background-color: black;
+}
+
+a.button {
+  // background-color: $purple;
 }

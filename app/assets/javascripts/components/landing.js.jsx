@@ -1,17 +1,14 @@
 var CenterBlock = React.createClass({
   getInitialState: function() {
-    return { showResults: true, message: "signUp"};
+    return { showResults: true};
   },
   toggleForm: function() {
-    this.state.showResults === true ? this.setState({ showResults: false, message: "about" }) : this.setState({ showResults: true, message: "signUp"})
+    this.state.showResults === true ? this.setState({ showResults: false}) : this.setState({ showResults: true})
   },
   render: function () {
     return (
       <div className="large-8 columns large-centered about-us">
-        { this.state.showResults ? <AboutUs /> : <SignUpForm />}
-        <div className="button-group round landing-buttons centered">
-          <button className="tiny" onClick={this.toggleForm}> {this.state.message} </button>
-        </div>
+        { this.state.showResults ? <AboutUs toggle={this.toggleForm} /> : <SignUpForm toggle={this.toggleForm} /> }
       </div>
     )
   }
@@ -21,8 +18,13 @@ var AboutUs = React.createClass({
   render: function () {
     return (
       <div>
-        <h1> Welcome to Road Trip! </h1>
-        <p> Jujubes cheesecake cake jelly beans pie. Ice cream donut jelly beans. Chocolate cake gummies cupcake tootsie roll pastry chocolate bar candy toffee marzipan. Jujubes chocolate cake cheesecake halvah candy canes jelly beans. Chocolate bar biscuit tiramisu cotton candy cake tart wafer chocolate bar. Danish donut icing chocolate. </p>
+        <h1> Welcome to Road Trip</h1>
+        <p> Choose your destination, and we will create your trip! We will find you Hotels, Resturaunts, Events, and other
+        activities to make your trip the best ever! Create, Plan, and Ride!
+        </p>
+        <div className="button-group landing-buttons centered">
+          <button className="small-5" onClick={this.props.toggle}> Sign Up </button>
+        </div>
       </div>
     )
   }
@@ -33,15 +35,56 @@ var AboutUs = React.createClass({
 var SignUpForm = React.createClass({
     render: function () {
       return (
+        <div>
         <form action="/users" method="post">
-          <label htmlFor="email">Email </label>
-          <input id='email' type="email" name="user[email]"/>
-          <label htmlFor="password">Password </label>
-          <input id='password' type="password" name="user[password]"/>
-          <label htmlFor="password_confirmation">Confirm </label>
-          <input id='password_confirmation' type="password" name="user[password_confirmation]"/>
-          <input type="submit" className='button small round' name="name" value="sing"/>
+          <div className="row">
+            <div className="large-10 small-centered columns">
+              <div className="row collapse">
+                <div className="small-2 columns">
+                    <span href="#" className="prefix fi-torso"></span>
+                </div>
+                <div className="small-10 columns">
+                  <input  id='email' type="email" placeholder="email" name="user[email]"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="large-10 small-centered columns">
+              <div className="row collapse">
+                <div className="small-2 columns">
+                    <span href="#" className="prefix fi-lock"></span>
+                </div>
+                <div className="small-10 columns">
+                <input id='password' type="password" placeholder="password" name="user[password]"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="large-10 small-centered columns">
+              <div className="row collapse">
+                <div className="small-2 columns">
+                    <span href="#" className="prefix fi-lock"></span>
+                </div>
+                <div className="small-10 columns">
+                  <input  id='password_confirmation' type="password" placeholder="confirm password" name="user[password_confirmation]"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="small-10 columns small-centered">
+              <div className="small-5 columns">
+                <input type="submit" className='button small-12' name="name" value="Sign Up"/>
+              </div>
+              <div className="small-5 columns">
+                <button type='button' className="small-12" onClick={this.props.toggle}> About Us </button>
+              </div>
+            </div>
+          </div>
         </form>
+        </div>
       )
     }
 })
