@@ -163,7 +163,7 @@ var TripInfo = React.createClass({
         <h3>Ended in {trip.end_location}</h3>
         <h3>{this.state.start_date} to {this.state.end_date}</h3>
         {this.state.destinations.map(function (e) {
-          return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          return (<Destination name={e.name} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
       </div>
     )
