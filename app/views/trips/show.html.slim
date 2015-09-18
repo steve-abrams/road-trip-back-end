@@ -25,13 +25,11 @@ div.hideMe
   div#startLoc= @trip.start_location
   div#endLoc= @trip.end_location
   div#waypoints= @waypoints
-#map.map.large-8.columns
+/ #map.map.large-6.columns
+/ 
+/ script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
 
-
-script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
-
-
-.sidebar.large-4.columns
+.sidebar.large-6.columns
   <ul class="tabs" data-tab>
     <li class="tab-title small-4 active"><a href="#panel1">Blog</a></li>
     <li class="tab-title small-4"><a href="#panel2">Trip Info</a></li>
@@ -53,3 +51,7 @@ script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV[
       <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
     </div>
   </div>
+
+
+#map.map.large-6.columns
+script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
