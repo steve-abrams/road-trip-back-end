@@ -37,9 +37,13 @@ var SettingsButtons = React.createClass({
   render: function() {
     return (
       <div className="profile-settings small-12 columns">
-        <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
+        <div className="small-12 columns edit-pencil">
+          <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
+        </div>
+        <div className="small-12 columns">
           {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc}/> :
           <EditProfileInfo onClick={this.doStuff} name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc} /> }
+        </div>
       </div>
     )
   }
@@ -50,12 +54,11 @@ var ProfileInfo = React.createClass({
     return (
       <div>
         <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <h1>{this.props.name}</h1>
+        <h2>Hello, {this.props.name}!</h2>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 3 </p>
         <p> Hometown&#58; {this.props.hometown}</p>
-        <p> Favorite Place in the World&#58;</p>
-        <p> {this.props.favorite} </p>
+        <p> Favorite Place&#58; {this.props.favorite}</p>
       </div>
     )
   }
@@ -75,10 +78,10 @@ var EditProfileInfo = React.createClass({
           <div className="row">
             <div className="large-12 small-centered columns">
               <div className="row collapse">
-                <div className="small-4 columns">
+                <div className="small-3 columns">
                     <span href="#" className="prefix">Name</span>
                 </div>
-                <div className="small-8 columns">
+                <div className="small-9 columns">
                   <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
                 </div>
               </div>
@@ -87,10 +90,10 @@ var EditProfileInfo = React.createClass({
         <div className="row">
           <div className="large-12 small-centered columns">
             <div className="row collapse">
-              <div className="small-4 columns">
+              <div className="small-5 columns">
                   <span href="#" className="prefix">Hometown</span>
               </div>
-              <div className="small-8 columns">
+              <div className="small-7 columns">
                 <input  id='editHometown' type="text" placeholder={this.props.hometown} name="user[hometown]"/>
               </div>
             </div>
@@ -99,10 +102,10 @@ var EditProfileInfo = React.createClass({
         <div className="row">
           <div className="large-12 small-centered columns">
             <div className="row collapse">
-              <div className="small-4 columns">
-                  <span href="#" className="prefix">Favorite</span>
+              <div className="small-5 columns">
+                  <span href="#" className="prefix">Favorite Place</span>
               </div>
-              <div className="small-8 columns">
+              <div className="small-7 columns">
                 <input  id='editFavoritePlace' type="text" placeholder={this.props.favorite} name="user[favorite_place]"/>
               </div>
             </div>

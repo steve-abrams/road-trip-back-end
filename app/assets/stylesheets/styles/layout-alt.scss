@@ -1,3 +1,6 @@
+$primary-color: rebeccapurple;
+
+
 * {
   box-sizing: border-box;
 }
@@ -103,16 +106,29 @@ i {
 .profile-pic {
   border-radius: 50%;
   width: 60%;
-  margin: 5%;
+  // margin: 5%;
 }
 
 .profile-settings {
-  margin: 5%;
-  .edit-profile {
-    float: right;
+  margin: 0;
+  padding: 0;
+  margin-top: 5%;
+  & h2 {
+    color: $primary-color;
   }
-  .edit-settings {
-    float: left;
+  .edit-pencil{
+    z-index: 20;
+    & a{
+      float: left;
+    }
+  }
+
+  .edit-profile {
+    position: absolute;
+  }
+
+  .small-12.columns {
+    margin: 0;
   }
 }
 
@@ -151,6 +167,9 @@ ul.polaroids {
 ul.button-group.even-1 {
   float: right;
   margin-right: 5%;
+  & .button {
+    min-width: 110px;
+  }
 }
 
 #new-trip-button {
