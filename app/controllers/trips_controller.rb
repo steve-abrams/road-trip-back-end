@@ -17,7 +17,7 @@ class TripsController < ApplicationController
 
   def find_places
 
-    url = URI.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+params[:lat]+','+params[:lng]+'&radius='+params[:range]+'&types='+params[:category]+'&key=')
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{params[:lat]},#{params[:lng]}&radius=#{params[:range]}&types=#{params[:category]}&key=#{ENV('GOOGLEAPI')}")
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")

@@ -27,8 +27,7 @@ div.hideMe
   div#waypoints= @waypoints
 #map.map.large-8.columns
 
-
-script async="" defer="" src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBKrvrbdRHv7Mp9Ovfj-cMGK7f4MS5UR4Q&callback=initMap'
+script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
 
 
 .sidebar.large-4.columns
@@ -38,17 +37,17 @@ script async="" defer="" src='https://maps.googleapis.com/maps/api/js?key=AIzaSy
     <li class="tab-title small-4"><a href="#panel3">To-Dos</a></li>
   </ul>
   <div class="tabs-content">
+    <div class="content" id="panel2">
+      =react_component('Itinerary')
+      =react_component('NewDestinationButton')
+    </div>
     <div class="content active" id="panel1">
       input type='submit' id='submit'
       =react_component('newPostButton')
       =react_component('BlogCarousel')
     </div>
-    <div class="content" id="panel2">
-      =react_component('TripInfo')
-      =react_component('NewDestinationButton')
-    </div>
     <div class="content" id="panel3">
-      =react_component('ToDos')
+      =react_component('Activities')
       <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
     </div>
   </div>

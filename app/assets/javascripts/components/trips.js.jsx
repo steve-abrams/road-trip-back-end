@@ -126,7 +126,7 @@ var PostComponent = React.createClass({
   }
 })
 
-var TripInfo = React.createClass({
+var Itinerary = React.createClass({
   getInitialState: function () {
     return {
       trip: "",
@@ -170,7 +170,7 @@ var TripInfo = React.createClass({
   }
 })
 
-var ToDos = React.createClass({
+var Activities = React.createClass({
   getInitialState: function () {
     return {
       trip: "",
@@ -202,10 +202,14 @@ var ToDos = React.createClass({
     var trip = this.state.trip
     return (
       <div>
-        <PlacesForm />
-        {this.state.destinations.map(function (e) {
-          return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
-        }, this)}
+        <div className='large-6 columns'>
+          {this.state.destinations.map(function (e) {
+            return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          }, this)}
+        </div>
+        <div className='large-6 columns'>
+          <PlacesForm/>
+        </div>
       </div>
     )
   }
