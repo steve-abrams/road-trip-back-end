@@ -9,7 +9,7 @@ var SettingsButtons = React.createClass({
       $.get('/users/' + window.location.pathname.split('/')[2] + '.json', function(results){
         console.log(results);
           if(this.isMounted()){
-            var name = results.name
+            var name = results.name.charAt(0).toUpperCase() + results.name.substring(1).toLowerCase()
             var hometown = results.hometown
             var favoriteloc = results.favorite_place
             this.setState({
@@ -36,17 +36,16 @@ var SettingsButtons = React.createClass({
   },
   render: function() {
     return (
-      <div className="profile-settings">
-        <a href="#"><i className='fi-widget edit-settings'></i></a>
+      <div className="profile-settings small-12 columns">
         <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
-          {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc}/> : <EditProfileInfo onClick={this.doStuff} /> }
+          {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc}/> :
+          <EditProfileInfo onClick={this.doStuff} name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc} /> }
       </div>
     )
   }
 });
 
 var ProfileInfo = React.createClass({
-
   render: function () {
     return (
       <div>
@@ -57,8 +56,6 @@ var ProfileInfo = React.createClass({
         <p> Hometown&#58; {this.props.hometown}</p>
         <p> Favorite Place in the World&#58;</p>
         <p> {this.props.favorite} </p>
-        <p> Interests and Activities&#58;</p>
-        < Interest />< Interest />< Interest />< Interest />< Interest />
       </div>
     )
   }
@@ -69,40 +66,60 @@ var EditProfileInfo = React.createClass({
       var hometown = $('#editHometown').val()
       var favoriteloc = $('#editFavoritePlace').val()
     return (
-      <div>
-        <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
-        <input id='editName' type='text' name='user[name]'/>
-        <p> Miles Traveled&#58; 1,204 </p>
-        <p> Trips Taken&#58; 5 </p>
-        <input id='editHometown' type='text' name='user[hometown]' placeholder="Hometown"/>
-        <div className="switch round small">
-          <p>Show Current City&#58; </p>
-          <input id="yes-no" name='user[show_city]' type="checkbox" />
-          <label htmlFor="yes-no">
-            <span className="switch-on"> On </span>
-            <span className="switch-off"> Off </span>
-          </label>
+        <div>
+          <div className="small-12">
+            <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
+            <br></br>
+            <a href="#" className="medium"><i className="fi-camera"></i></a>
+          </div>
+          <div className="row">
+            <div className="large-12 small-centered columns">
+              <div className="row collapse">
+                <div className="small-4 columns">
+                    <span href="#" className="prefix">Name</span>
+                </div>
+                <div className="small-8 columns">
+                  <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div className="row">
+          <div className="large-12 small-centered columns">
+            <div className="row collapse">
+              <div className="small-4 columns">
+                  <span href="#" className="prefix">Hometown</span>
+              </div>
+              <div className="small-8 columns">
+                <input  id='editHometown' type="text" placeholder={this.props.hometown} name="user[hometown]"/>
+              </div>
+            </div>
+          </div>
         </div>
-        <input id='editFavoritePlace' type='text' name='user[favorite_place]' placeholder="Your favorite place" value={favoriteloc}/>
-        <input type='hidden' name='_method' value='patch'/>
-        <button className='button round' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
-        <p> Interests and Activities&#58;</p>
-        < Interest />< Interest />< Interest />< Interest />< Interest />
-        <a href={'/users/' + window.location.pathname.split('/')[2]} data-method='delete' rel='nofollow' className='button round'>Delete</a>
-      </div>
+        <div className="row">
+          <div className="large-12 small-centered columns">
+            <div className="row collapse">
+              <div className="small-4 columns">
+                  <span href="#" className="prefix">Favorite</span>
+              </div>
+              <div className="small-8 columns">
+                <input  id='editFavoritePlace' type="text" placeholder={this.props.favorite} name="user[favorite_place]"/>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div className="row">
+          <input type='hidden' name='_method' value='patch'/>
+          <button className='button small' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
+          </div>
+          <div className="row">
+            <a href={'/users/' + window.location.pathname.split('/')[2]} data-method='delete' rel='nofollow' className="delete">Delete Account</a>
+          </div>
+        </div>
     )
   }
 })
 
-
-
-var Interest = React.createClass({
-  render: function () {
-    return (
-      <button className='interests button round tiny'> keyword </button>
-    )
-  }
-})
 
 var NewTripButton = React.createClass({
   getInitialState: function() {
@@ -114,7 +131,7 @@ var NewTripButton = React.createClass({
   render: function () {
     return (
       <div>
-        <button id="new-trip-button" className='new-trip button round tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
+        <button id="new-trip-button" className='new-trip button tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
         { this.state.showResults ? <NewTripForm /> : null }
       </div>
     )
@@ -152,7 +169,7 @@ var NewTripForm = React.createClass({
               </div>
 
               <div className="small-9 columns">
-                <input className="button round tiny" type="submit" value="Create Trip"/>
+                <input className="button tiny" type="submit" value="Create Trip"/>
               </div>
 
             </div>
@@ -163,7 +180,6 @@ var NewTripForm = React.createClass({
     )
   }
 })
-
 
 
 var GetTiles = React.createClass({
@@ -205,7 +221,7 @@ var GetTiles = React.createClass({
     }.bind(this))
     return (
       <div>
-        <ul className="button-group round even-1">
+        <ul className="button-group even-1">
           <li onClick={this.sortByProp}><a className="tiny button" href="#">{this.state.sortProp}</a></li>
           <li onClick={this.sortByAsc}><a className="tiny button" href="#">{this.state.sortOrder}</a></li>
         </ul>
@@ -216,6 +232,7 @@ var GetTiles = React.createClass({
     );
   }
 })
+
 
 var TripTile = React.createClass({
   render: function () {
