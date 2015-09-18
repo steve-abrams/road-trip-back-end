@@ -50,6 +50,14 @@ i {
   text-align: center;
   padding-top: 40px;
   padding-bottom: 10px;
+  & a {
+    font-size: 1.5em;
+  }
+  .reverse {
+    z-index: 20;
+    position: absolute;
+    margin-left: 25%;
+  }
 }
 
 .new-trip.button.tiny{
@@ -123,7 +131,6 @@ i {
       float: left;
     }
   }
-
   .edit-profile {
     position: absolute;
   }
@@ -132,6 +139,7 @@ i {
     margin: 0;
   }
 }
+
 
 .trips {
   height: 100%;
