@@ -1,3 +1,6 @@
+$primary-color: rebeccapurple;
+
+
 * {
   box-sizing: border-box;
 }
@@ -24,9 +27,20 @@ video {
   width: 100%;
 }
 
+i {
+  font-size: 1.5em;
+}
+
+.delete {
+  color: white;
+}
 .row {
   width: 100%;
   max-width: 100%;
+}
+
+.sidebar {
+  height: 100vh;
 }
 
 .about-us {
@@ -38,8 +52,10 @@ video {
   padding-bottom: 10px;
 }
 
-.button.round.tiny.new-trip {
+.new-trip.button.tiny{
+  outline: none;
   margin-left: 5%;
+  border-radius: 2px;
 }
 
 .container {
@@ -90,17 +106,30 @@ video {
 
 .profile-pic {
   border-radius: 50%;
-  width: 80%;
-  margin: 5%;
+  width: 60%;
+  // margin: 5%;
 }
 
 .profile-settings {
-  margin: 5%;
-  .edit-profile {
-    float: right;
+  margin: 0;
+  padding: 0;
+  margin-top: 5%;
+  & h2 {
+    color: $primary-color;
   }
-  .edit-settings {
-    float: left;
+  .edit-pencil{
+    z-index: 20;
+    & a{
+      float: left;
+    }
+  }
+
+  .edit-profile {
+    position: absolute;
+  }
+
+  .small-12.columns {
+    margin: 0;
   }
 }
 
@@ -136,9 +165,12 @@ ul.polaroids {
   }
 }
 
-ul.button-group.round.even-1 {
+ul.button-group.even-1 {
   float: right;
   margin-right: 5%;
+  & .button {
+    min-width: 110px;
+  }
 }
 
 #new-trip-button {

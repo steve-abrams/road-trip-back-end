@@ -1,9 +1,4 @@
 div.test
   =video_tag("birds.mp4", autoplay: true, loop: true)
-  / = video_tag ("birds.mp4", :autoplay => true :loop => true)
-    / video(autoplay id="bgvid" loop)
-    /   source(src="assets/videos/birds.mp4" type="video/mp4")
-  /   /   source(src=asset_path("philly.mp4") type="video/mp4")
-.landingPage.large-12.columns
-
+.landingPage.small-12.columns
   =react_component('CenterBlock')
