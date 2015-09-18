@@ -23,6 +23,8 @@
 
 $(function(){ $(document).foundation(); });
 
+$(document).ready(function () {
+
 var map;
 
 function initMap() {
@@ -85,6 +87,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
   });
 }
 
+})
 
 
 
