@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150916201057) do
+ActiveRecord::Schema.define(version: 20150918200409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,13 +25,15 @@ ActiveRecord::Schema.define(version: 20150916201057) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string  "title"
-    t.date    "date"
-    t.string  "content"
-    t.integer "trip_id"
-    t.integer "user_id"
-    t.float   "latitude"
-    t.float   "longitude"
+    t.string   "title"
+    t.date     "date"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "trip_id"
+    t.integer  "user_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "trips", force: :cascade do |t|
@@ -68,6 +70,8 @@ ActiveRecord::Schema.define(version: 20150916201057) do
     t.string   "hometown"
     t.string   "favorite_place"
     t.boolean  "show_city"
+    t.string   "image_uid"
+    t.string   "image_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

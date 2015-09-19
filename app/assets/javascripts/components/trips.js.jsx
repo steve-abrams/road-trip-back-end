@@ -176,10 +176,20 @@ var Activities = React.createClass({
       trip: "",
       start_date: "",
       end_date: "",
-      destinations: []
+      destinations: [],
+      lat: 0,
+      long: 0
     }
   },
   componentDidMount: function(){
+    navigator.geolocation.getCurrentPosition(function (position) {
+      if(this.isMounted()){
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.latitude
+        })
+      }
+    }.bind(this))
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
         var start_atts = results.start_date.split("-")
@@ -198,15 +208,27 @@ var Activities = React.createClass({
       }
     }.bind(this))
   },
+  setLocationHere: function () {
+    $('#loclat').html(this.state.lat)
+    $('#loclong').html(this.state.long)
+  },
   render: function () {
     var trip = this.state.trip
     return (
       <div>
         <div className='hideMe'>
-          <div id='loclat' className='hidden'></div>
-          <div id='loclong' className='hidden'></div>
+          <div id='loclat' className='hidden'>{this.state.lat}</div>
+          <div id='loclong' className='hidden'>{this.state.long}</div>
         </div>
         <div className='large-4 columns'>
+          <label for="range">Distance (Miles)</label>
+          <select className="small" id="range" name="range">
+            <option value="1600">1</option>
+            <option value="8047">5</option>
+            <option value="16093">10</option>
+            <option value="32187">20</option>
+          </select>
+          <button className="small" onClick={this.setLocationHere} >Here & Now</button>
           {this.state.destinations.map(function (e) {
             return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
@@ -248,6 +270,7 @@ var PlacesForm = React.createClass({
   onClick: function (lat, lng, category, range) {
     var lat = $('#loclat').html();
     var lng = $('#loclong').html();
+    var range = $('#range').val();
     $.get('/find_places?lat='+lat+'&lng='+lng+'&range='+range+'&category='+category, function(results){
       if(this.isMounted()){
         console.log(results);
