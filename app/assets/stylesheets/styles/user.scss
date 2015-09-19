@@ -52,7 +52,22 @@ $purple: red;
   }
 }
 
+.edit-gear {
+  text-align: center;
+  font-size: 1.4em;
+  a {
+    padding-left: 5px;
+    padding-right:5px;
+  }
+  & span:hover {
+    color: blue;
+  }
+}
 
+.trip-name {
+  margin-bottom: 5px;
+
+}
 .trips {
   height: 100%;
   margin-top: 5%;
@@ -90,6 +105,9 @@ ul.polaroids {
   }
   p {
     text-align: center;
+  }
+  input[type="text"] {
+    margin-top: 10px;
   }
 }
 

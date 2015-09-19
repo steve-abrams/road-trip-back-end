@@ -173,7 +173,8 @@ var GetTiles = React.createClass({
       sortBy: "id",
       sortProp: "Date Created",
       asc: 1,
-      sortOrder: "Ascending"}
+      sortOrder: "Ascending",
+      flipped: true}
   },
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
@@ -219,12 +220,82 @@ var GetTiles = React.createClass({
 
 
 var TripTile = React.createClass({
+  getInitialState: function(){
+    return {
+      flipped: true}
+  },
+  flipTrip: function() {
+    this.state.flipped ? this.setState({ flipped: false }) : this.setState({ flipped: true })
+  },
+  updateTrip: function () {
+    var name = $("#editTripName").val()
+    $.post('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id, {'trip[name]': name, "_method": "patch"})
+      .done(function (data) {
+      })
+      this.componentDidMount()
+      this.setState({ flipped: true})
+  },
   render: function () {
     return (
-      <li><a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-        <p>{this.props.data.name}</p></a>
+      <li>
+
+        {this.state.flipped ? <TripFront flip={this.flipTrip} key={this.props.key} ref={this.props.ref} data={this.props.data} /> :
+                              <TripBack flip={this.flipTrip} key={this.props.key} ref={this.props.ref} data={this.props.data} />}
+
       </li>
+    )
+  }
+})
+
+var TripFront = React.createClass({
+  render: function () {
+    return (
+      <div><a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
+        <p className="trip-name">{this.props.data.name}</p></a>
+        <div className="small-centered small-12 columns edit-gear">
+          <a onClick={this.props.flip}><span className="fi-widget"></span></a>
+          <a href="#"><span className="fi-camera"></span></a>
+        </div>
+      </div>
+    )
+  }
+})
+
+var TripBack = React.createClass({
+  render: function () {
+    return (
+      <div>
+      <div className="small-centered small-12 columns">
+        <a onClick={this.props.flip}><span className="fi-arrow-left"> Back</span></a>
+      </div>
+      <div className="small-centered small-12 columns">
+        <form method="post" action={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id}>
+          <div className="row">
+          <input type='hidden' name='_method' value='patch'/>
+            <div className="small-12">
+              <div className="row">
+                <div className="small-centered small-12 columns">
+                  <input id="editTripName" name="trip[name]" type="text" id="right-label" placeholder="Trip name" />
+                  </div>
+              </div>
+            </div>
+          </div>
+            <div className="row">
+              <div className="small-12">
+                <div className="row">
+                  <div className="small-centered small-12 columns edit-gear">
+                    <input type="submit" className="button tiny"  value="Edit Trip"/>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+        <div className="small-centered small-12 columns edit-gear">
+          <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id} data-method='delete' rel='nofollow'>Delete Trip</a>
+        </div>
+      </div>
     )
   }
 })
