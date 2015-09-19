@@ -17,7 +17,7 @@ class TripsController < ApplicationController
 
   def find_places
 
-    url = URI.parse('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+params[:lat]+','+params[:lng]+'&radius='+params[:range]+'&types='+params[:category]+'&key='+ENV['GOOGLEAPI'])
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{params[:lat]},#{params[:lng]}&radius=#{params[:range]}&types=#{params[:category]}&key=#{ENV['GOOGLEAPI']}")
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
@@ -26,16 +26,6 @@ class TripsController < ApplicationController
     render :json => {:data => res1}
 
   end
-  # def create
-  #   @post = Post.new(post_params)
-  #   @post.trip_id = params[:trip_id]
-  #   if @post.save
-  #     redirect_to trip_path(params[:trip_id])
-  #     flash[:notice] = "Post Successfully Saved"
-  #   else
-  #     flash[:notice] = "Post could not be saved"
-  #   end
-  # end
 
   def create
     start_location = params[:trip][:start_location]
@@ -80,18 +70,6 @@ class TripsController < ApplicationController
       redirect_to root_path
     end
   end
-  # def create
-  #   p '=============================================='
-  #   p trip_params
-  #   p '=============================================='
-  #   respond_to do |format|
-  #     format.html
-  #     format.json {
-  #       @trip = Trip.create(trip_params)
-  #       render json: @trip
-  #     }
-  #   end
-  # end
 
   def show
     p "*"*80

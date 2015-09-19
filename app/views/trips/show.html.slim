@@ -29,12 +29,13 @@ div.hideMe
 /
 script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
 
+
 .sidebar.large-6.columns
 
   <ul class="tabs" data-tab>
     <li class="tab-title small-4 active"><a href="#panel1">Blog</a></li>
-    <li class="tab-title small-4"><a href="#panel2">Trip Info</a></li>
-    <li class="tab-title small-4"><a href="#panel3">To-Dos</a></li>
+    <li class="tab-title small-4"><a href="#panel2">Itinerary</a></li>
+    <li class="tab-title small-4"><a href="#panel3">Activities</a></li>
   </ul>
   <div class="tabs-content">
     <div class="content active" id="panel1">
@@ -44,12 +45,10 @@ script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV[
     </div>
     <div class="content" id="panel2">
       =react_component('NewDestinationButton')
-      =react_component('TripInfo')
+      =react_component('Itinerary')
     </div>
     <div class="content" id="panel3">
-      =react_component('TripInfo')
-      =react_component('Destination')
-      <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
+      =react_component('Activities')
     </div>
   </div>
 
