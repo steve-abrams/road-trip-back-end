@@ -1,0 +1,50 @@
+$secondary: #008CBA;
+$white: #F4FFF8;
+$trueWhite: #FFFFFF;
+$primary-color: rebeccapurple;
+$primary: #000000;
+$purple: red;
+
+// *********************
+// ******Landing********
+// *********************
+
+video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+}
+
+.about-us {
+  margin-top: 15vh;
+  width: 40%;
+  min-height: 300px;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  box-shadow: 0 0 5px 20px rgba(black, 0.2);
+  background-color: rgba($primary, 0.85);
+  color: $white;
+  h1 {
+    color: $white;
+  }
+  label {
+    color: $white;
+  }
+}
+
+.landingPage {
+  margin: 0;
+  padding: 0;
+  height: 94%;
+}
+
+.landing-buttons {
+  text-align: center;
+}
+
+ul.right li.login-form {
+  background-color: black;
+}

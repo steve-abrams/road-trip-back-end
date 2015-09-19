@@ -20,6 +20,7 @@
 //= require_tree .
 //= require foundation
 $(function(){ $(document).foundation(); });
+
 var map;
 function initMap() {
   var directionsService = new google.maps.DirectionsService;

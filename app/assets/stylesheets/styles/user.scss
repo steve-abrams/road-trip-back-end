@@ -1,0 +1,182 @@
+$secondary: #008CBA;
+$white: #F4FFF8;
+$trueWhite: #FFFFFF;
+$primary-color: rebeccapurple;
+$primary: #000000;
+$purple: red;
+
+// *********************
+// ******User***********
+// *********************
+
+
+.sidebar {
+  text-align: center;
+<<<<<<< HEAD:app/assets/stylesheets/styles/layout-alt.scss
+  padding-top: 40px;
+  padding-bottom: 10px;
+  & a {
+    font-size: 1.5em;
+  }
+  .reverse {
+    z-index: 20;
+    position: absolute;
+    margin-left: 25%;
+  }
+}
+
+.new-trip.button.tiny{
+  outline: none;
+  margin-left: 5%;
+  border-radius: 2px;
+}
+
+.container {
+  width: 100%;
+  height: auto;
+}
+
+.display-posts {
+  overflow: scroll;
+  height: 90%;
+  .post-container {
+    height: 200px;
+    width: 90%;
+    margin: 5%;
+  }
+}
+
+.interests {
+  display: inline-block;
+}
+
+.jumbo{
+  height: 40em;
+}
+
+.landingPage {
+  margin: 0;
+  padding: 0;
+  height: 94%;
+}
+
+.landing-buttons {
+  text-align: center;
+}
+
+.map {
+  height: 100%;
+=======
+  background-color: transparentize($primary, 0.3);
+  height: 100vh;
+>>>>>>> video:app/assets/stylesheets/styles/user.scss
+}
+
+.profilePage {
+  background-color: rgb(220, 238, 8);
+  // background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparentize($primary, 0.6);
+  overflow: scroll;
+  z-index: 0;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  width: 60%;
+}
+
+.profile-settings {
+  margin: 0;
+  padding: 0;
+  margin-top: 5%;
+  & h2 {
+    color: $primary-color;
+  }
+  .edit-pencil{
+    z-index: 20;
+    & a{
+      float: left;
+    }
+  }
+  .edit-profile {
+    position: absolute;
+  }
+  .small-12.columns {
+    margin: 0;
+  }
+}
+
+
+.trips {
+  height: 100%;
+  margin-top: 5%;
+  overflow: scroll;
+}
+
+.hideMe {
+  display: none;
+}
+
+ul.polaroids {
+  clear: both;
+  display: inline-block;
+  li {
+    background-color: $white;
+    -webkit-transition: -webkit-transform .15s linear;
+    width: 18%;
+    margin: 0.5%;
+    display: inline-block;
+    vertical-align: top;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
+  }
+  li:hover {
+    -webkit-transition: -webkit-transform .15s linear;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    position: relative;
+    z-index: 5;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 1);
+  }
+  img {
+   height: 90%;
+   width: 90%;
+   margin: 5%
+  }
+  p {
+    text-align: center;
+  }
+}
+
+ul.button-group.even-1 {
+  float: right;
+  margin-right: 5%;
+  & .button {
+    min-width: 110px;
+  }
+}
+
+<<<<<<< HEAD:app/assets/stylesheets/styles/layout-alt.scss
+#new-trip-button {
+  float: left;
+  width: 15%;
+}
+
+.hideMe {
+  display: none;
+}
+
+
+
+ul.right li.login-form {
+  background-color: black;
+}
+
+a.button {
+  // background-color: $purple;
+=======
+li {
+  list-style-type: none;
+>>>>>>> video:app/assets/stylesheets/styles/user.scss
+}
