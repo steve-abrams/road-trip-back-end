@@ -23,7 +23,7 @@ var AboutUs = React.createClass({
         activities to make your trip the best ever! Create, Plan, and Ride!
         </p>
         <div className="button-group landing-buttons centered">
-          <button className="small-5" onClick={this.props.toggle}> Sign Up </button>
+          <button className="small-4" onClick={this.props.toggle}> Sign Up </button>
         </div>
       </div>
     )
@@ -74,12 +74,12 @@ var SignUpForm = React.createClass({
             </div>
           </div>
           <div className="row">
-            <div className="small-10 columns small-centered">
-              <div className="small-5 columns">
+            <div className="reverse">
+              <a href="#" onClick={this.props.toggle} className="back-arrow"><i className="fi-arrow-left"></i></a>
+            </div>
+            <div className="small-12 columns small-centered">
+              <div className="small-5 small-centered columns">
                 <input type="submit" className='button small-12' name="name" value="Sign Up"/>
-              </div>
-              <div className="small-5 columns">
-                <button type='button' className="small-12" onClick={this.props.toggle}> About Us </button>
               </div>
             </div>
           </div>

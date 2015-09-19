@@ -50,6 +50,14 @@ i {
   text-align: center;
   padding-top: 40px;
   padding-bottom: 10px;
+  & a {
+    font-size: 1.5em;
+  }
+  .reverse {
+    z-index: 20;
+    position: absolute;
+    margin-left: 25%;
+  }
 }
 
 .new-trip.button.tiny{
@@ -96,7 +104,8 @@ i {
 }
 
 .profilePage {
-  background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
+  background-color: rgb(220, 238, 8);
+  // background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   overflow: scroll;
@@ -122,7 +131,6 @@ i {
       float: left;
     }
   }
-
   .edit-profile {
     position: absolute;
   }
@@ -131,6 +139,7 @@ i {
     margin: 0;
   }
 }
+
 
 .trips {
   height: 100%;
@@ -180,6 +189,8 @@ ul.button-group.even-1 {
 .hideMe {
   display: none;
 }
+
+
 
 ul.right li.login-form {
   background-color: black;

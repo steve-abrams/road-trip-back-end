@@ -163,7 +163,7 @@ var Itinerary = React.createClass({
         <h3>Ended in {trip.end_location}</h3>
         <h3>{this.state.start_date} to {this.state.end_date}</h3>
         {this.state.destinations.map(function (e) {
-          return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          return (<Destination name={e.name} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
       </div>
     )
@@ -202,12 +202,16 @@ var Activities = React.createClass({
     var trip = this.state.trip
     return (
       <div>
-        <div className='large-6 columns'>
+        <div className='hideMe'>
+          <div id='loclat' className='hidden'></div>
+          <div id='loclong' className='hidden'></div>
+        </div>
+        <div className='large-4 columns'>
           {this.state.destinations.map(function (e) {
             return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
         </div>
-        <div className='large-6 columns'>
+        <div className='large-8 columns'>
           <PlacesForm/>
         </div>
       </div>
@@ -222,13 +226,14 @@ var Destination = React.createClass({
     }
   },
   onClick: function() {
+    $('#loclat').html(this.props.lat)
+    $('#loclong').html(this.props.lng)
     this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
   },
   render: function () {
     return (
       <div>
         <h3 className='destination' onClick={this.onClick}>{this.props.name}</h3>
-        { this.state.togglePlacesForm ? <PlacesForm lat={this.props.lat} lng={this.props.lng} googlePlaceId={this.props.placeid}/> : null }
       </div>
     )
   }
@@ -241,6 +246,8 @@ var PlacesForm = React.createClass({
     }
   },
   onClick: function (lat, lng, category, range) {
+    var lat = $('#loclat').html();
+    var lng = $('#loclong').html();
     $.get('/find_places?lat='+lat+'&lng='+lng+'&range='+range+'&category='+category, function(results){
       if(this.isMounted()){
         console.log(results);
@@ -264,6 +271,26 @@ var PlacesForm = React.createClass({
             <label>Activities</label>
           </a>
         </div>
+        <PlacesResults results={this.state.searchResults}/>
+      </div>
+    )
+  }
+})
+
+var PlacesResults = React.createClass({
+  render: function () {
+    if (this.props.results.data){
+      var listings = this.props.results.data.results.map(function (result) {
+        return (<div className="row">
+            <button className="button tiny success left">Save</button>
+            <button className="button tiny info left">More Info</button>
+            <h3 className="left">{result.name}</h3>
+          </div>);
+      });
+    }
+    return (
+      <div>
+        {listings}
       </div>
     )
   }
