@@ -29,7 +29,6 @@ var SettingsButtons = React.createClass({
     var favoriteloc = $('#editFavoritePlace').val()
     $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, 'user[favorite_place]': favoriteloc, "_method": "patch"})
       .done(function (data) {
-
       })
       this.componentDidMount()
       this.setState({ showResults: true})
@@ -99,18 +98,6 @@ var EditProfileInfo = React.createClass({
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="large-12 small-centered columns">
-            <div className="row collapse">
-              <div className="small-5 columns">
-                  <span href="#" className="prefix">Favorite Place</span>
-              </div>
-              <div className="small-7 columns">
-                <input  id='editFavoritePlace' type="text" placeholder={this.props.favorite} name="user[favorite_place]"/>
-              </div>
-            </div>
-          </div>
-        </div>
           <div className="row">
           <input type='hidden' name='_method' value='patch'/>
           <button className='button small' id='editProfileButton' value='Update Profile' onClick={this.props.onClick}>Update Profile</button>
@@ -150,36 +137,21 @@ var NewTripForm = React.createClass({
           <div className="row">
             <div className="small-8">
               <div className="row">
-
               <div className="small-9 columns">
                 <input name="trip[name]" type="text" id="right-label" placeholder="Trip name" />
               </div>
-
               <div className="small-6 columns">
                 <input name="trip[start_location_city]" type="text" id="right-label" placeholder="Starting City" />
               </div>
-
               <div className="small-3 columns">
                 <input name="trip[start_location_state]" type="text" id="right-label" placeholder="Starting State" />
               </div>
-
               <div className="small-6 columns">
                 <input name="trip[end_location_city]" type="text" id="right-label" placeholder="Ending City" />
               </div>
-
               <div className="small-3 columns">
                 <input name="trip[end_location_state]" type="text" id="right-label" placeholder="Ending State" />
               </div>
-
-               <div className="small-9 columns">
-                 <input name="trip[start_date]" type="date" id="right-label" placeholder="Start Date" />
-               </div>
-
-               <div className="small-9 columns">
-                 <input name="trip[end_date]" type="date" id="right-label" placeholder="End Date" />
-               </div>
-
-
               <div className="small-9 columns">
                 <input className="button tiny" type="submit" value="Create Trip"/>
               </div>
@@ -256,3 +228,25 @@ var TripTile = React.createClass({
     )
   }
 })
+    // ******** Went in the edit profile page, not sure if we wanted favorite place **********
+    // <div className="row">
+    //   <div className="large-12 small-centered columns">
+    //     <div className="row collapse">
+    //       <div className="small-5 columns">
+    //           <span href="#" className="prefix">Favorite Place</span>
+    //       </div>
+    //       <div className="small-7 columns">
+    //         <input  id='editFavoritePlace' type="text" placeholder={this.props.favorite} name="user[favorite_place]"/>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+
+    // ******** Went in the new trip form with start and end date ************
+    //  <div className="small-9 columns">
+    //    <input name="trip[start_date]" type="date" id="right-label" placeholder="Start Date" />
+    //  </div>
+     //
+    //  <div className="small-9 columns">
+    //    <input name="trip[end_date]" type="date" id="right-label" placeholder="End Date" />
+    //  </div>
