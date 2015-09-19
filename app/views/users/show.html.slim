@@ -1,19 +1,7 @@
-.profilePage.large-12.columns
-  .sidebar.large-3.columns
+.profilePage.small-12.columns
+  .sidebar.small-3.columns
     =react_component('SettingsButtons')
-  .dash.large-9.columns
+  .dash.small-9.columns
     .trips
       =react_component('NewTripButton')
       =react_component('GetTiles')
-ol.joyride-list data-joyride=""
-  li data-id="edit-intro" data-options=("tip_location: top; prev_button: false") data-text="Next"
-    p Who are you?
-  li data-button="End" data-prev-text="Prev"
-    h4 Stop #1
-    p It works as a modal too!
-source(src='https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.js')
-/ div.hideMe
-/   div#profileName= @user.name
-/   div#profileHometown= @user.hometown
-/   div#favoriteLocation= @user.favorite_place
-/   div#currentLocation= @user.show_city

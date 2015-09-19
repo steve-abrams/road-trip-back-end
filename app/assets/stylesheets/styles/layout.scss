@@ -1,0 +1,46 @@
+$secondary: #008CBA;
+$white: #F4FFF8;
+$trueWhite: #FFFFFF;
+$primary-color: rebeccapurple;
+$primary: #000000;
+$purple: red;
+
+@import url(https://fonts.googleapis.com/css?family=Muli);
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Muli;
+}
+body {
+  background: black;
+  color: $white;
+  h1 {
+    color: $white;
+  }
+}
+
+fieldset {
+  float: right;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  height: auto;
+}
+
+// *********************
+// ******Navbar********
+// *********************
+
+nav.top-bar {
+  background-color: $primary;
+  a {
+    color: $white;
+  }
+}
