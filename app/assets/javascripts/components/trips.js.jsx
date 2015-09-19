@@ -29,6 +29,7 @@ var NewBlogPost = React.createClass({
     }.bind(this))
   },
   render: function () {
+    console.log
     console.log("LAT:", this.state.lat);
     console.log("LONG:", this.state.long);
     return (
@@ -103,6 +104,7 @@ var BlogCarousel = React.createClass({
   },
   render: function () {
     var allPosts = this.state.posts
+    console.log(allPosts)
     var displayPosts = [];
     for(var i = 0; i < allPosts.length; i++){
       displayPosts.push(< PostComponent key={allPosts[i].id} data={allPosts[i]} />)
@@ -116,12 +118,29 @@ var BlogCarousel = React.createClass({
 })
 
 var PostComponent = React.createClass({
+  getInitialState: function(){
+    return {lat: 0, long: 0}
+  },
+  componentWillMount: function(){
+    navigator.geolocation.getCurrentPosition(function (position) {
+      if(this.isMounted()){
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.latitude
+        })
+      }
+    }.bind(this))
+  },
   render: function () {
     var data = this.props.data
+    var date = data.created_at.split('T')
+    var endDate = date[0].split('-')
+    var displayDate = (endDate[1].toString() + " " +  endDate[2].toString()+ " " + endDate[0].toString())
     return (
       <div className="post-container">
         <h1>{data.title}</h1>
         <p>{data.content}</p>
+        <p>{displayDate}</p>
       </div>
     )
   }

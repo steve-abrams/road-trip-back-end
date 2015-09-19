@@ -83,11 +83,15 @@ class TripsController < ApplicationController
     @post = Post.new
     @event = Event.new
     @waypoints = @trip.destinations.map { |e| e.name }
+    @time = @trip.posts.map { |e| {title: e.title, content: e.content, time: e.created_at.strftime('%A %B %y')}}
     respond_to do |format|
       format.html
       format.json {render json: @trip, include: [:posts, :destinations, :events]}
     end
   end
+
+
+
 
   def edit
     @trip = Trip.find(params[:id])
