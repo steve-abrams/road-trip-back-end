@@ -197,7 +197,7 @@ var Activities = React.createClass({
         var end_atts = results.end_date.split("-")
         var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
-          return {name: e.name, lat: e.lat, lng: e.lng, place_id: e.place_id};
+          return {name: e.name, id: e.id, lat: e.lat, lng: e.lng, place_id: e.place_id};
         });
         this.setState({
           trip: results,
@@ -219,6 +219,7 @@ var Activities = React.createClass({
         <div className='hideMe'>
           <div id='loclat' className='hidden'>{this.state.lat}</div>
           <div id='loclong' className='hidden'>{this.state.long}</div>
+          <div id='destinationid' className='hidden'></div>
         </div>
         <div className='large-4 columns'>
           <label for="range">Distance (Miles)</label>
@@ -230,7 +231,8 @@ var Activities = React.createClass({
           </select>
           <button className="small" onClick={this.setLocationHere} >Here & Now</button>
           {this.state.destinations.map(function (e) {
-            return (<Destination name={e.name} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+            console.log(e);
+            return (<Destination name={e.name} destinationid={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
         </div>
         <div className='large-8 columns'>
@@ -250,6 +252,7 @@ var Destination = React.createClass({
   onClick: function() {
     $('#loclat').html(this.props.lat)
     $('#loclong').html(this.props.lng)
+    $('#destinationid').html(this.props.destinationid)
     this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
   },
   render: function () {
@@ -317,7 +320,8 @@ var PlacesResults = React.createClass({
     }.bind(this))
   },
   saveActivity: function (placeId, name) {
-    $.get("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "?place_id="+result.id+"&name="+result.name, function(results){
+    var destinationId = $('#destinationid').html();
+    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name, function(results){
       if(this.isMounted()){
         console.log(results);
         this.setState({

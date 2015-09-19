@@ -83,6 +83,7 @@ class TripsController < ApplicationController
     p params
     @trip = Trip.includes(:posts, :destinations).find(params[:id])
     @post = Post.new
+    @event = Event.new
     @waypoints = @trip.destinations.map { |e| e.name }
     respond_to do |format|
       format.html

@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   resources :users do
     resources :trips, defaults: {format: :json}, only: [:index]
     resources :trips, except: [:index] do
-      resources :destinations, defaults: {format: :json}
+      resources :destinations, defaults: {format: :json} do
+        resources :events, defaults: {format: :json}
+      end
       resources :posts, defaults: {format: :json}, only: [:index]
       resources :posts, except: [:index]
     end
