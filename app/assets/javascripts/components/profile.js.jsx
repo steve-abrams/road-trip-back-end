@@ -155,14 +155,22 @@ var NewTripForm = React.createClass({
                 <input name="trip[name]" type="text" id="right-label" placeholder="Trip name" />
               </div>
 
-              <div className="small-9 columns">
-                <input name="trip[start_location]" type="text" id="right-label" placeholder="Starting City" />
+              <div className="small-6 columns">
+                <input name="trip[start_location_city]" type="text" id="right-label" placeholder="Starting City" />
               </div>
 
-              <div className="small-9 columns">
-                <input name="trip[end_location]" type="text" id="right-label" placeholder="Ending City" />
+              <div className="small-3 columns">
+                <input name="trip[start_location_state]" type="text" id="right-label" placeholder="Starting State" />
               </div>
-              
+
+              <div className="small-6 columns">
+                <input name="trip[end_location_city]" type="text" id="right-label" placeholder="Ending City" />
+              </div>
+
+              <div className="small-3 columns">
+                <input name="trip[end_location_state]" type="text" id="right-label" placeholder="Ending State" />
+              </div>
+
                <div className="small-9 columns">
                  <input name="trip[start_date]" type="date" id="right-label" placeholder="Start Date" />
                </div>
