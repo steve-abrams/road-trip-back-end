@@ -1,17 +1,18 @@
-var months = {
-  '01': "January",
-  '02': "February",
-  '03': "March",
-  '04': "April",
-  '05': "May",
-  '06': "June",
-  '07': "July",
-  '08': "August",
-  '09': "September",
-  '10': "October",
-  '11': "November",
-  '12': "December"
-}
+// **Info For Dates**
+// var months = {
+//   '01': "January",
+//   '02': "February",
+//   '03': "March",
+//   '04': "April",
+//   '05': "May",
+//   '06': "June",
+//   '07': "July",
+//   '08': "August",
+//   '09': "September",
+//   '10': "October",
+//   '11': "November",
+//   '12': "December"
+// }
 
 var NewBlogPost = React.createClass({
   getInitialState: function(){
@@ -138,11 +139,11 @@ var Itinerary = React.createClass({
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
-        var start_atts = results.start_date.split("-")
+        // var start_atts = results.start_date.split("-")
         var events = results.events
-        var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
-        var end_atts = results.end_date.split("-")
-        var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
+        // var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
+        // var end_atts = results.end_date.split("-")
+        // var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
           var destEvents = []
           events.forEach(function (event) {
@@ -154,8 +155,8 @@ var Itinerary = React.createClass({
         });
         this.setState({
           trip: results,
-          start_date: start_date,
-          end_date: end_date,
+          // start_date: start_date,
+          // end_date: end_date,
           destinations: destinations
         })
       }
@@ -163,12 +164,13 @@ var Itinerary = React.createClass({
   },
   render: function () {
     var trip = this.state.trip
+    // This date was showing below h3 Ended In
+    // <h3>{this.state.start_date} to {this.state.end_date}</h3>
     return (
       <div>
         <h1>{trip.name}</h1>
         <h3>Started in {trip.start_location}</h3>
         <h3>Ended in {trip.end_location}</h3>
-        <h3>{this.state.start_date} to {this.state.end_date}</h3>
         {this.state.destinations.map(function (e) {
           return (<Destination name={e.name} events={e.events} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
@@ -181,8 +183,8 @@ var Activities = React.createClass({
   getInitialState: function () {
     return {
       trip: "",
-      start_date: "",
-      end_date: "",
+      // start_date: "",
+      // end_date: "",
       destinations: [],
       lat: 0,
       long: 0
@@ -199,11 +201,11 @@ var Activities = React.createClass({
     }.bind(this))
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
-        var start_atts = results.start_date.split("-")
+        // var start_atts = results.start_date.split("-")
         var events = results.events
-        var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
-        var end_atts = results.end_date.split("-")
-        var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
+        // var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
+        // var end_atts = results.end_date.split("-")
+        // var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
           var destEvents = []
           events.forEach(function (event) {
@@ -215,8 +217,8 @@ var Activities = React.createClass({
         });
         this.setState({
           trip: results,
-          start_date: start_date,
-          end_date: end_date,
+          // start_date: start_date,
+          // end_date: end_date,
           destinations: destinations
         })
       }
