@@ -162,14 +162,15 @@ var NewTripForm = React.createClass({
               <div className="small-9 columns">
                 <input name="trip[end_location]" type="text" id="right-label" placeholder="Ending City" />
               </div>
+              
+               <div className="small-9 columns">
+                 <input name="trip[start_date]" type="date" id="right-label" placeholder="Start Date" />
+               </div>
 
-              <div className="small-9 columns">
-                <input name="trip[start_date]" type="date" id="right-label" placeholder="Start Date" />
-              </div>
+               <div className="small-9 columns">
+                 <input name="trip[end_date]" type="date" id="right-label" placeholder="End Date" />
+               </div>
 
-              <div className="small-9 columns">
-                <input name="trip[end_date]" type="date" id="right-label" placeholder="End Date" />
-              </div>
 
               <div className="small-9 columns">
                 <input className="button tiny" type="submit" value="Create Trip"/>
@@ -240,9 +241,9 @@ var GetTiles = React.createClass({
 var TripTile = React.createClass({
   render: function () {
     return (
-      <li>
+      <li><a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
-        <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }><p> {this.props.data.name} </p></a>
+        <p>{this.props.data.name}</p></a>
       </li>
     )
   }
