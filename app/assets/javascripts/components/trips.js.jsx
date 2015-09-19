@@ -301,15 +301,40 @@ var PlacesForm = React.createClass({
 })
 
 var PlacesResults = React.createClass({
+  getInitialState: function () {
+    return ({
+      info: ''
+    })
+  },
+  getInfo: function (placeId) {
+    $.get("/show_info?place_id="+placeId, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+      }
+    }.bind(this))
+  },
+  saveActivity: function (placeId, name) {
+    $.get("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "?place_id="+result.id+"&name="+result.name, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+      }
+    }.bind(this))
+  },
   render: function () {
     if (this.props.results.data){
       var listings = this.props.results.data.results.map(function (result) {
         return (<div className="row">
-            <button className="button tiny success left">Save</button>
-            <button className="button tiny info left">More Info</button>
+            <button type='submit' onClick={this.saveActivity.bind(this, result.place_id, result.name)} className="button tiny success left">Save</button>
+            <button type='submit' onClick={this.getInfo.bind(this, result.place_id)} className="button tiny info left">More Info</button>
             <h3 className="left">{result.name}</h3>
           </div>);
-      });
+      }, this);
     }
     return (
       <div>
