@@ -1,0 +1,104 @@
+$secondary: #008CBA;
+$white: #F4FFF8;
+$trueWhite: #FFFFFF;
+$primary-color: rebeccapurple;
+$primary: #000000;
+$purple: red;
+
+// *********************
+// ******User***********
+// *********************
+
+
+.sidebar {
+  text-align: center;
+  background-color: transparentize($primary, 0.3);
+  height: 100vh;
+}
+
+.profilePage {
+  background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparentize($primary, 0.6);
+  overflow: scroll;
+  z-index: 0;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  width: 60%;
+}
+
+.profile-settings {
+  margin: 0;
+  padding: 0;
+  margin-top: 5%;
+  & h2 {
+    color: $primary-color;
+  }
+  .edit-pencil{
+    z-index: 20;
+    & a{
+      float: left;
+    }
+  }
+  .edit-profile {
+    position: absolute;
+  }
+  .small-12.columns {
+    margin: 0;
+  }
+}
+
+.trips {
+  height: 100%;
+  margin-top: 5%;
+  overflow: scroll;
+}
+
+.hideMe {
+  display: none;
+}
+
+ul.polaroids {
+  clear: both;
+  display: inline-block;
+  li {
+    background-color: $white;
+    -webkit-transition: -webkit-transform .15s linear;
+    width: 18%;
+    margin: 0.5%;
+    display: inline-block;
+    vertical-align: top;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
+  }
+  li:hover {
+    -webkit-transition: -webkit-transform .15s linear;
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    position: relative;
+    z-index: 5;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 1);
+  }
+  img {
+   height: 90%;
+   width: 90%;
+   margin: 5%
+  }
+  p {
+    text-align: center;
+  }
+}
+
+ul.button-group.even-1 {
+  float: right;
+  margin-right: 5%;
+  & .button {
+    min-width: 110px;
+  }
+}
+
+li {
+  list-style-type: none;
+}
