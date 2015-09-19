@@ -26,8 +26,10 @@ var SettingsButtons = React.createClass({
   doStuff: function () {
     var name = $("#editName").val()
     var hometown = $('#editHometown').val()
-    var favoriteloc = $('#editFavoritePlace').val()
-    $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, 'user[favorite_place]': favoriteloc, "_method": "patch"})
+    // var favoriteloc = $('#editFavoritePlace').val()
+    // Removed from the post params, not sure if we are using it
+    // 'user[favorite_place]': favoriteloc,
+    $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, "_method": "patch"})
       .done(function (data) {
       })
       this.componentDidMount()
@@ -40,8 +42,8 @@ var SettingsButtons = React.createClass({
           <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
         </div>
         <div className="small-12 columns">
-          {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc}/> :
-          <EditProfileInfo onClick={this.doStuff} name={this.state.name} hometown={this.state.hometown} favorite={this.state.favoriteloc} /> }
+          {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} /> :
+          <EditProfileInfo onClick={this.doStuff} name={this.state.name} hometown={this.state.hometown} /> }
         </div>
       </div>
     )
@@ -57,7 +59,6 @@ var ProfileInfo = React.createClass({
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 3 </p>
         <p> Hometown&#58; {this.props.hometown}</p>
-        <p> Favorite Place&#58; {this.props.favorite}</p>
       </div>
     )
   }
