@@ -79,15 +79,13 @@ class TripsController < ApplicationController
   end
 
   def show
-    p "*"*80
-    p params
-    @trip = Trip.includes(:posts, :destinations).find(params[:id])
+    @trip = Trip.includes(:posts, :destinations, :events).find(params[:id])
     @post = Post.new
     @event = Event.new
     @waypoints = @trip.destinations.map { |e| e.name }
     respond_to do |format|
       format.html
-      format.json {render json: @trip, include: [:posts, :destinations]}
+      format.json {render json: @trip, include: [:posts, :destinations, :events]}
     end
   end
 

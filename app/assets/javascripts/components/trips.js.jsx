@@ -139,11 +139,18 @@ var Itinerary = React.createClass({
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
         var start_atts = results.start_date.split("-")
+        var events = results.events
         var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
         var end_atts = results.end_date.split("-")
         var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
-          return {name: e.name, lat: e.lat, lng: e.lng, place_id: e.place_id};
+          var destEvents = []
+          events.forEach(function (event) {
+            if (event.destination_id === e.id){
+              destEvents.push(event);
+            }
+          })
+          return {name: e.name, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
         });
         this.setState({
           trip: results,
@@ -163,7 +170,7 @@ var Itinerary = React.createClass({
         <h3>Ended in {trip.end_location}</h3>
         <h3>{this.state.start_date} to {this.state.end_date}</h3>
         {this.state.destinations.map(function (e) {
-          return (<Destination name={e.name} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          return (<Destination name={e.name} events={e.events} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
       </div>
     )
@@ -193,11 +200,18 @@ var Activities = React.createClass({
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
         var start_atts = results.start_date.split("-")
+        var events = results.events
         var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
         var end_atts = results.end_date.split("-")
         var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
-          return {name: e.name, id: e.id, lat: e.lat, lng: e.lng, place_id: e.place_id};
+          var destEvents = []
+          events.forEach(function (event) {
+            if (event.destination_id === e.id){
+              destEvents.push(event);
+            }
+          })
+          return {name: e.name, events: destEvents, id: e.id, lat: e.lat, lng: e.lng, place_id: e.place_id};
         });
         this.setState({
           trip: results,
@@ -231,8 +245,7 @@ var Activities = React.createClass({
           </select>
           <button className="small" onClick={this.setLocationHere} >Here & Now</button>
           {this.state.destinations.map(function (e) {
-            console.log(e);
-            return (<Destination name={e.name} destinationid={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+            return (<Destination name={e.name} events={e.events} destinationid={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
         </div>
         <div className='large-8 columns'>
@@ -247,6 +260,7 @@ var Destination = React.createClass({
   getInitialState: function () {
     return {
       togglePlacesForm: false,
+      info: ''
     }
   },
   onClick: function() {
@@ -255,10 +269,24 @@ var Destination = React.createClass({
     $('#destinationid').html(this.props.destinationid)
     this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
   },
+  getInfo: function (placeId) {
+    $.get("/show_info?place_id="+placeId, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+      }
+    }.bind(this))
+  },
   render: function () {
+    var eventList = this.props.events.map(function (e) {
+      return (<div><p>{e.name}</p><a onClick={this.getInfo.bind(this, e.place_id)}>More Info</a></div>)
+    }, this)
     return (
       <div>
         <h3 className='destination' onClick={this.onClick}>{this.props.name}</h3>
+        {eventList}
       </div>
     )
   }
