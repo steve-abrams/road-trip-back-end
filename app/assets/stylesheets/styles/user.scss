@@ -12,64 +12,8 @@ $purple: red;
 
 .sidebar {
   text-align: center;
-<<<<<<< HEAD:app/assets/stylesheets/styles/layout-alt.scss
-  padding-top: 40px;
-  padding-bottom: 10px;
-  & a {
-    font-size: 1.5em;
-  }
-  .reverse {
-    z-index: 20;
-    position: absolute;
-    margin-left: 25%;
-  }
-}
-
-.new-trip.button.tiny{
-  outline: none;
-  margin-left: 5%;
-  border-radius: 2px;
-}
-
-.container {
-  width: 100%;
-  height: auto;
-}
-
-.display-posts {
-  overflow: scroll;
-  height: 90%;
-  .post-container {
-    height: 200px;
-    width: 90%;
-    margin: 5%;
-  }
-}
-
-.interests {
-  display: inline-block;
-}
-
-.jumbo{
-  height: 40em;
-}
-
-.landingPage {
-  margin: 0;
-  padding: 0;
-  height: 94%;
-}
-
-.landing-buttons {
-  text-align: center;
-}
-
-.map {
-  height: 100%;
-=======
   background-color: transparentize($primary, 0.3);
   height: 100vh;
->>>>>>> video:app/assets/stylesheets/styles/user.scss
 }
 
 .profilePage {
@@ -157,26 +101,6 @@ ul.button-group.even-1 {
   }
 }
 
-<<<<<<< HEAD:app/assets/stylesheets/styles/layout-alt.scss
-#new-trip-button {
-  float: left;
-  width: 15%;
-}
-
-.hideMe {
-  display: none;
-}
-
-
-
-ul.right li.login-form {
-  background-color: black;
-}
-
-a.button {
-  // background-color: $purple;
-=======
 li {
   list-style-type: none;
->>>>>>> video:app/assets/stylesheets/styles/user.scss
 }
