@@ -77,8 +77,6 @@ ActiveRecord::Schema.define(version: 20150919034318) do
     t.string   "hometown"
     t.string   "favorite_place"
     t.boolean  "show_city"
-    t.string   "image_uid"
-    t.string   "image_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
