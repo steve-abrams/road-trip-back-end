@@ -108,7 +108,7 @@ class TripsController < ApplicationController
 
   def destroy
     if Trip.find(params[:id]).destroy
-      redirect_to user_trips_path(current_user.id)
+      redirect_to root_path
     else
       render :show
     end
