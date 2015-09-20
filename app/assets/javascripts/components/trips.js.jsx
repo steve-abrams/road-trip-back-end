@@ -14,6 +14,13 @@
 //   '12': "December"
 // }
 
+var eventIcons = {
+  'restaurant': 'fa fa-cutlery',
+  'lodging': 'fa fa-bed',
+  'museum': 'fa fa-institution',
+  'gas_station': 'fa fa-car',
+}
+
 var NewBlogPost = React.createClass({
   getInitialState: function(){
     return {lat: 0, long: 0}
@@ -255,6 +262,7 @@ var Activities = React.createClass({
           <div id='loclat' className='hidden'>{this.state.lat}</div>
           <div id='loclong' className='hidden'>{this.state.long}</div>
           <div id='destinationid' className='hidden'></div>
+          <div id='category' className='hidden'></div>
         </div>
         <div className='large-4 columns'>
           <label for="range">Distance (Miles)</label>
@@ -302,7 +310,14 @@ var Destination = React.createClass({
   },
   render: function () {
     var eventList = this.props.events.map(function (e) {
-      return (<div><p>{e.name}</p><a onClick={this.getInfo.bind(this, e.place_id)}>More Info</a></div>)
+      return (<div className="eventlisting">
+          <p>
+            <i className={eventIcons[e.category]}></i>&nbsp;&nbsp;
+            {e.name}&nbsp;&nbsp;
+            <a onClick={this.getInfo.bind(this, e.place_id)}>More Info </a>&nbsp;
+            <i className="fa fa-close right"></i>&nbsp;
+          </p>
+        </div>)
     }, this)
     return (
       <div>
@@ -323,6 +338,7 @@ var PlacesForm = React.createClass({
     var lat = $('#loclat').html();
     var lng = $('#loclong').html();
     var range = $('#range').val();
+    $('#category').html(category)
     $.get('/find_places?lat='+lat+'&lng='+lng+'&range='+range+'&category='+category, function(results){
       if(this.isMounted()){
         console.log(results);
@@ -339,10 +355,10 @@ var PlacesForm = React.createClass({
           <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "restaurant", "500")}>
             <label>Food</label>
           </a>
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "hotels", "500")}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "lodging", "500")}>
             <label>Hotels</label>
           </a>
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "biking", "500")}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "museum", "500")}>
             <label>Activities</label>
           </a>
         </div>
@@ -368,9 +384,10 @@ var PlacesResults = React.createClass({
       }
     }.bind(this))
   },
-  saveActivity: function (placeId, name) {
+  saveEvent: function (placeId, name) {
     var destinationId = $('#destinationid').html();
-    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name, function(results){
+    var category = $('#category').html();
+    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name+"&event[category]="+category, function(results){
       if(this.isMounted()){
         console.log(results);
         this.setState({
@@ -383,7 +400,7 @@ var PlacesResults = React.createClass({
     if (this.props.results.data){
       var listings = this.props.results.data.results.map(function (result) {
         return (<div className="row">
-            <button type='submit' onClick={this.saveActivity.bind(this, result.place_id, result.name)} className="button tiny success left">Save</button>
+            <button type='submit' onClick={this.saveEvent.bind(this, result.place_id, result.name)} className="button tiny success left">Save</button>
             <button type='submit' onClick={this.getInfo.bind(this, result.place_id)} className="button tiny info left">More Info</button>
             <h3 className="left">{result.name}</h3>
           </div>);
