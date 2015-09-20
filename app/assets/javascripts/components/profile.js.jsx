@@ -272,7 +272,7 @@ var TripFront = React.createClass({
       <div className={this.props.data.finished ? "finished" : undefined}>
         <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
           <img src="http://www.usnews.com/dims4/USNEWS/e4ce14a/2147483647/resize/652x%3E/quality/85/?url=%2Fcmsmedia%2F2e%2Fc1%2F90572c4e46c997c90ff60b17be58%2F140624-summerroadtrip-stock.jpg" alt=""></img>
-          <p className="trip-name">{this.props.data.name}, ( {this.props.data.finished ? "finished" : ""} )</p>
+          <p className="trip-name">{this.props.data.finished ? this.props.data.name + " (finished)" : this.props.data.name}</p>
         </a>
         <div className="small-centered small-12 columns edit-gear">
           <a onClick={this.props.flip}><span className="fi-widget"></span></a>

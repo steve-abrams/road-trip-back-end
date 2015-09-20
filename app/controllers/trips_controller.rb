@@ -38,9 +38,7 @@ class TripsController < ApplicationController
   def finished
     @trip = Trip.find(params[:id])
     @trip.finished = !@trip.finished
-    if @trip.update(trip_params)
-      render :json => {:data => @trip}
-    end
+    @trip.save
   end
 
   def create
