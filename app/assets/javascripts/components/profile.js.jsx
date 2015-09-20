@@ -54,7 +54,7 @@ var ProfileInfo = React.createClass({
   render: function () {
     return (
       <div>
-        <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
+        <img className="profile-pic" src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
         <h2>Hello, {this.props.name}!</h2>
         <p> Miles Traveled&#58; 1,204 </p>
         <p> Trips Taken&#58; 3 </p>
@@ -111,60 +111,60 @@ var EditProfileInfo = React.createClass({
   }
 })
 
+//
+// var NewTripButton = React.createClass({
+//   getInitialState: function() {
+//     return { showResults: false };
+//   },
+//   toggleForm: function() {
+//     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
+//   },
+//   render: function () {
+//     return (
+//       <div>
+//         <button id="new-trip-button" className='new-trip button tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
+//         { this.state.showResults ? <NewTripForm /> : null }
+//       </div>
+//     )
+//   }
+// })
 
 var NewTripButton = React.createClass({
-  getInitialState: function() {
-    return { showResults: false };
-  },
-  toggleForm: function() {
-    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-  },
-  render: function () {
-    return (
-      <div>
-        <button id="new-trip-button" className='new-trip button tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
-        { this.state.showResults ? <NewTripForm /> : null }
-      </div>
-    )
-  }
-})
+	handleClick: function(e){
+		if(e && typeof e.preventDefault == 'function') {
+			e.preventDefault();
+		}
+		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
+		var reveal = $('<div class="reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
+		$(reveal).foundation().foundation('reveal', 'open');
+		$(reveal).bind('closed.fndtn.reveal', function(e){
+      React.unmountComponentAtNode(this);
+    });
 
+		if(React.isValidElement(this.props.revealContent)) {
+			React.render(this.props.revealContent, $('#modal')[0]);
+		}
+		else {
+			$('#modal').append(this.props.revealContent);
+		}
+	},
+	render: function(){
+		return (
+			<div>
+      <button class='new-trip button tiny' onClick={this.handleClick}><span className='fi-plus'></span> Create New Trip</button>
+			</div>
+		);
+	}
+});
 
-var NewTripForm = React.createClass({
-  render: function () {
-    return (
-      <div>
-        <form method="post" action={'/users/'+window.location.pathname.split('/')[2]+'/trips'}>
-          <div className="row">
-            <div className="small-8">
-              <div className="row">
-              <div className="small-9 columns">
-                <input name="trip[name]" type="text" id="right-label" placeholder="Trip name" />
-              </div>
-              <div className="small-6 columns">
-                <input name="trip[start_location_city]" type="text" id="right-label" placeholder="Starting City" />
-              </div>
-              <div className="small-3 columns">
-                <input name="trip[start_location_state]" type="text" id="right-label" placeholder="Starting State" />
-              </div>
-              <div className="small-6 columns">
-                <input name="trip[end_location_city]" type="text" id="right-label" placeholder="Ending City" />
-              </div>
-              <div className="small-3 columns">
-                <input name="trip[end_location_state]" type="text" id="right-label" placeholder="Ending State" />
-              </div>
-              <div className="small-9 columns">
-                <input className="button tiny" type="submit" value="Create Trip"/>
-              </div>
+//
+// var NewTripForm = React.createClass({
+//   render: function () {
+//     return (
 
-            </div>
-          </div>
-        </div>
-      </form>
-      </div>
-    )
-  }
-})
+//     )
+//   }
+// })
 
 
 var GetTiles = React.createClass({
@@ -252,7 +252,7 @@ var TripFront = React.createClass({
   render: function () {
     return (
       <div><a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeyuoh_rxsx6d2_XTYo0SyorCaBJUAAH1m_58wqEgqn-G46oeE" alt=""></img>
+        <img src="http://www.usnews.com/dims4/USNEWS/e4ce14a/2147483647/resize/652x%3E/quality/85/?url=%2Fcmsmedia%2F2e%2Fc1%2F90572c4e46c997c90ff60b17be58%2F140624-summerroadtrip-stock.jpg" alt=""></img>
         <p className="trip-name">{this.props.data.name}</p></a>
         <div className="small-centered small-12 columns edit-gear">
           <a onClick={this.props.flip}><span className="fi-widget"></span></a>
@@ -300,6 +300,11 @@ var TripBack = React.createClass({
     )
   }
 })
+
+
+
+
+
     // ******** Went in the edit profile page, not sure if we wanted favorite place **********
     // <div className="row">
     //   <div className="large-12 small-centered columns">

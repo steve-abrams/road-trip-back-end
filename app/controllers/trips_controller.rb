@@ -59,16 +59,12 @@ class TripsController < ApplicationController
 
     @trip = Trip.new(trip_params)
     @trip.user_id = current_user.id
-    @trip.start_location = start_location_city + start_location_state
-    @trip.end_location = end_location_city + end_location_state
+    @trip.start_location = start_location_city + ", " + start_location_state
+    @trip.end_location = end_location_city + ", " +  end_location_state
     @trip.start_location_lat = res1["results"][0]["geometry"]["location"]["lat"]
     @trip.start_location_lng = res1["results"][0]["geometry"]["location"]["lng"]
     @trip.end_location_lat = res2["results"][0]["geometry"]["location"]["lat"]
     @trip.end_location_lng = res2["results"][0]["geometry"]["location"]["lng"]
-    p'================================================'
-    p res1["results"][0]["place_id"]
-    p res2["results"][0]["place_id"]
-    p'================================================'
     @trip.start_place_id = res1["results"][0]["place_id"]
     @trip.end_place_id = res2["results"][0]["place_id"]
     if @trip.save
