@@ -239,10 +239,8 @@ var TripTile = React.createClass({
   render: function () {
     return (
       <li>
-
         {this.state.flipped ? <TripFront flip={this.flipTrip} key={this.props.key} ref={this.props.ref} data={this.props.data} /> :
                               <TripBack flip={this.flipTrip} key={this.props.key} ref={this.props.ref} data={this.props.data} />}
-
       </li>
     )
   }

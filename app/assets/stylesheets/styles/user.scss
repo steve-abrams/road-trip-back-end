@@ -95,6 +95,9 @@ ul.polaroids {
     display: inline-block;
     vertical-align: top;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
+    span{
+      color: $primary;
+    }
   }
   li:hover {
     -webkit-transition: -webkit-transform .15s linear;
