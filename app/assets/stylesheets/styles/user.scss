@@ -1,9 +1,8 @@
-$secondary: #008CBA;
 $white: #F4FFF8;
-$trueWhite: #FFFFFF;
-$primary-color: rebeccapurple;
-$primary: #000000;
-$purple: red;
+$primary-color: #45233C;
+$primary: #78586F;
+$secondary-color: #7B9EA8;
+$black: #666;
 
 // *********************
 // ******User***********
@@ -14,11 +13,14 @@ $purple: red;
   text-align: center;
   background-color: transparentize($primary, 0.3);
   height: 100vh;
+  ul.tabs li.tab-title a {
+    color: $black;
+  }
 }
 
 .profilePage {
   background-color: rgb(220, 238, 8);
-  background-image: url('http://www.urbansplatter.com/wp-content/uploads/2014/08/denver-night-cityscape-4-12.jpg');
+  background-image: url('https://images.unsplash.com/photo-1424746219973-8fe3bd07d8e3?q=80&fm=jpg&s=69c2c4804c5892bd8f882afa7ee4e003');
   background-repeat: no-repeat;
   background-size: cover;
   background-color: transparentize($primary, 0.6);
@@ -36,7 +38,7 @@ $purple: red;
   padding: 0;
   margin-top: 5%;
   & h2 {
-    color: $primary-color;
+    color: $primary;
   }
   .edit-pencil{
     z-index: 20;
@@ -55,9 +57,13 @@ $purple: red;
 .edit-gear {
   text-align: center;
   font-size: 1.4em;
-  a {
+  a span {
+    color: $primary;
     padding-left: 5px;
     padding-right:5px;
+  }
+  a span:hover {
+    color: $secondary-color;
   }
   & span:hover {
     color: blue;
@@ -121,4 +127,15 @@ ul.button-group.even-1 {
 
 li {
   list-style-type: none;
+}
+
+.reveal-modal {
+  width: 30%;
+  h1 {
+    color: $primary;
+  }
+}
+
+span.prefix {
+  color: $primary
 }

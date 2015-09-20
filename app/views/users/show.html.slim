@@ -5,3 +5,22 @@
     .trips
       =react_component('NewTripButton')
       =react_component('GetTiles')
+div.hideMe
+  div#modal
+    h1 New Trip
+    form action='/users/#{@user.id}/trips' method="post"
+      .row
+        .small-12
+          .row
+            .small-12.columns
+              input#right-label name="trip[name]" placeholder=("Trip name") type="text" /
+            .small-8.columns
+              input#right-label name="trip[start_location_city]" placeholder=("Starting City") type="text" /
+            .small-4.columns
+              input#right-label name="trip[start_location_state]" placeholder=("Starting State") type="text" /
+            .small-8.columns
+              input#right-label name="trip[end_location_city]" placeholder=("Ending City") type="text" /
+            .small-4.columns
+              input#right-label name="trip[end_location_state]" placeholder=("Ending State") type="text" /
+            .small-12.columns
+              input.button.tiny type="submit" value=("Create Trip") /
