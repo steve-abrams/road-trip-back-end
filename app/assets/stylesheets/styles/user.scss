@@ -3,6 +3,7 @@ $primary-color: #45233C;
 $primary: #78586F;
 $secondary-color: #7B9EA8;
 $black: #666;
+$third: #BCEBCB;
 
 // *********************
 // ******User***********
@@ -95,6 +96,9 @@ ul.polaroids {
     display: inline-block;
     vertical-align: top;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
+    span{
+      color: $primary;
+    }
   }
   li:hover {
     -webkit-transition: -webkit-transform .15s linear;
@@ -138,4 +142,8 @@ li {
 
 span.prefix {
   color: $primary
+}
+
+.finished {
+  background: $third;
 }
