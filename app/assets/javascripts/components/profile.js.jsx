@@ -71,7 +71,7 @@ var EditProfileInfo = React.createClass({
     return (
         <div>
           <div className="small-12">
-            <img className="profile-pic" src="http://onlyinark.com/wp-content/uploads/2015/05/IMG_8270-1024x1024.jpg" alt=""></img>
+            <img className="profile-pic" src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
             <br></br>
             <a href="#" className="medium"><i className="fi-camera"></i></a>
           </div>
