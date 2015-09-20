@@ -314,7 +314,7 @@ var Destination = React.createClass({
           <p>
             <i className={eventIcons[e.category]}></i>&nbsp;&nbsp;
             {e.name}&nbsp;&nbsp;
-            <a onClick={this.getInfo.bind(this, e.place_id)}>More Info </a>&nbsp;
+            <MoreInfoModalButton placeid={e.place_id}/>
             <i className="fa fa-close right"></i>&nbsp;
           </p>
         </div>)
@@ -401,7 +401,7 @@ var PlacesResults = React.createClass({
       var listings = this.props.results.data.results.map(function (result) {
         return (<div className="row">
             <button type='submit' onClick={this.saveEvent.bind(this, result.place_id, result.name)} className="button tiny success left">Save</button>
-            <button type='submit' onClick={this.getInfo.bind(this, result.place_id)} className="button tiny info left">More Info</button>
+            <MoreInfoModalButton placeid={result.place_id}/>
             <h3 className="left">{result.name}</h3>
           </div>);
       }, this);
@@ -413,3 +413,48 @@ var PlacesResults = React.createClass({
     )
   }
 })
+
+var MoreInfoModalButton = React.createClass({
+  getInitialState: function () {
+    return ({
+      info: ''
+    })
+  },
+  getInfo: function (placeId) {
+    $.get("/show_info?place_id="+placeId, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+      }
+    }.bind(this))
+  },
+	handleClick: function(e){
+    this.getInfo(this.props.placeid)
+		if(e && typeof e.preventDefault == 'function') {
+			e.preventDefault();
+		}
+		var contentDiv = $("<div><h1>HELLO</h1><p>"+this.state.info+"</p></div>");
+		var anchor = $('<a class="close-reveal-modal">&#215;</a>');   
+		var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
+		$(reveal).foundation().foundation('reveal', 'open');
+		$(reveal).bind('closed.fndtn.reveal', function(e){
+      React.unmountComponentAtNode(this);
+    });
+
+		if(React.isValidElement(this.props.revealContent)) {
+			React.render(this.props.revealContent, $(contentDiv)[0]);
+		}
+		else {
+			$(contentDiv).append(this.props.revealContent);
+		}
+	},
+	render: function(){
+		return (
+			<div>
+        <button onClick={this.handleClick} className="button tiny info">More Info</button>
+			</div>
+		);
+	}
+});
