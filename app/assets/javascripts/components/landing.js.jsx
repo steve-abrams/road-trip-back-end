@@ -96,7 +96,9 @@ var ModalBitches = React.createClass({
 		if(e && typeof e.preventDefault == 'function') {
 			e.preventDefault();
 		}
-		var contentDiv = $('<div><h1<HELLO</h1></div>');
+		var contentDiv = $('<div>'+{SignUpForm}+'</div>');
+    console.log(SignUpForm)
+    console.log(contentDiv)
 		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
 		var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
 		$(reveal).foundation().foundation('reveal', 'open');
