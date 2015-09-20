@@ -2,19 +2,33 @@ var SettingsButtons = React.createClass({
   getInitialState: function() {
     return { showResults: true,
               name: "",
-              hometown: "",
-              favoriteloc: ""};
+              hometown_city: "",
+              hometown_state: "",
+              favoriteloc: "",
+              trips: ""};
   },
   componentDidMount: function(){
+      $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
+        if(this.isMounted()){
+          var finishedTrips = results.filter(function (trip) {
+            return trip.finished
+          })
+          this.setState({
+            trips: finishedTrips.length
+          })
+        }
+      }.bind(this));
       $.get('/users/' + window.location.pathname.split('/')[2] + '.json', function(results){
         console.log(results);
           if(this.isMounted()){
             var name = results.name.charAt(0).toUpperCase() + results.name.substring(1).toLowerCase()
-            var hometown = results.hometown
+            var hometown_city = results.hometown_city
+            var hometown_state = results.hometown_state
             var favoriteloc = results.favorite_place
             this.setState({
               name: name,
-              hometown: hometown,
+              hometown_city: hometown_city,
+              hometown_state: hometown_state,
               favoriteloc: favoriteloc,
             })
           }
@@ -25,11 +39,12 @@ var SettingsButtons = React.createClass({
   },
   doStuff: function () {
     var name = $("#editName").val()
-    var hometown = $('#editHometown').val()
+    var hometown_city = $('#editHometown_city').val()
+    var hometown_state = $('#editHometown_state').val()
     // var favoriteloc = $('#editFavoritePlace').val()
     // Removed from the post params, not sure if we are using it
     // 'user[favorite_place]': favoriteloc,
-    $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown]': hometown, "_method": "patch"})
+    $.post('/users/' + window.location.pathname.split('/')[2], {'user[name]': name, 'user[hometown_city]': hometown_city, 'user[hometown_state]': hometown_state, "_method": "patch"})
       .done(function (data) {
       })
       this.componentDidMount()
@@ -42,8 +57,8 @@ var SettingsButtons = React.createClass({
           <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
         </div>
         <div className="small-12 columns">
-          {this.state.showResults ? <ProfileInfo name={this.state.name} hometown={this.state.hometown} /> :
-          <EditProfileInfo onClick={this.doStuff} name={this.state.name} hometown={this.state.hometown} /> }
+          {this.state.showResults ? <ProfileInfo name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> :
+          <EditProfileInfo onClick={this.doStuff} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> }
         </div>
       </div>
     )
@@ -57,8 +72,8 @@ var ProfileInfo = React.createClass({
         <img className="profile-pic" src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
         <h2>Hello, {this.props.name}!</h2>
         <p> Miles Traveled&#58; 1,204 </p>
-        <p> Trips Taken&#58; 3 </p>
-        <p> Hometown&#58; {this.props.hometown}</p>
+        <p> Trips Taken&#58; {this.props.trips} </p>
+        <p> Hometown&#58; {this.props.hometown_city}, {this.props.hometown_state}</p>
       </div>
     )
   }
@@ -82,7 +97,7 @@ var EditProfileInfo = React.createClass({
                     <span href="#" className="prefix">Name</span>
                 </div>
                 <div className="small-9 columns">
-                  <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
+                  <input  id='editName' type="text" value={this.props.name} name="user[name]"/>
                 </div>
               </div>
             </div>
@@ -90,11 +105,14 @@ var EditProfileInfo = React.createClass({
         <div className="row">
           <div className="large-12 small-centered columns">
             <div className="row collapse">
-              <div className="small-5 columns">
+              <div className="small-12 columns">
                   <span href="#" className="prefix">Hometown</span>
               </div>
               <div className="small-7 columns">
-                <input  id='editHometown' type="text" placeholder={this.props.hometown} name="user[hometown]"/>
+                <input  id='editHometown_city' type="text" value={this.props.hometown_city} placeholder="City" name="user[hometown]"/>
+              </div>
+              <div className="small-5 columns">
+                <input  id='editHometown_state' type="text" value={this.props.hometown_state} placeholder="State" name="user[hometown]"/>
               </div>
             </div>
           </div>
@@ -249,9 +267,11 @@ var TripTile = React.createClass({
 var TripFront = React.createClass({
   render: function () {
     return (
-      <div><a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
-        <img src="http://www.usnews.com/dims4/USNEWS/e4ce14a/2147483647/resize/652x%3E/quality/85/?url=%2Fcmsmedia%2F2e%2Fc1%2F90572c4e46c997c90ff60b17be58%2F140624-summerroadtrip-stock.jpg" alt=""></img>
-        <p className="trip-name">{this.props.data.name}</p></a>
+      <div className={this.props.data.finished ? "finished" : undefined}>
+        <a href={'/users/'+ window.location.pathname.split('/')[2]+'/trips/' + this.props.data.id }>
+          <img src="http://www.usnews.com/dims4/USNEWS/e4ce14a/2147483647/resize/652x%3E/quality/85/?url=%2Fcmsmedia%2F2e%2Fc1%2F90572c4e46c997c90ff60b17be58%2F140624-summerroadtrip-stock.jpg" alt=""></img>
+          <p className="trip-name">{this.props.data.finished ? this.props.data.name + " (finished)" : this.props.data.name}</p>
+        </a>
         <div className="small-centered small-12 columns edit-gear">
           <a onClick={this.props.flip}><span className="fi-widget"></span></a>
           <a href="#"><span className="fi-camera"></span></a>

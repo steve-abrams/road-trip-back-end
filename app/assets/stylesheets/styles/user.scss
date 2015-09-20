@@ -3,6 +3,7 @@ $primary-color: #45233C;
 $primary: #78586F;
 $secondary-color: #7B9EA8;
 $black: #666;
+$third: #BCEBCB;
 
 // *********************
 // ******User***********
@@ -141,4 +142,8 @@ li {
 
 span.prefix {
   color: $primary
+}
+
+.finished {
+  background: $third;
 }
