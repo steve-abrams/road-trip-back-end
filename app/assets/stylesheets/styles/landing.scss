@@ -1,10 +1,8 @@
-$secondary: #008CBA;
 $white: #F4FFF8;
-$trueWhite: #FFFFFF;
-$primary-color: rebeccapurple;
-$primary: #000000;
-$purple: red;
-
+$primary-color: #45233C;
+$primary: #78586F;
+$secondary-color: #7B9EA8;
+$black: #666;
 // *********************
 // ******Landing********
 // *********************
@@ -25,7 +23,7 @@ video {
   padding-top: 40px;
   padding-bottom: 10px;
   box-shadow: 0 0 5px 20px rgba(black, 0.2);
-  background-color: rgba($primary, 0.85);
+  background-color: rgba($secondary-color, 0.85);
   color: $white;
   & a {
     font-size: 1.5em;
@@ -55,5 +53,5 @@ video {
 }
 
 ul.right li.login-form {
-  background-color: black;
+  background-color: $secondary-color;
 }
