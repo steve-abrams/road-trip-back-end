@@ -15,9 +15,9 @@ div.hideMe
             .small-12.columns
               input#right-label name="trip[name]" placeholder=("Trip name") type="text" /
             .small-8.columns
-              input#right-label name="trip[start_location_city]" placeholder=("Starting City") type="text" /
+              input#right-label name="trip[start_location_city]" value=("#{@user.hometown_city}") placeholder=("Starting City") type="text" /
             .small-4.columns
-              input#right-label name="trip[start_location_state]" placeholder=("Starting State") type="text" /
+              input#right-label name="trip[start_location_state]" value=("#{@user.hometown_state}") placeholder=("Starting State") type="text" /
             .small-8.columns
               input#right-label name="trip[end_location_city]" placeholder=("Ending City") type="text" /
             .small-4.columns

@@ -35,6 +35,12 @@ class TripsController < ApplicationController
     render :json => {:data => res1}
   end
 
+  def finished
+    @trip = Trip.find(params[:id])
+    @trip.finished = !@trip.finished
+    @trip.save
+  end
+
   def create
     start_location_city = params[:trip][:start_location_city]
     start_location_state = params[:trip][:start_location_state]
@@ -86,9 +92,6 @@ class TripsController < ApplicationController
     end
   end
 
-
-
-
   def edit
     @trip = Trip.find(params[:id])
   end
@@ -110,8 +113,10 @@ class TripsController < ApplicationController
     end
   end
 
+  private
+
   def trip_params
-    params.require(:trip).permit(:name, :start_location, :end_location, :start_date, :end_date, :start_place_id, :end_place_id)
+    params.require(:trip).permit(:name, :start_location, :end_location, :start_date, :end_date, :start_place_id, :end_place_id, :finished)
   end
 
 end
