@@ -1,14 +1,53 @@
-$secondary: #008CBA;
 $white: #F4FFF8;
-$trueWhite: #FFFFFF;
-$primary-color: rebeccapurple;
-$primary: #000000;
-$purple: red;
+$primary-color: #45233C;
+$primary: #78586F;
+$secondary-color: #7B9EA8;
+$black: #666;
 
 // *********************
 // ******Trip********
 // *********************
+h1, h2, h3, h4, h5, h6{
+  color: $white;
+}
+.fa-close{
+  cursor: pointer;
+}
+.row{
+  display: block;
+}
+.clear{
+  clear:both;
+}
+.itinerarylisting{
+    color: $secondary-color;
+}
+.destination{
+  cursor: pointer;
+}
+.destination:hover{
+  color: $secondary-color;
+}
+.eventlisting{
+text-align: left;
+}
+.inline{
+  display: inline;
+}
 
+.placesresult{
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid grey;
+  button{
+    margin-top: 15px;
+  }
+}
+.searchresultlistings{
+  overflow-y: scroll;
+  max-height: 500px;
+}
 .display-posts {
   overflow: scroll;
   height: 90%;

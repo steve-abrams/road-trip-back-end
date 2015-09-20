@@ -12,10 +12,15 @@ class EventsController < ApplicationController
     end
   end
 
+  def destroy
+    Event.find(params[:id]).destroy
+    render :json => {:data => "deleted"}
+  end
+
   private
 
   def event_params
-    params.require(:event).permit(:name, :place_id, :destination_id, :trip_id)
+    params.require(:event).permit(:name, :place_id, :destination_id, :trip_id, :category)
   end
 
 end

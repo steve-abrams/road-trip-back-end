@@ -14,6 +14,13 @@
 //   '12': "December"
 // }
 
+var eventIcons = {
+  'restaurant': 'fa fa-cutlery',
+  'lodging': 'fa fa-bed',
+  'museum': 'fa fa-institution',
+  'gas_station': 'fa fa-car',
+}
+
 var NewBlogPost = React.createClass({
   getInitialState: function(){
     return {lat: 0, long: 0}
@@ -189,10 +196,10 @@ var Itinerary = React.createClass({
       <div>
         <h1>{trip.name}</h1>
         <h3>Started in {trip.start_location}</h3>
-        <h3>Ended in {trip.end_location}</h3>
         {this.state.destinations.map(function (e) {
-          return (<Destination name={e.name} events={e.events} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          return (<ItineraryListing name={e.name} events={e.events} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
+        <h3>Ended in {trip.end_location}</h3>
       </div>
     )
   }
@@ -255,6 +262,7 @@ var Activities = React.createClass({
           <div id='loclat' className='hidden'>{this.state.lat}</div>
           <div id='loclong' className='hidden'>{this.state.long}</div>
           <div id='destinationid' className='hidden'></div>
+          <div id='category' className='hidden'></div>
         </div>
         <div className='large-4 columns'>
           <label for="range">Distance (Miles)</label>
@@ -290,6 +298,29 @@ var Destination = React.createClass({
     $('#destinationid').html(this.props.destinationid)
     this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
   },
+  render: function () {
+    return (
+      <div>
+        <h3 className='destination' onClick={this.onClick}>{this.props.name}</h3>
+      </div>
+    )
+  }
+})
+
+
+var ItineraryListing = React.createClass({
+  getInitialState: function () {
+    return {
+      togglePlacesForm: false,
+      info: ''
+    }
+  },
+  onClick: function() {
+    $('#loclat').html(this.props.lat)
+    $('#loclong').html(this.props.lng)
+    $('#destinationid').html(this.props.destinationid)
+    this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
+  },
   getInfo: function (placeId) {
     $.get("/show_info?place_id="+placeId, function(results){
       if(this.isMounted()){
@@ -300,13 +331,28 @@ var Destination = React.createClass({
       }
     }.bind(this))
   },
+  deleteEvent: function (id) {
+    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+this.props.destinationid  +"/events/"+id, function(results){
+    });
+  },
   render: function () {
     var eventList = this.props.events.map(function (e) {
-      return (<div><p>{e.name}</p><a onClick={this.getInfo.bind(this, e.place_id)}>More Info</a></div>)
+      return (<div className="eventlisting">
+                <div className="large-7 columns">
+                  <i className={eventIcons[e.category]}></i>&nbsp;&nbsp;
+                  {e.name}&nbsp;&nbsp;
+                </div>
+                <div className="large-3 columns">
+                  <MoreInfoModalButton className="inline" placeid={e.place_id}/>
+                </div>
+                <div className="large-2 columns">
+                  <i onClick={this.deleteEvent.bind(this, e.id)} className="fa fa-close right"></i>&nbsp;
+                </div>
+              </div>)
     }, this)
     return (
-      <div>
-        <h3 className='destination' onClick={this.onClick}>{this.props.name}</h3>
+      <div className='row clear'>
+        <h3 className='itinerarylisting' onClick={this.onClick}>{this.props.name}</h3>
         {eventList}
       </div>
     )
@@ -323,6 +369,7 @@ var PlacesForm = React.createClass({
     var lat = $('#loclat').html();
     var lng = $('#loclong').html();
     var range = $('#range').val();
+    $('#category').html(category)
     $.get('/find_places?lat='+lat+'&lng='+lng+'&range='+range+'&category='+category, function(results){
       if(this.isMounted()){
         console.log(results);
@@ -339,10 +386,10 @@ var PlacesForm = React.createClass({
           <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "restaurant", "500")}>
             <label>Food</label>
           </a>
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "hotels", "500")}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "lodging", "500")}>
             <label>Hotels</label>
           </a>
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "biking", "500")}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "museum", "500")}>
             <label>Activities</label>
           </a>
         </div>
@@ -368,9 +415,10 @@ var PlacesResults = React.createClass({
       }
     }.bind(this))
   },
-  saveActivity: function (placeId, name) {
+  saveEvent: function (placeId, name) {
     var destinationId = $('#destinationid').html();
-    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name, function(results){
+    var category = $('#category').html();
+    $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name+"&event[category]="+category, function(results){
       if(this.isMounted()){
         console.log(results);
         this.setState({
@@ -382,17 +430,66 @@ var PlacesResults = React.createClass({
   render: function () {
     if (this.props.results.data){
       var listings = this.props.results.data.results.map(function (result) {
-        return (<div className="row">
-            <button type='submit' onClick={this.saveActivity.bind(this, result.place_id, result.name)} className="button tiny success left">Save</button>
-            <button type='submit' onClick={this.getInfo.bind(this, result.place_id)} className="button tiny info left">More Info</button>
-            <h3 className="left">{result.name}</h3>
-          </div>);
+        return (<div className="placesresult clear">
+                  <div className="large-7 columns">
+                    <button type='submit' onClick={this.saveEvent.bind(this, result.place_id, result.name)} className="button tiny success">Save</button>
+                    <MoreInfoModalButton className="inline" placeid={result.place_id}/>
+                  </div>
+                  <div className="large-5 columns">
+                    <h5 className="inline">{result.name}</h5>
+                  </div>
+                </div>);
       }, this);
     }
     return (
-      <div>
+      <div className="searchresultlistings">
         {listings}
       </div>
     )
   }
 })
+
+var MoreInfoModalButton = React.createClass({
+  getInitialState: function () {
+    return ({
+      info: ''
+    })
+  },
+  getInfo: function (placeId) {
+    $.get("/show_info?place_id="+placeId, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+      }
+    }.bind(this))
+  },
+	handleClick: function(e){
+    this.getInfo(this.props.placeid)
+		if(e && typeof e.preventDefault == 'function') {
+			e.preventDefault();
+		}
+		var contentDiv = $("<div><h1>HELLO</h1><p>"+this.state.info+"</p></div>");
+		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
+		var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
+		$(reveal).foundation().foundation('reveal', 'open');
+		$(reveal).bind('closed.fndtn.reveal', function(e){
+      React.unmountComponentAtNode(this);
+    });
+
+		if(React.isValidElement(this.props.revealContent)) {
+			React.render(this.props.revealContent, $(contentDiv)[0]);
+		}
+		else {
+			$(contentDiv).append(this.props.revealContent);
+		}
+	},
+	render: function(){
+		return (
+			<div className="inline">
+        <button onClick={this.handleClick} className="button tiny info">More Info</button>
+			</div>
+		);
+	}
+});

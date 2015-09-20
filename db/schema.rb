@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150919034318) do
+ActiveRecord::Schema.define(version: 20150920151343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,18 +29,17 @@ ActiveRecord::Schema.define(version: 20150919034318) do
     t.string  "name"
     t.integer "destination_id"
     t.integer "trip_id"
+    t.string  "category"
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string   "title"
-    t.date     "date"
-    t.string   "content"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "trip_id"
-    t.integer  "user_id"
-    t.float    "latitude"
-    t.float    "longitude"
+    t.string  "title"
+    t.date    "date"
+    t.string  "content"
+    t.integer "trip_id"
+    t.integer "user_id"
+    t.float   "latitude"
+    t.float   "longitude"
   end
 
   create_table "trips", force: :cascade do |t|
