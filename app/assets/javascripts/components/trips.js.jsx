@@ -163,6 +163,9 @@ var Itinerary = React.createClass({
     }
   },
   componentDidMount: function(){
+    this.getTripInfo();
+  },
+  getTripInfo: function () {
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
         // var start_atts = results.start_date.split("-")
@@ -193,11 +196,11 @@ var Itinerary = React.createClass({
     // This date was showing below h3 Ended In
     // <h3>{this.state.start_date} to {this.state.end_date}</h3>
     return (
-      <div>
+      <div className="itinerary">
         <h1>{trip.name}</h1>
         <h3>Started in {trip.start_location}</h3>
         {this.state.destinations.map(function (e) {
-          return (<ItineraryListing name={e.name} events={e.events} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          return (<ItineraryListing getTripInfo={this.getTripInfo} name={e.name} events={e.events} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
         <h3>Ended in {trip.end_location}</h3>
       </div>
@@ -225,6 +228,9 @@ var Activities = React.createClass({
         })
       }
     }.bind(this))
+    this.getTripInfo();
+  },
+  getTripInfo: function () {
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
         // var start_atts = results.start_date.split("-")
@@ -274,11 +280,11 @@ var Activities = React.createClass({
           </select>
           <button className="small" onClick={this.setLocationHere} >Here & Now</button>
           {this.state.destinations.map(function (e) {
-            return (<Destination name={e.name} events={e.events} destinationid={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+            return (<Destination getTripInfo={this.getTripInfo} name={e.name} events={e.events} destinationid={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
         </div>
         <div className='large-8 columns'>
-          <PlacesForm/>
+          <PlacesForm getTripInfo={this.getTripInfo} />
         </div>
       </div>
     )
@@ -333,7 +339,9 @@ var ItineraryListing = React.createClass({
   },
   deleteEvent: function (id) {
     $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+this.props.destinationid  +"/events/"+id, function(results){
+
     });
+    this.props.getTripInfo();
   },
   render: function () {
     var eventList = this.props.events.map(function (e) {
@@ -393,7 +401,7 @@ var PlacesForm = React.createClass({
             <label>Activities</label>
           </a>
         </div>
-        <PlacesResults results={this.state.searchResults}/>
+        <PlacesResults getTripInfo={this.props.getTripInfo} results={this.state.searchResults}/>
       </div>
     )
   }
@@ -419,8 +427,8 @@ var PlacesResults = React.createClass({
     var destinationId = $('#destinationid').html();
     var category = $('#category').html();
     $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name+"&event[category]="+category, function(results){
+      this.props.getTripInfo();
       if(this.isMounted()){
-        console.log(results);
         this.setState({
           info: results
         })
@@ -456,7 +464,7 @@ var MoreInfoModalButton = React.createClass({
     })
   },
   getInfo: function (placeId) {
-    $.get("/show_info?place_id="+placeId, function(results){
+    return $.get("/show_info?place_id="+placeId, function(results){
       if(this.isMounted()){
         console.log(results);
         this.setState({
@@ -466,24 +474,26 @@ var MoreInfoModalButton = React.createClass({
     }.bind(this))
   },
 	handleClick: function(e){
-    this.getInfo(this.props.placeid)
-		if(e && typeof e.preventDefault == 'function') {
-			e.preventDefault();
-		}
-		var contentDiv = $("<div><h1>HELLO</h1><p>"+this.state.info+"</p></div>");
-		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
-		var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
-		$(reveal).foundation().foundation('reveal', 'open');
-		$(reveal).bind('closed.fndtn.reveal', function(e){
-      React.unmountComponentAtNode(this);
-    });
+    var that = this;
+    this.getInfo(this.props.placeid).then(function (results) {
+      if(e && typeof e.preventDefault == 'function') {
+        e.preventDefault();
+      }
+      var contentDiv = $("<div><h1>HELLO</h1><p>"+this.state.info+"</p></div>");
+      var anchor = $('<a class="close-reveal-modal">&#215;</a>');
+      var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
+      $(reveal).foundation().foundation('reveal', 'open');
+      $(reveal).bind('closed.fndtn.reveal', function(e){
+        React.unmountComponentAtNode(this);
+      });
 
-		if(React.isValidElement(this.props.revealContent)) {
-			React.render(this.props.revealContent, $(contentDiv)[0]);
-		}
-		else {
-			$(contentDiv).append(this.props.revealContent);
-		}
+      if(React.isValidElement(this.props.revealContent)) {
+        React.render(this.props.revealContent, $(contentDiv)[0]);
+      }
+      else {
+        $(contentDiv).append(this.props.revealContent);
+      }
+    }.bind(that))
 	},
 	render: function(){
 		return (
