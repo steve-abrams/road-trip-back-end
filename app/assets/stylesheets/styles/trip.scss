@@ -10,6 +10,14 @@ $black: #666;
 h1, h2, h3, h4, h5, h6{
   color: $white;
 }
+.gasinfo{
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  border-radius: 3px;
+  color: $white;
+  background-color: $primary;
+}
 .moreinfo{
   h1, h2, h3, h4, h5, h6{
     color: $primary-color;

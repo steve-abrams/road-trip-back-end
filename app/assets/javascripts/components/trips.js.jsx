@@ -30,7 +30,7 @@ var NewBlogPost = React.createClass({
       if(this.isMounted()){
         this.setState({
           lat: position.coords.latitude,
-          long: position.coords.latitude
+          long: position.coords.longitude
         })
       }
     }.bind(this))
@@ -152,7 +152,7 @@ var PostComponent = React.createClass({
       if(this.isMounted()){
         this.setState({
           lat: position.coords.latitude,
-          long: position.coords.latitude,
+          long: position.coords.longitude,
         })
       }
     }.bind(this))
@@ -265,7 +265,7 @@ var Activities = React.createClass({
       if(this.isMounted()){
         this.setState({
           lat: position.coords.latitude,
-          long: position.coords.latitude
+          long: position.coords.longitude
         })
       }
     }.bind(this))
