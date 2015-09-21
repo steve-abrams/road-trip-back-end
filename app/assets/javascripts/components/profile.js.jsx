@@ -109,10 +109,10 @@ var EditProfileInfo = React.createClass({
                   <span href="#" className="prefix">Hometown</span>
               </div>
               <div className="small-7 columns">
-                <input  id='editHometown_city' type="text" value={this.props.hometown_city} placeholder="City" name="user[hometown]"/>
+                <input  id='editHometown_city' type="text" placeholder={this.props.hometown_city} placeholder="City" name="user[hometown]"/>
               </div>
               <div className="small-5 columns">
-                <input  id='editHometown_state' type="text" value={this.props.hometown_state} placeholder="State" name="user[hometown]"/>
+                <input  id='editHometown_state' type="text" placeholder={this.props.hometown_state} placeholder="State" name="user[hometown]"/>
               </div>
             </div>
           </div>
