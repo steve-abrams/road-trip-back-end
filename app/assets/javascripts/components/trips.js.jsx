@@ -104,7 +104,7 @@ var NewDestinationForm = React.createClass({
   render: function () {
     return (
       <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/destinations'} method='post'>
-        <input type='hidden' name='_method' value='patch'/>
+        <input type='hidden' name='_method' value='post'/>
         <input type="text" name='destination[name]' placeholder="City, State"/>
         <input type='submit' value='Add Stop' className='button'/>
       </form>
