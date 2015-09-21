@@ -97,7 +97,7 @@ var EditProfileInfo = React.createClass({
                     <span href="#" className="prefix">Name</span>
                 </div>
                 <div className="small-9 columns">
-                  <input  id='editName' type="text" value={this.props.name} name="user[name]"/>
+                  <input  id='editName' type="text" placeholder={this.props.name} name="user[name]"/>
                 </div>
               </div>
             </div>
@@ -128,24 +128,6 @@ var EditProfileInfo = React.createClass({
     )
   }
 })
-
-//
-// var NewTripButton = React.createClass({
-//   getInitialState: function() {
-//     return { showResults: false };
-//   },
-//   toggleForm: function() {
-//     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-//   },
-//   render: function () {
-//     return (
-//       <div>
-//         <button id="new-trip-button" className='new-trip button tiny' onClick={this.toggleForm}><span className='fi-plus'></span> Create New Trip </button>
-//         { this.state.showResults ? <NewTripForm /> : null }
-//       </div>
-//     )
-//   }
-// })
 
 var NewTripButton = React.createClass({
 	handleClick: function(e){
