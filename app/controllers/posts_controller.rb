@@ -21,6 +21,10 @@ class PostsController < ApplicationController
   end
 
   def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to user_trip_path(current_user.id, params[:trip_id])
+    end
   end
 
   def destroy

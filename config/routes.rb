@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get '/show_info' => 'trips#show_info'
   post '/users/:user_id/trips/:trip_id/destinations/:destinations_id/events/:id' => 'events#destroy'
   post 'users/:userId/trips/:id/finished' => 'trips#finished'
+  post '/users/:user_id/trips/:trip_id/posts/:id' => 'posts#update'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
