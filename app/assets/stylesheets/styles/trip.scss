@@ -10,6 +10,14 @@ $black: #666;
 h1, h2, h3, h4, h5, h6{
   color: $white;
 }
+.moreinfo{
+  h1, h2, h3, h4, h5, h6{
+    color: $primary-color;
+  }
+  color: $primary;
+  height: 400px;
+  overflow-y: scroll;
+}
 .fa-close{
   cursor: pointer;
 }

@@ -78,6 +78,8 @@ ActiveRecord::Schema.define(version: 20150920205917) do
     t.string   "name"
     t.string   "favorite_place"
     t.boolean  "show_city"
+    t.string   "image_uid"
+    t.string   "image_name"
     t.string   "hometown_city"
     t.string   "hometown_state"
   end
