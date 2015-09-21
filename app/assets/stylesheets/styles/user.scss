@@ -25,7 +25,6 @@ $third: #BCEBCB;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: transparentize($primary, 0.6);
-  overflow: scroll;
   z-index: 0;
 }
 
@@ -78,7 +77,6 @@ $third: #BCEBCB;
 .trips {
   height: 100%;
   margin-top: 5%;
-  overflow: scroll;
 }
 
 .hideMe {
@@ -88,6 +86,8 @@ $third: #BCEBCB;
 ul.polaroids {
   clear: both;
   display: inline-block;
+  height: 450px;
+  overflow-y: scroll;
   li {
     background-color: $white;
     -webkit-transition: -webkit-transform .15s linear;

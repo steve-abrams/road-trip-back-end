@@ -44,21 +44,17 @@ text-align: left;
     margin-top: 15px;
   }
 }
-.searchresultlistings{
+.searchresultlistings, .itinerary, .display-posts{
   overflow-y: scroll;
-  max-height: 500px;
+  max-height: 450px;
 }
-.display-posts {
-  overflow: scroll;
-  height: 90%;
-  .post-container {
-    h1 {
-      color: $primary;
-    }
+.post-container {
+  h1 {
     color: $primary;
-    background-color: $white;
-    box-shadow: 4px 4px 4px $primary;
   }
+  color: $primary;
+  background-color: $white;
+  box-shadow: 4px 4px 4px $primary;
 }
 
 i {
@@ -81,7 +77,7 @@ i {
 }
 
 .display-posts {
-  overflow: scroll;
+  overflow-y: scroll;
   height: 90%;
   .post-container {
     height: 200px;
