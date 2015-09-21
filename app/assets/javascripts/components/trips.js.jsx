@@ -48,6 +48,24 @@ var NewBlogPost = React.createClass({
   }
 })
 
+
+var EditPost = React.createClass({
+  render: function () {
+    var postTitle = $('editTitle').val()
+    var postContent = $('editContent').val()
+    console.log('this blogs id is', this.props.id)
+    return(
+    <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts/'+ this.props.id} method='post'>
+      <input type="text" id='editTitle'  name='post[title]' placeholder={this.props.title}/>
+      <textarea cols="20" id='editContent' name='post[content]' rows="10" placeholder="What did you do today?">{this.props.content}</textarea>
+      <input type='submit' value='Update' className='button'/>
+    </form>
+    )
+  }
+})
+
+
+
 var newPostButton = React.createClass({
   getInitialState: function() {
     return { showResults: false };
@@ -86,6 +104,7 @@ var NewDestinationForm = React.createClass({
   render: function () {
     return (
       <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/destinations'} method='post'>
+        <input type='hidden' name='_method' value='patch'/>
         <input type="text" name='destination[name]' placeholder="City, State"/>
         <input type='submit' value='Add Stop' className='button'/>
       </form>
@@ -122,18 +141,23 @@ var BlogCarousel = React.createClass({
 
 var PostComponent = React.createClass({
   getInitialState: function(){
-    return {lat: 0, long: 0}
+    return {lat: 0, long: 0, editForm: false}
   },
   componentWillMount: function(){
     navigator.geolocation.getCurrentPosition(function (position) {
       if(this.isMounted()){
         this.setState({
           lat: position.coords.latitude,
-          long: position.coords.latitude
+          long: position.coords.latitude,
         })
       }
     }.bind(this))
   },
+
+  toggleForm: function () {
+    this.state.editForm === true ? this.setState({ editForm: false }) : this.setState({ editForm: true })
+  },
+
   render: function () {
     var data = this.props.data
     var date = data.created_at.split('T')
@@ -141,6 +165,12 @@ var PostComponent = React.createClass({
     var displayDate = (endDate[1].toString() + " " +  endDate[2].toString()+ " " + endDate[0].toString())
     return (
       <div className="post-container">
+        <div>
+            <button className='button tiny' onClick={this.toggleForm}>EDIT</button>
+          {
+            this.state.editForm ? <EditPost className='editPost' key={data.id} id={data.id} title={data.title} content={data.content}/>:""
+          }
+        </div>
         <h1>{data.title}</h1>
         <p>{data.content}</p>
         <p>{displayDate}</p>
@@ -148,6 +178,8 @@ var PostComponent = React.createClass({
     )
   }
 })
+
+
 
 var Itinerary = React.createClass({
   getInitialState: function () {
@@ -489,7 +521,7 @@ var MoreInfoModalButton = React.createClass({
     })
   },
   getInfo: function (placeId) {
-    return $.get("/show_info?place_id="+placeId, function(results){
+    $.get("/show_info?place_id="+placeId, function(results){
       if(this.isMounted()){
         this.setState({
           info: results
@@ -497,27 +529,32 @@ var MoreInfoModalButton = React.createClass({
       }
     }.bind(this))
   },
-	handleClick: function(e){
-    var that = this;
-    this.getInfo(this.props.placeid).then(function (results) {
-      if(e && typeof e.preventDefault == 'function') {
-        e.preventDefault();
-      }
-      var contentDiv = $("<div><h1>HELLO</h1><p>"+this.state.info+"</p></div>");
-      var anchor = $('<a class="close-reveal-modal">&#215;</a>');
-      var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
-      $(reveal).foundation().foundation('reveal', 'open');
-      $(reveal).bind('closed.fndtn.reveal', function(e){
-        React.unmountComponentAtNode(this);
-      });
+	handleClick: function(){
+    $.get("/show_info?place_id="+this.props.placeid, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+    		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
+        var eventInfo = $("<div><h2>Name:</h2><p>"+results.data.result.name+"</p><h3>Address:</h3><p>"+results.data.result.formatted_address+"</p><h3>Phone:</h3><p>"+results.data.result.formatted_phone_number+"</p><h3>Website:</h3><p><a href='"+results.data.result.website+"' target='_blank'>Click Here</a></p></div>");
+        $('#infocontent').html(null);
+        $('#infocontent').append(eventInfo);
+    		var reveal = $('<div class="reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
+    		$(reveal).foundation().foundation('reveal', 'open');
+    		$(reveal).bind('closed.fndtn.reveal', function(e){
+          React.unmountComponentAtNode(this);
+        });
 
-      if(React.isValidElement(this.props.revealContent)) {
-        React.render(this.props.revealContent, $(contentDiv)[0]);
+    		if(React.isValidElement(this.props.revealContent)) {
+    			React.render(this.props.revealContent, $('#modal')[0]);
+    		}
+    		else {
+    			$('#infocontent').append(this.props.revealContent);
+    		}
       }
-      else {
-        $(contentDiv).append(this.props.revealContent);
-      }
-    }.bind(that))
+    }.bind(this))
+
 	},
 	render: function(){
 		return (
