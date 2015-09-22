@@ -29,22 +29,15 @@ var TripDashboard = React.createClass({
       destinations: [],
       finished: false,
       lat: 0,
-      long: 0
+      long: 0,
+      posts: ""
     }
   },
   componentDidMount: function(){
-    console.log("here again");
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
-
-
       if(this.isMounted()){
-        // var start_atts = results.start_date.split("-")
         var events = results.events
-        // var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
-        // var end_atts = results.end_date.split("-")
-        // var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
-          console.log(e);
           var destEvents = []
           events.forEach(function (event) {
             if (event.destination_id === e.id){
@@ -55,8 +48,6 @@ var TripDashboard = React.createClass({
         });
         this.setState({
           trip: results,
-          // start_date: start_date,
-          // end_date: end_date,
           destinations: destinations,
           finished: results.finished
         })
@@ -66,11 +57,7 @@ var TripDashboard = React.createClass({
   getTripInfo: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
       if(this.isMounted()){
-        // var start_atts = results.start_date.split("-")
         var events = results.events
-        // var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
-        // var end_atts = results.end_date.split("-")
-        // var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
         var destinations = results.destinations.map(function (e) {
           var destEvents = []
           events.forEach(function (event) {
@@ -82,8 +69,6 @@ var TripDashboard = React.createClass({
         });
         this.setState({
           trip: results,
-          // start_date: start_date,
-          // end_date: end_date,
           destinations: destinations,
           finished: results.finished
         })
@@ -97,15 +82,23 @@ var TripDashboard = React.createClass({
     })
   },
   blogs: function(){
-        console.log(this.state.status);
-
-    this.setState({
-      status: 2
-    })
+    navigator.geolocation.getCurrentPosition(function (position) {
+      if(this.isMounted()){
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.longitude
+        })
+      }
+    }.bind(this))
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '/posts', function(data){
+      console.log('api results', data)
+        this.setState({
+          posts: data,
+          status: 2
+        })
+    }.bind(this))
   },
   activities: function(){
-        console.log(this.state.status);
-
     navigator.geolocation.getCurrentPosition(function (position) {
       if(this.isMounted()){
         this.setState({
@@ -129,7 +122,9 @@ var TripDashboard = React.createClass({
           <li className="tab-title small-4"><a href="#panel3" onClick={this.activities}>Activities</a></li>
         </ul>
         <div>
-          {this.state.status === 1 ? <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/> : <Activities finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/>}
+          {this.state.status === 1 ? <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/> : this.state.status === 3 ?
+           <Activities finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations} /> :
+            <BlogCarousel lat={this.state.lat} long={this.state.long} posts={this.state.posts}/> }
          </div>
       </div>
     )
@@ -138,24 +133,11 @@ var TripDashboard = React.createClass({
 })
 
 var NewBlogPost = React.createClass({
-  getInitialState: function(){
-    return {lat: 0, long: 0}
-  },
-  componentWillMount: function(){
-    navigator.geolocation.getCurrentPosition(function (position) {
-      if(this.isMounted()){
-        this.setState({
-          lat: position.coords.latitude,
-          long: position.coords.longitude
-        })
-      }
-    }.bind(this))
-  },
   render: function () {
     return (
       <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts'} method='post'>
-      <input type="hidden" name='post[latitude]' value={this.state.lat}/>
-      <input type="hidden" name='post[longitude]' value={this.state.long}/>
+      <input type="hidden" name='post[latitude]' value={this.props.lat}/>
+      <input type="hidden" name='post[longitude]' value={this.props.long}/>
       <input type="text" name='post[title]' placeholder="Title"/>
       <textarea cols="20" name='post[content]' rows="10" placeholder="What did you do today?"></textarea>
       <input type='submit' value='blog!' className='button'/>
@@ -193,7 +175,7 @@ var newPostButton = React.createClass({
     return (
       <div>
       <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
-      { this.state.showResults ? <NewBlogPost /> : null }
+
       </div>
     );
   }
@@ -229,27 +211,26 @@ var NewDestinationForm = React.createClass({
 })
 
 var BlogCarousel = React.createClass({
-  getInitialState: function () {
-    return {posts: ''}
+  getInitialState: function() {
+    return { showResults: false };
   },
-  componentDidMount: function(){
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '/posts', function(results){
-      if(this.isMounted()){
-        this.setState({
-          posts: results
-        })
-      }
-    }.bind(this))
+  onClick: function() {
+    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
   render: function () {
-    var allPosts = this.state.posts
+    var allPosts = this.props.posts
+    console.log('allposts',this.props.posts)
     var displayPosts = [];
     for(var i = 0; i < allPosts.length; i++){
       displayPosts.push(< PostComponent key={allPosts[i].id} data={allPosts[i]} />)
     }
     return (
+      <div>
+      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
+      { this.state.showResults ? <NewBlogPost lat={this.props.lat} long={this.props.long} /> : null }
       <div className="display-posts">
         {displayPosts}
+      </div>
       </div>
     )
   }
@@ -259,21 +240,9 @@ var PostComponent = React.createClass({
   getInitialState: function(){
     return {lat: 0, long: 0, editForm: false}
   },
-  componentWillMount: function(){
-    navigator.geolocation.getCurrentPosition(function (position) {
-      if(this.isMounted()){
-        this.setState({
-          lat: position.coords.latitude,
-          long: position.coords.longitude,
-        })
-      }
-    }.bind(this))
-  },
-
   toggleForm: function () {
     this.state.editForm === true ? this.setState({ editForm: false }) : this.setState({ editForm: true })
   },
-
   render: function () {
     var data = this.props.data
     var date = data.created_at.split('T')
