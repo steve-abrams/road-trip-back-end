@@ -36,15 +36,22 @@ class TripsController < ApplicationController
   end
 
   def gas_info
-    url = URI.parse("https://maps.googleapis.com/maps/api/place/details/json?placeid=#{params[:place_id]}&key=#{ENV['GOOGLEAPI']}")
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{params[:lat]},#{params[:lng]}&radius=100000&types=gas_station&key=#{ENV['GOOGLEAPI']}")
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
     response1 = http.request(req)
     res1 = JSON.parse(response1.body)
+    gas_place_id = res1['results'][1]['place_id']
 
-
-    render :json => {:data => res1}
+    url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{gas_place_id}&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response2 = http.request(req)
+    res2 = JSON.parse(response2.body)
+    distance = res2['routes'][0]['legs'][0]['distance']['text']
+    render :json => {:data => distance}
   end
 
   def finished
