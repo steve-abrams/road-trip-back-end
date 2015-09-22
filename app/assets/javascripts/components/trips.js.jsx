@@ -115,7 +115,6 @@ var TripDashboard = React.createClass({
 
     return(
       <div>
-        <h1>lkajsdlfkjadsf</h1>
         <ul className="tabs" data-tab>
           <li className="tab-title small-4 active"><a href="#panel1" onClick={this.itinerary}>Itinerary</a></li>
           <li className="tab-title small-4"><a href="#panel2" onClick={this.blogs}>Blog</a></li>
