@@ -32,7 +32,7 @@ script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV[
 
 .sidebar.large-6.columns
   =react_component('TripDashboard')
-  
+
   / <ul class="tabs" data-tab>
   /   <li class="tab-title small-4 active"><a href="#panel1">Itinerary</a></li>
   /   <li class="tab-title small-4"><a href="#panel2">Blog</a></li>
@@ -53,8 +53,8 @@ script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV[
   /   </div>
   / </div>
 
-
-#map.map.large-6.columns
+.map
+  #map.large-6.columns
 
 
 div.hideMe

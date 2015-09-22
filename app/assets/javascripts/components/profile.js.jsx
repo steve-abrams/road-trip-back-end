@@ -70,10 +70,10 @@ var ProfileInfo = React.createClass({
     return (
       <div>
         <img className="profile-pic" src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
-        <h2>Hello, {this.props.name}!</h2>
-        <p> Miles Traveled&#58; 1,204 </p>
+        <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
+        <p> Miles Traveled&#58; 0 </p>
         <p> Trips Taken&#58; {this.props.trips} </p>
-        <p> Hometown&#58; {this.props.hometown_city}, {this.props.hometown_state}</p>
+        <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
       </div>
     )
   }
