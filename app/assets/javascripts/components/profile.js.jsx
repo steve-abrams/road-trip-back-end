@@ -239,6 +239,7 @@ var TripTile = React.createClass({
       this.setState({ flipped: true})
   },
   render: function () {
+    console.log(this.state.flipped);
     return (
       <li>
         {this.state.flipped ? <TripFront flip={this.flipTrip} key={this.props.key} ref={this.props.ref} data={this.props.data} /> :
@@ -267,8 +268,12 @@ var TripFront = React.createClass({
 
 var TripBack = React.createClass({
   render: function () {
+    var log = function() {
+      console.log('testing')
+    }
     return (
       <div>
+      <a onClick={log}>Test</a>
       <div className="small-centered small-12 columns">
         <a onClick={this.props.flip}><span className="fi-arrow-left"> Back</span></a>
       </div>

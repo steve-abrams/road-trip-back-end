@@ -282,7 +282,6 @@ var Itinerary = React.createClass({
     }.bind(this);
     return (
       <div className="itinerary">
-        {<GasInfo />}
         {<NewDestinationButton />}
         <h1>{trip.name}</h1>
         <h3>Started in {trip.start_location}</h3>
