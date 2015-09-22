@@ -267,6 +267,11 @@ var PostComponent = React.createClass({
 
 
 var Itinerary = React.createClass({
+  getInitialState: function(){
+    return {
+      finished: false
+    }
+  },
 
   render: function () {
     var trip = this.props.trip
@@ -278,6 +283,7 @@ var Itinerary = React.createClass({
     }.bind(this);
     return (
       <div className="itinerary">
+        {<NewDestinationButton />}
         <h1>{trip.name}</h1>
         <h3>Started in {trip.start_location}</h3>
         {this.props.destinations.map(function (e) {
@@ -285,7 +291,7 @@ var Itinerary = React.createClass({
           return (<ItineraryListing getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
         <h3>Ended in {trip.end_location}</h3>
-        <button onClick={finished}> {!this.props.finished ? "Mark as Finished" : "Finished!"}</button>
+        <button onClick={finished}> {!this.state.finished ? "Mark as Finished" : "Finished!"}</button>
       </div>
     )
   }

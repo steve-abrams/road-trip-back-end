@@ -174,8 +174,7 @@ var GetTiles = React.createClass({
       sortBy: "id",
       sortProp: "Date Created",
       asc: 1,
-      sortOrder: "Ascending",
-      flipped: true}
+      sortOrder: "Ascending"}
   },
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
@@ -226,7 +225,10 @@ var TripTile = React.createClass({
       flipped: true}
   },
   flipTrip: function() {
+    console.log(this.state.flipped);
     this.state.flipped ? this.setState({ flipped: false }) : this.setState({ flipped: true })
+    console.log(this.state.flipped);
+
   },
   updateTrip: function () {
     var name = $("#editTripName").val()
@@ -237,6 +239,7 @@ var TripTile = React.createClass({
       this.setState({ flipped: true})
   },
   render: function () {
+    console.log(this.state.flipped);
     return (
       <li>
         {this.state.flipped ? <TripFront flip={this.flipTrip} key={this.props.key} ref={this.props.ref} data={this.props.data} /> :
@@ -265,8 +268,12 @@ var TripFront = React.createClass({
 
 var TripBack = React.createClass({
   render: function () {
+    var log = function() {
+      console.log('testing')
+    }
     return (
       <div>
+      <a onClick={log}>Test</a>
       <div className="small-centered small-12 columns">
         <a onClick={this.props.flip}><span className="fi-arrow-left"> Back</span></a>
       </div>

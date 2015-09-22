@@ -51,7 +51,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 
   directionsService.route({
     origin: $('#startLoc').html(),
-    destination: $('#endLoc').html(),
+    destination: $('#endLoc').html(),    
     waypoints: waypts,
     optimizeWaypoints: true,
     travelMode: google.maps.TravelMode.DRIVING
