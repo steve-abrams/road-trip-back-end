@@ -174,8 +174,7 @@ var GetTiles = React.createClass({
       sortBy: "id",
       sortProp: "Date Created",
       asc: 1,
-      sortOrder: "Ascending",
-      flipped: true}
+      sortOrder: "Ascending"}
   },
   componentDidMount: function(){
     $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
@@ -226,7 +225,10 @@ var TripTile = React.createClass({
       flipped: true}
   },
   flipTrip: function() {
+    console.log(this.state.flipped);
     this.state.flipped ? this.setState({ flipped: false }) : this.setState({ flipped: true })
+    console.log(this.state.flipped);
+
   },
   updateTrip: function () {
     var name = $("#editTripName").val()
