@@ -266,19 +266,13 @@ var PostComponent = React.createClass({
 
 
 var Itinerary = React.createClass({
-  getInitialState: function(){
-    return {
-      finished: false
-    }
-  },
-
   render: function () {
     var trip = this.props.trip
     // This date was showing below h3 Ended In
     // <h3>{this.state.start_date} to {this.state.end_date}</h3>
     var finished = function () {
-      this.state.finished ? this.setState({ finished: false }) : this.setState({ finished: true });
       $.post('/users/'+ window.location.pathname.split('/')[2]+ '/trips/' + window.location.pathname.split('/')[4] + '/finished')
+      this.props.updateTrip()
     }.bind(this);
     return (
       <div className="itinerary">
@@ -291,7 +285,7 @@ var Itinerary = React.createClass({
           return (<ItineraryListing getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
         <h3>Ended in {trip.end_location}</h3>
-        <button onClick={finished}> {!this.state.finished ? "Mark as Finished" : "Finished!"}</button>
+        <button onClick={finished}> {this.props.finished ? "Finished!" : "Mark as Finished"}</button>
       </div>
     )
   }
