@@ -21,11 +21,67 @@ var eventIcons = {
   'gas_station': 'fa fa-car',
 }
 
-var NewBlogPost = React.createClass({
+var TripDashboard = React.createClass({
   getInitialState: function(){
-    return {lat: 0, long: 0}
+    return {
+      status: 1,
+      trip: "",
+      destinations: [],
+      finished: false,
+      lat: 0,
+      long: 0,
+      posts: ""
+    }
   },
-  componentWillMount: function(){
+  componentDidMount: function(){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
+      if(this.isMounted()){
+        var events = results.events
+        var destinations = results.destinations.map(function (e) {
+          var destEvents = []
+          events.forEach(function (event) {
+            if (event.destination_id === e.id){
+              destEvents.push(event);
+            }
+          })
+          return {name: e.name, destinationid: e.id, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
+        });
+        this.setState({
+          trip: results,
+          destinations: destinations,
+          finished: results.finished
+        })
+      }
+    }.bind(this))
+  },
+  getTripInfo: function(){
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
+      if(this.isMounted()){
+        var events = results.events
+        var destinations = results.destinations.map(function (e) {
+          var destEvents = []
+          events.forEach(function (event) {
+            if (event.destination_id === e.id){
+              destEvents.push(event);
+            }
+          })
+          return {name: e.name, destinationid: e.id, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
+        });
+        this.setState({
+          trip: results,
+          destinations: destinations,
+          finished: results.finished
+        })
+      }
+    }.bind(this))
+  },
+  itinerary: function(){
+    console.log(this.state.status);
+    this.setState({
+      status: 1
+    })
+  },
+  blogs: function(){
     navigator.geolocation.getCurrentPosition(function (position) {
       if(this.isMounted()){
         this.setState({
@@ -34,15 +90,56 @@ var NewBlogPost = React.createClass({
         })
       }
     }.bind(this))
+    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '/posts', function(data){
+      console.log('api results', data)
+        this.setState({
+          posts: data,
+          status: 2
+        })
+    }.bind(this))
   },
+  activities: function(){
+    navigator.geolocation.getCurrentPosition(function (position) {
+      if(this.isMounted()){
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.longitude
+        })
+      }
+    }.bind(this))
+    this.setState({
+      status: 3
+    })
+  },
+  render: function(){
+
+    return(
+      <div>
+        <ul className="tabs" data-tab>
+          <li className="tab-title small-4 active"><a href="#panel1" onClick={this.itinerary}>Itinerary</a></li>
+          <li className="tab-title small-4"><a href="#panel2" onClick={this.blogs}>Blog</a></li>
+          <li className="tab-title small-4"><a href="#panel3" onClick={this.activities}>Activities</a></li>
+        </ul>
+        <div>
+          {this.state.status === 1 ? <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/> : this.state.status === 3 ?
+           <Activities finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations} /> :
+            <BlogCarousel lat={this.state.lat} long={this.state.long} posts={this.state.posts}/> }
+         </div>
+      </div>
+    )
+  }
+
+})
+
+var NewBlogPost = React.createClass({
   render: function () {
     console.log
     console.log("LAT:", this.state.lat);
     console.log("LONG:", this.state.long);
     return (
       <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts'} method='post'>
-      <input type="hidden" name='post[latitude]' value={this.state.lat}/>
-      <input type="hidden" name='post[longitude]' value={this.state.long}/>
+      <input type="hidden" name='post[latitude]' value={this.props.lat}/>
+      <input type="hidden" name='post[longitude]' value={this.props.long}/>
       <input type="text" name='post[title]' placeholder="Title"/>
       <textarea cols="20" name='post[content]' rows="10" placeholder="What did you do today?"></textarea>
       <input type='submit' value='blog!' className='button'/>
@@ -80,7 +177,7 @@ var newPostButton = React.createClass({
     return (
       <div>
       <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
-      { this.state.showResults ? <NewBlogPost /> : null }
+
       </div>
     );
   }
@@ -116,28 +213,26 @@ var NewDestinationForm = React.createClass({
 })
 
 var BlogCarousel = React.createClass({
-  getInitialState: function () {
-    return {posts: ''}
+  getInitialState: function() {
+    return { showResults: false };
   },
-  componentDidMount: function(){
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '/posts', function(results){
-      if(this.isMounted()){
-        this.setState({
-          posts: results
-        })
-      }
-    }.bind(this))
+  onClick: function() {
+    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
   render: function () {
-    var allPosts = this.state.posts
-    console.log(allPosts)
+    var allPosts = this.props.posts
+    console.log('allposts',this.props.posts)
     var displayPosts = [];
     for(var i = 0; i < allPosts.length; i++){
       displayPosts.push(< PostComponent key={allPosts[i].id} data={allPosts[i]} />)
     }
     return (
+      <div>
+      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
+      { this.state.showResults ? <NewBlogPost lat={this.props.lat} long={this.props.long} /> : null }
       <div className="display-posts">
         {displayPosts}
+      </div>
       </div>
     )
   }
@@ -147,21 +242,9 @@ var PostComponent = React.createClass({
   getInitialState: function(){
     return {lat: 0, long: 0, editForm: false}
   },
-  componentWillMount: function(){
-    navigator.geolocation.getCurrentPosition(function (position) {
-      if(this.isMounted()){
-        this.setState({
-          lat: position.coords.latitude,
-          long: position.coords.longitude,
-        })
-      }
-    }.bind(this))
-  },
-
   toggleForm: function () {
     this.state.editForm === true ? this.setState({ editForm: false }) : this.setState({ editForm: true })
   },
-
   render: function () {
     var data = this.props.data
     var date = data.created_at.split('T')
@@ -186,47 +269,14 @@ var PostComponent = React.createClass({
 
 
 var Itinerary = React.createClass({
-  getInitialState: function () {
+  getInitialState: function(){
     return {
-      trip: "",
-      // start_date: "",
-      // end_date: "",
-      destinations: [],
-      finished: false,
+      finished: false
     }
   },
-  componentDidMount: function(){
-    this.getTripInfo();
-  },
-  getTripInfo: function () {
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
-      if(this.isMounted()){
-        // var start_atts = results.start_date.split("-")
-        var events = results.events
-        // var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
-        // var end_atts = results.end_date.split("-")
-        // var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
-        var destinations = results.destinations.map(function (e) {
-          var destEvents = []
-          events.forEach(function (event) {
-            if (event.destination_id === e.id){
-              destEvents.push(event);
-            }
-          })
-          return {name: e.name, events: destEvents, lat: e.lat, lng: e.lng, place_id: e.place_id};
-        });
-        this.setState({
-          trip: results,
-          // start_date: start_date,
-          // end_date: end_date,
-          destinations: destinations,
-          finished: results.finished
-        })
-      }
-    }.bind(this))
-  },
+
   render: function () {
-    var trip = this.state.trip
+    var trip = this.props.trip
     // This date was showing below h3 Ended In
     // <h3>{this.state.start_date} to {this.state.end_date}</h3>
     var finished = function () {
@@ -236,10 +286,13 @@ var Itinerary = React.createClass({
     }.bind(this);
     return (
       <div className="itinerary">
+        {<GasInfo />}
+        {<NewDestinationButton />}
         <h1>{trip.name}</h1>
         <h3>Started in {trip.start_location}</h3>
-        {this.state.destinations.map(function (e) {
-          return (<ItineraryListing getTripInfo={this.getTripInfo} name={e.name} events={e.events} key={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+        {this.props.destinations.map(function (e) {
+          console.log(e, "this is the itinerary destinations, does it have an id?");
+          return (<ItineraryListing getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
         }, this)}
         <h3>Ended in {trip.end_location}</h3>
         <button onClick={finished}> {!this.state.finished ? "Mark as Finished" : "Finished!"}</button>
@@ -250,64 +303,18 @@ var Itinerary = React.createClass({
 
 
 var Activities = React.createClass({
-  getInitialState: function () {
-    return {
-      trip: "",
-      // start_date: "",
-      // end_date: "",
-      destinations: [],
-      lat: 0,
-      long: 0
-    }
-  },
-  componentDidMount: function(){
-    navigator.geolocation.getCurrentPosition(function (position) {
-      if(this.isMounted()){
-        this.setState({
-          lat: position.coords.latitude,
-          long: position.coords.longitude
-        })
-      }
-    }.bind(this))
-    this.getTripInfo();
-  },
-  getTripInfo: function () {
-    $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips/' + window.location.pathname.split('/')[4] + '.json', function(results){
-      if(this.isMounted()){
-        // var start_atts = results.start_date.split("-")
-        var events = results.events
-        // var start_date = months[start_atts[1]] + " " + start_atts[2] + ", " + start_atts[0];
-        // var end_atts = results.end_date.split("-")
-        // var end_date = months[end_atts[1]] + " " + end_atts[2] + ", " + end_atts[0];
-        var destinations = results.destinations.map(function (e) {
-          var destEvents = []
-          events.forEach(function (event) {
-            if (event.destination_id === e.id){
-              destEvents.push(event);
-            }
-          })
-          return {name: e.name, events: destEvents, id: e.id, lat: e.lat, lng: e.lng, place_id: e.place_id};
-        });
-        this.setState({
-          trip: results,
-          // start_date: start_date,
-          // end_date: end_date,
-          destinations: destinations
-        })
-      }
-    }.bind(this))
-  },
   setLocationHere: function () {
-    $('#loclat').html(this.state.lat)
-    $('#loclong').html(this.state.long)
+    $('#loclat').html(this.props.lat)
+    $('#loclong').html(this.props.long)
   },
   render: function () {
-    var trip = this.state.trip
+    var trip = this.props.trip
+    console.log(this.props.destinations, "here is destinations");
     return (
       <div>
         <div className='hideMe'>
-          <div id='loclat' className='hidden'>{this.state.lat}</div>
-          <div id='loclong' className='hidden'>{this.state.long}</div>
+          <div id='loclat' className='hidden'>{this.props.lat}</div>
+          <div id='loclong' className='hidden'>{this.props.long}</div>
           <div id='destinationid' className='hidden'></div>
           <div id='category' className='hidden'></div>
         </div>
@@ -320,12 +327,13 @@ var Activities = React.createClass({
             <option value="32187">20</option>
           </select>
           <button className="small" onClick={this.setLocationHere} >Here & Now</button>
-          {this.state.destinations.map(function (e) {
-            return (<Destination getTripInfo={this.getTripInfo} name={e.name} events={e.events} destinationid={e.id} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
+          {this.props.destinations.map(function (e) {
+            console.log(e, "this is the destinations");
+            return (<Destination getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
         </div>
         <div className='large-8 columns'>
-          <PlacesForm getTripInfo={this.getTripInfo} />
+          <PlacesForm getTripInfo={this.props.updateTrip}/>
         </div>
       </div>
     )
@@ -368,19 +376,9 @@ var ItineraryListing = React.createClass({
     $('#destinationid').html(this.props.destinationid)
     this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
   },
-  getInfo: function (placeId) {
-    $.get("/show_info?place_id="+placeId, function(results){
-      if(this.isMounted()){
-        console.log(results);
-        this.setState({
-          info: results
-        })
-      }
-    }.bind(this))
-  },
+
   deleteEvent: function (id) {
     $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+this.props.destinationid  +"/events/"+id, function(results){
-
     });
     this.props.getTripInfo();
   },
@@ -467,6 +465,7 @@ var PlacesResults = React.createClass({
   saveEvent: function (placeId, name) {
     var destinationId = $('#destinationid').html();
     var category = $('#category').html();
+    console.log(destinationId);
     $.post("/users/"+window.location.pathname.split('/')[2]+"/trips/" + window.location.pathname.split('/')[4] + "/destinations/"+destinationId+"/events?event[place_id]="+placeId+"&event[name]="+name+"&event[category]="+category, function(results){
       this.props.getTripInfo();
       if(this.isMounted()){
