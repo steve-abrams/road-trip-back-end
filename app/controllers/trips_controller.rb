@@ -36,13 +36,21 @@ class TripsController < ApplicationController
   end
 
   def gas_info
-    url = URI.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{params[:lat]},#{params[:lng]}&radius=100000&types=gas_station&key=#{ENV['GOOGLEAPI']}")
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/radarsearch/json?location=#{params[:lat]},#{params[:lng]}&radius=100000&types=gas_station&key=#{ENV['GOOGLEAPI']}")
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
     response1 = http.request(req)
     res1 = JSON.parse(response1.body)
-    gas_place_id = res1['results'][0]['place_id']
+    distanceHash = {}
+    distanceArr = res1['results'].map do |e|
+      dist = ((params[:lat].to_f - e['geometry']['location']['lat'].to_f)**2 + (params[:lng].to_f - e['geometry']['location']['lng'].to_f)**2)**0.5
+      distanceHash[dist] = e['place_id']
+      dist
+    end
+    distanceArr = distanceArr.sort
+
+    gas_place_id = distanceHash[distanceArr[0]]
 
     url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{gas_place_id}&key=#{ENV['GOOGLEAPI']}")
     req = Net::HTTP::Get.new(url.request_uri)
