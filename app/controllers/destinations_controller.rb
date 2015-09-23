@@ -1,5 +1,16 @@
 class DestinationsController < ApplicationController
 
+  require 'net/http'
+  require 'json'
+
+  def index
+    @destinations = Destination.where(trip_id: params[:trip_id])
+    respond_to do |format|
+      format.html
+      format.json {render json: @destinations}
+    end
+  end
+
   def create
     @destination = Destination.new(destination_params)
     @destination.trip_id = params[:trip_id]

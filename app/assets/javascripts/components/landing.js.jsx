@@ -8,6 +8,7 @@ var CenterBlock = React.createClass({
   render: function () {
     return (
       <div className="large-8 columns large-centered about-us">
+        <h3>{this.props.message}</h3>
         { this.state.showResults ? <AboutUs toggle={this.toggleForm} /> : <SignUpForm toggle={this.toggleForm} /> }
       </div>
     )

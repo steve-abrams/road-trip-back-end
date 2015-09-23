@@ -36,15 +36,22 @@ class TripsController < ApplicationController
   end
 
   def gas_info
-    url = URI.parse("https://maps.googleapis.com/maps/api/place/details/json?placeid=#{params[:place_id]}&key=#{ENV['GOOGLEAPI']}")
+    url = URI.parse("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{params[:lat]},#{params[:lng]}&radius=100000&types=gas_station&key=#{ENV['GOOGLEAPI']}")
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
     response1 = http.request(req)
     res1 = JSON.parse(response1.body)
+    gas_place_id = res1['results'][0]['place_id']
 
-
-    render :json => {:data => res1}
+    url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{gas_place_id}&key=#{ENV['GOOGLEAPI']}")
+    req = Net::HTTP::Get.new(url.request_uri)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == "https")
+    response2 = http.request(req)
+    res2 = JSON.parse(response2.body)
+    distance = res2['routes'][0]['legs'][0]['distance']['text']
+    render :json => {:data => distance}
   end
 
   def finished
@@ -85,7 +92,22 @@ class TripsController < ApplicationController
     @trip.end_location_lng = res2["results"][0]["geometry"]["location"]["lng"]
     @trip.start_place_id = res1["results"][0]["place_id"]
     @trip.end_place_id = res2["results"][0]["place_id"]
+
     if @trip.save
+      @destination_start = Destination.new
+      @destination_end = Destination.new
+      @destination_start.name = params[:trip][:start_location_city] + ", " + params[:trip][:start_location_state]
+      @destination_start.trip_id = @trip.id
+      @destination_start.place_id = res1["results"][0]["place_id"]
+      @destination_start.lat = res1["results"][0]["geometry"]["location"]["lat"]
+      @destination_start.lng = res1["results"][0]["geometry"]["location"]["lng"]
+      @destination_end.name = params[:trip][:end_location_city] + ", "+ params[:trip][:end_location_state]
+      @destination_end.trip_id = @trip.id
+      @destination_end.place_id = res2["results"][0]["place_id"]
+      @destination_end.lat = res2["results"][0]["geometry"]["location"]["lat"]
+      @destination_end.lng = res2["results"][0]["geometry"]["location"]["lng"]
+      @destination_start.save
+      @destination_end.save
       redirect_to user_trip_path(current_user.id, @trip.id)
     else
       redirect_to root_path
@@ -129,6 +151,10 @@ class TripsController < ApplicationController
 
   def trip_params
     params.require(:trip).permit(:name, :start_location, :end_location, :start_date, :end_date, :start_place_id, :end_place_id, :finished)
+  end
+
+  def destination_params
+    params.require(:destination).permit(:name, :trip_id, :place_id, :lat, :lng)
   end
 
 end
