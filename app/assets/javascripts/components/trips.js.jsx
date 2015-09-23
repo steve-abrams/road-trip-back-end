@@ -30,7 +30,8 @@ var TripDashboard = React.createClass({
       finished: false,
       lat: 0,
       long: 0,
-      posts: ""
+      posts: "",
+      showResults: false
     }
   },
   componentDidMount: function(){
@@ -75,11 +76,27 @@ var TripDashboard = React.createClass({
       }
     }.bind(this))
   },
+  newBlogPost: function(){
+        var latitude = $("#bloglatitude").val()
+        var longitude = $('#bloglongitude').val()
+        var title = $('#blogtitle').val()
+        var content = $('#blogcontent').val()
+    $.post('/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts',
+  {'post[latitude]': latitude, 'post[longitude]': longitude, 'post[title]': title, 'post[content]': content, "_method": "post"})
+  .done(function(data){
+  })
+  this.blogs()
+  this.getTripInfo()
+  this.onClick()
+  },
   itinerary: function(){
     console.log(this.state.status);
     this.setState({
       status: 1
     })
+  },
+  onClick: function() {
+    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
   blogs: function(){
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -123,7 +140,7 @@ var TripDashboard = React.createClass({
         <div>
           {this.state.status === 1 ? <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/> : this.state.status === 3 ?
            <Activities lat={this.state.lat} long={this.state.long} finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations} /> :
-            <BlogCarousel lat={this.state.lat} long={this.state.long} posts={this.state.posts}/> }
+            <BlogCarousel showResults={this.state.showResults} onClick={this.onClick} lat={this.state.lat} long={this.state.long} posts={this.state.posts} newBlogPost={this.newBlogPost}/> }
          </div>
       </div>
     )
@@ -134,13 +151,14 @@ var TripDashboard = React.createClass({
 var NewBlogPost = React.createClass({
   render: function () {
     return (
-      <form action={'/users/'+window.location.pathname.split('/')[2]+'/trips/'+window.location.pathname.split('/')[4]+'/posts'} method='post'>
-      <input type="hidden" name='post[latitude]' value={this.props.lat}/>
-      <input type="hidden" name='post[longitude]' value={this.props.long}/>
-      <input type="text" name='post[title]' placeholder="Title"/>
-      <textarea cols="20" name='post[content]' rows="10" placeholder="What did you do today?"></textarea>
-      <input type='submit' value='blog!' className='button'/>
-      </form>
+      <div>
+      <input id="bloglatitude" type="hidden" name='post[latitude]' value={this.props.lat}/>
+      <input id="bloglongitude" type="hidden" name='post[longitude]' value={this.props.long}/>
+      <input id="blogtitle" type="text" name='post[title]' placeholder="Title"/>
+      <textarea id="blogcontent" cols="20" name='post[content]' rows="10" placeholder="What did you do today?"></textarea>
+      <button className='button small' onClick={this.props.newBlogPost}>Create Blog Post</button>
+      </div>
+
     )
   }
 })
@@ -164,9 +182,6 @@ var EditPost = React.createClass({
 
 
 var newPostButton = React.createClass({
-  getInitialState: function() {
-    return { showResults: false };
-  },
   onClick: function() {
     this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
   },
@@ -210,23 +225,16 @@ var NewDestinationForm = React.createClass({
 })
 
 var BlogCarousel = React.createClass({
-  getInitialState: function() {
-    return { showResults: false };
-  },
-  onClick: function() {
-    this.state.showResults === true ? this.setState({ showResults: false }) : this.setState({ showResults: true })
-  },
   render: function () {
     var allPosts = this.props.posts
-    console.log('allposts',this.props.posts)
     var displayPosts = [];
     for(var i = 0; i < allPosts.length; i++){
       displayPosts.push(< PostComponent key={allPosts[i].id} data={allPosts[i]} />)
     }
     return (
       <div>
-      <button  onClick={this.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
-      { this.state.showResults ? <NewBlogPost lat={this.props.lat} long={this.props.long} /> : null }
+      <button  onClick={this.props.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
+      { this.props.showResults ? <NewBlogPost newBlogPost={this.props.newBlogPost} lat={this.props.lat} long={this.props.long} /> : null }
       <div className="display-posts">
         {displayPosts}
       </div>

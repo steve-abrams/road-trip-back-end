@@ -9,12 +9,16 @@ class PostsController < ApplicationController
   end
 
   def create
+    p post_params
+    p params
     @post = Post.new(post_params)
     @post.trip_id = params[:trip_id]
     @post.user_id = params[:user_id]
     if @post.save
-      redirect_to user_trip_path(current_user.id, params[:trip_id])
       flash[:notice] = "Post Successfully Saved"
+      respond_to do |format|
+        format.json {render json: @post}
+      end
     else
       flash[:notice] = "Post could not be saved"
     end

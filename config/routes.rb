@@ -11,8 +11,7 @@ Rails.application.routes.draw do
       resources :destinations, defaults: {format: :json} do
         resources :events, defaults: {format: :json}
       end
-      resources :posts, defaults: {format: :json}, only: [:index]
-      resources :posts, except: [:index]
+      resources :posts, defaults: {format: :json}
     end
   end
 
