@@ -22,7 +22,7 @@
 
 
 $(function(){ $(document).foundation(); });
-
+var totalDist;
 var map;
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
@@ -56,6 +56,11 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
     optimizeWaypoints: true,
     travelMode: google.maps.TravelMode.DRIVING
   }, function(response, status) {
+    totalDist = response.routes[0].legs.reduce(function (prev, curr) {
+      return prev + curr.distance.value
+    }, 0)
+    totalDist = totalDist*0.000621371
+    console.log(totalDist);
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
       var route = response.routes[0];

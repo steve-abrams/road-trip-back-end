@@ -64,8 +64,13 @@ class TripsController < ApplicationController
 
   def finished
     @trip = Trip.find(params[:id])
+    @user = User.find(current_user.id)
+    if @trip.finished.nil?
+      @user.total_miles = @user.total_miles + params[:dist].to_i
+    end
     @trip.finished = !@trip.finished
     @trip.save
+    @user.save
   end
 
   def create

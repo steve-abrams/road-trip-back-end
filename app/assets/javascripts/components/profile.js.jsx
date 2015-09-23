@@ -5,7 +5,8 @@ var SettingsButtons = React.createClass({
               hometown_city: "",
               hometown_state: "",
               favoriteloc: "",
-              trips: ""};
+              trips: "",
+              miles: ""};
   },
   componentDidMount: function(){
       $.get('/users/'+ window.location.pathname.split('/')[2]+'/trips', function(results){
@@ -25,11 +26,13 @@ var SettingsButtons = React.createClass({
             var hometown_city = results.hometown_city
             var hometown_state = results.hometown_state
             var favoriteloc = results.favorite_place
+            var miles = results.total_miles
             this.setState({
               name: name,
               hometown_city: hometown_city,
               hometown_state: hometown_state,
               favoriteloc: favoriteloc,
+              miles: miles
             })
           }
         }.bind(this))
@@ -57,7 +60,7 @@ var SettingsButtons = React.createClass({
           <a href="#"><i id="edit-intro" className='fi-pencil edit-profile' onClick={this.toggleForm}></i></a>
         </div>
         <div className="small-12 columns">
-          {this.state.showResults ? <ProfileInfo name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> :
+          {this.state.showResults ? <ProfileInfo miles={this.state.miles} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> :
           <EditProfileInfo onClick={this.doStuff} name={ this.state.name} hometown_city= {this.state.hometown_city} hometown_state= {this.state.hometown_state} trips= {this.state.trips} /> }
         </div>
       </div>
@@ -71,7 +74,7 @@ var ProfileInfo = React.createClass({
       <div>
         <img className="profile-pic" src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
         <h2>Hello, {this.props.name ? this.props.name : "roadtripper"}!</h2>
-        <p> Miles Traveled&#58; 0 </p>
+        <p> Miles Traveled&#58; {this.props.miles} </p>
         <p> Trips Taken&#58; {this.props.trips} </p>
         <p> Hometown&#58; {this.props.hometown_city ? this.props.hometown_city : "Somewhere"}, {this.props.hometown_state ? this.props.hometown_state : "USA"}</p>
       </div>

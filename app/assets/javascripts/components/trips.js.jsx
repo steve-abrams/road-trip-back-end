@@ -271,7 +271,8 @@ var Itinerary = React.createClass({
     // This date was showing below h3 Ended In
     // <h3>{this.state.start_date} to {this.state.end_date}</h3>
     var finished = function () {
-      $.post('/users/'+ window.location.pathname.split('/')[2]+ '/trips/' + window.location.pathname.split('/')[4] + '/finished')
+      console.log(totalDist);
+      $.post('/users/'+ window.location.pathname.split('/')[2]+ '/trips/' + window.location.pathname.split('/')[4] + '/finished?dist='+totalDist)
       this.props.updateTrip()
     }.bind(this);
     return (
