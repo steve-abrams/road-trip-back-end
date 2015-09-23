@@ -20,7 +20,6 @@ var GasInfo = React.createClass({
   getGasInfo: function (lat, long) {
     $.get('/gas_info?lat='+lat+'&lng='+long, function(results){
       if(this.isMounted()){
-        console.log(results);
         var distance = results
         this.setState({
           gasDistance: distance
@@ -31,7 +30,7 @@ var GasInfo = React.createClass({
   render: function () {
     return (
       <div className="gasinfo">
-        <i className="fa fa-car"></i>Closest Gas {this.state.gasDistance}
+        <i className="fa fa-car"></i> Closest Gas {this.state.gasDistance}
       </div>
     )
   }

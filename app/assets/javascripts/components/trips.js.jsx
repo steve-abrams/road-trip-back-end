@@ -124,7 +124,7 @@ var TripDashboard = React.createClass({
         </ul>
         <div>
           {this.state.status === 1 ? <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/> : this.state.status === 3 ?
-           <Activities finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations} /> :
+           <Activities lat={this.state.lat} long={this.state.long} finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations} /> :
             <BlogCarousel lat={this.state.lat} long={this.state.long} posts={this.state.posts}/> }
          </div>
       </div>
@@ -271,9 +271,14 @@ var Itinerary = React.createClass({
     // This date was showing below h3 Ended In
     // <h3>{this.state.start_date} to {this.state.end_date}</h3>
     var finished = function () {
+<<<<<<< HEAD
       this.state.finished ? this.setState({ finished: false }) : this.setState({ finished: true });
 
       $.post('/users/'+ window.location.pathname.split('/')[2]+ '/trips/' + window.location.pathname.split('/')[4] + '/finished')
+=======
+      console.log(totalDist);
+      $.post('/users/'+ window.location.pathname.split('/')[2]+ '/trips/' + window.location.pathname.split('/')[4] + '/finished?dist='+totalDist)
+>>>>>>> 8fa3523c82476e415a7729cb5a704ba6ba0840dc
       this.props.updateTrip()
     }.bind(this);
       var destinationsPath="/" + trip.start_location
@@ -332,6 +337,17 @@ var Activities = React.createClass({
             <option value="8047">5</option>
             <option value="16093">10</option>
             <option value="32187">20</option>
+          </select>
+          <label for="cat">Activities Category</label>
+          <select className="small" id="cat" name="category">
+            <option value="museum">Museums</option>
+            <option value="art_gallery">Art Galleries</option>
+            <option value="campground">Campgrounds</option>
+            <option value="zoo">Zoos</option>
+            <option value="night_club">NightLife</option>
+            <option value="shopping_mall">Shopping Malls</option>
+            <option value="stadium">Stadiums</option>
+            <option value="casino">Casinos</option>
           </select>
           <button className="small" onClick={this.setLocationHere} >Here & Now</button>
           {this.props.destinations.map(function (e) {
@@ -416,6 +432,7 @@ var PlacesForm = React.createClass({
     var lat = $('#loclat').html();
     var lng = $('#loclong').html();
     var range = $('#range').val();
+    if (category === "museum"){category =  $('#cat').val()}
     $.get('/find_places?lat='+lat+'&lng='+lng+'&range='+range+'&category='+category, function(results){
       if(this.isMounted()){
         this.setState({
@@ -427,17 +444,6 @@ var PlacesForm = React.createClass({
   render: function () {
     return (
       <div>
-        <label for="range">Category</label>
-        <select className="small" id="cat" name="category">
-          <option value="museum">Museums</option>
-          <option value="art_gallery">Art Galleries</option>
-          <option value="campground">Campgrounds</option>
-          <option value="zoo">Zoos</option>
-          <option value="night_club">NightLife</option>
-          <option value="shopping_mall">Shopping Malls</option>
-          <option value="stadium">Stadiums</option>
-          <option value="casino">Casinos</option>
-        </select>
         <div className="icon-bar three-up">
           <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "restaurant")}>
             <label>Food</label>
@@ -445,7 +451,7 @@ var PlacesForm = React.createClass({
           <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "lodging")}>
             <label>Hotels</label>
           </a>
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, $('#cat').val())}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "museum")}>
             <label>Activities</label>
           </a>
         </div>
