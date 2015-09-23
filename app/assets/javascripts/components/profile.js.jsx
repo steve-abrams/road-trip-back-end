@@ -211,7 +211,6 @@ var GetTiles = React.createClass({
 
 var TripTile = React.createClass({
   render: function () {
-    console.log(this.state.flipped);
     return (
       <li>
           <div className={this.props.data.finished ? "finished" : undefined}>
