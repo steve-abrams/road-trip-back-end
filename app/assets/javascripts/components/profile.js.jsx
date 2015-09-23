@@ -22,7 +22,9 @@ var SettingsButtons = React.createClass({
       $.get('/users/' + window.location.pathname.split('/')[2] + '.json', function(results){
         console.log(results);
           if(this.isMounted()){
+            if(results.name){
             var name = results.name.charAt(0).toUpperCase() + results.name.substring(1).toLowerCase()
+            }
             var hometown_city = results.hometown_city
             var hometown_state = results.hometown_state
             var favoriteloc = results.favorite_place
@@ -70,6 +72,7 @@ var SettingsButtons = React.createClass({
 
 var ProfileInfo = React.createClass({
   render: function () {
+    console.log(this.props.miles);
     return (
       <div>
         <img className="profile-pic" src="http://images.amcnetworks.com/sundancechannel.com/wp-content/uploads/2013/09/fear-and-loathing-in-las-vegas.jpg" alt=""></img>
