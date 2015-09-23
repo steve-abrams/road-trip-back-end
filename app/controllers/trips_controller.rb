@@ -49,15 +49,18 @@ class TripsController < ApplicationController
       dist
     end
     distanceArr = distanceArr.sort
-
     gas_place_id = distanceHash[distanceArr[0]]
+
 
     url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{gas_place_id}&key=#{ENV['GOOGLEAPI']}")
     req = Net::HTTP::Get.new(url.request_uri)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = (url.scheme == "https")
+
     response2 = http.request(req)
     res2 = JSON.parse(response2.body)
+
+    p res2
     distance = res2['routes'][0]['legs'][0]['distance']['text']
     render :json => {:data => distance}
   end
