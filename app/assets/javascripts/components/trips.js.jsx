@@ -406,11 +406,10 @@ var PlacesForm = React.createClass({
       searchResults: []
     }
   },
-  onClick: function (lat, lng, category, range) {
+  onClick: function (lat, lng, category) {
     var lat = $('#loclat').html();
     var lng = $('#loclong').html();
     var range = $('#range').val();
-    $('#category').html(category)
     $.get('/find_places?lat='+lat+'&lng='+lng+'&range='+range+'&category='+category, function(results){
       if(this.isMounted()){
         this.setState({
@@ -422,14 +421,25 @@ var PlacesForm = React.createClass({
   render: function () {
     return (
       <div>
+        <label for="range">Category</label>
+        <select className="small" id="cat" name="category">
+          <option value="museum">Museums</option>
+          <option value="art_gallery">Art Galleries</option>
+          <option value="campground">Campgrounds</option>
+          <option value="zoo">Zoos</option>
+          <option value="night_club">NightLife</option>
+          <option value="shopping_mall">Shopping Malls</option>
+          <option value="stadium">Stadiums</option>
+          <option value="casino">Casinos</option>
+        </select>
         <div className="icon-bar three-up">
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "restaurant", "500")}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "restaurant")}>
             <label>Food</label>
           </a>
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "lodging", "500")}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "lodging")}>
             <label>Hotels</label>
           </a>
-          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, "museum", "500")}>
+          <a className="item" onClick={this.onClick.bind(this, this.props.lat, this.props.lng, $('#cat').val())}>
             <label>Activities</label>
           </a>
         </div>

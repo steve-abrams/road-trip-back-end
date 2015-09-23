@@ -42,7 +42,7 @@ class TripsController < ApplicationController
     http.use_ssl = (url.scheme == "https")
     response1 = http.request(req)
     res1 = JSON.parse(response1.body)
-    gas_place_id = res1['results'][1]['place_id']
+    gas_place_id = res1['results'][0]['place_id']
 
     url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?origin=#{params[:lat]},#{params[:lng]}&destination=place_id:#{gas_place_id}&key=#{ENV['GOOGLEAPI']}")
     req = Net::HTTP::Get.new(url.request_uri)
