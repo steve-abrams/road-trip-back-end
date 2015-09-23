@@ -120,7 +120,10 @@ var TripDashboard = React.createClass({
           <li className="tab-title small-4"><a href="#panel2" onClick={this.blogs}>Blog</a></li>
           <li className="tab-title small-4"><a href="#panel3" onClick={this.activities}>Activities</a></li>
         </ul>
-        <div>
+        <div className='left-block'>
+          <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/>
+        </div>
+        <div className='right-block'>
           {this.state.status === 1 ? <Itinerary finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations}/> : this.state.status === 3 ?
            <Activities finished={this.state.finished} updateTrip={this.getTripInfo} trip={this.state.trip} destinations={this.state.destinations} /> :
             <BlogCarousel lat={this.state.lat} long={this.state.long} posts={this.state.posts}/> }
