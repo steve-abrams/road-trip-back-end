@@ -20,7 +20,6 @@ var GasInfo = React.createClass({
   getGasInfo: function (lat, long) {
     $.get('/gas_info?lat='+lat+'&lng='+long, function(results){
       if(this.isMounted()){
-        console.log(results);
         var distance = results
         this.setState({
           gasDistance: distance
