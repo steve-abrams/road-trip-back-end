@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923164217) do
+ActiveRecord::Schema.define(version: 20150923172712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20150923164217) do
     t.string   "image_name"
     t.string   "hometown_city"
     t.string   "hometown_state"
-    t.integer  "total_miles"
+    t.integer  "total_miles",            default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
