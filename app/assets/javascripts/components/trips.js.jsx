@@ -267,12 +267,14 @@ var PostComponent = React.createClass({
         <div>
             <button className='button tiny' onClick={this.toggleForm}>EDIT</button>
           {
-            this.state.editForm ? <EditPost className='editPost' key={data.id} id={data.id} title={data.title} content={data.content}/>:""
+            this.state.editForm ? <EditPost className='editPost' key={data.id} id={data.id} title={data.title} content={data.content}/>:
+            <div>
+            <h1>{data.title}</h1>
+            <p>{data.content}</p>
+            <p>{displayDate}</p>
+            </div>
           }
         </div>
-        <h1>{data.title}</h1>
-        <p>{data.content}</p>
-        <p>{displayDate}</p>
       </div>
     )
   }

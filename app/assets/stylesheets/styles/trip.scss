@@ -97,9 +97,9 @@ i {
 
 .display-posts {
   overflow-y: scroll;
-  height: 90%;
+  height: 95%;
   .post-container {
-    height: 200px;
+    min-height: 200px;
     width: 90%;
     margin: 5%;
   }
