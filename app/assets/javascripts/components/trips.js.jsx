@@ -225,20 +225,26 @@ var NewDestinationForm = React.createClass({
   }
 })
 
-var BlogCarousel = React.createClass({
-  render: function () {
+var DisplayPosts = React.createClass({
+  render: function() {
     var allPosts = this.props.posts
     var displayPosts = [];
     for(var i = 0; i < allPosts.length; i++){
       displayPosts.push(< PostComponent key={allPosts[i].id} data={allPosts[i]} />)
     }
+  return (
+        <div className="display-posts">
+          {displayPosts}
+        </div>
+    )
+  }
+})
+var BlogCarousel = React.createClass({
+  render: function () {
     return (
       <div>
-      <button  onClick={this.props.onClick} ><span className='fi-pencil'></span> Add new blog post</button>
-      { this.props.showResults ? <NewBlogPost newBlogPost={this.props.newBlogPost} lat={this.props.lat} long={this.props.long} /> : null }
-      <div className="display-posts">
-        {displayPosts}
-      </div>
+      <button  onClick={this.props.onClick} ><span className='fi-pencil'></span> {this.props.showResults ? "Show my blogs" : "Add new blog post"}</button>
+      { this.props.showResults ? <NewBlogPost newBlogPost={this.props.newBlogPost} lat={this.props.lat} long={this.props.long} /> : <DisplayPosts posts={this.props.posts} />}
       </div>
     )
   }
