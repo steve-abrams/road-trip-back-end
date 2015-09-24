@@ -54,3 +54,11 @@ video {
 ul.right li.login-form {
   background-color: $secondary-color;
 }
+
+.preview.reveal-modal {
+  width: 620px;
+  height: 465px;
+  h1 {
+    color: $primary;
+  }
+}

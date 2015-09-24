@@ -25,6 +25,7 @@ var AboutUs = React.createClass({
         </p>
         <div className="button-group landing-buttons centered">
           <button className="small-4" onClick={this.props.toggle}> Sign Up </button>
+          <PreviewButton />
         </div>
       </div>
     )
@@ -90,17 +91,12 @@ var SignUpForm = React.createClass({
     }
 })
 
-
-
-
 var ModalBitches = React.createClass({
 	handleClick: function(e){
 		if(e && typeof e.preventDefault == 'function') {
 			e.preventDefault();
 		}
 		var contentDiv = $('<div>'+{SignUpForm}+'</div>');
-    console.log(SignUpForm)
-    console.log(contentDiv)
 		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
 		var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
 		$(reveal).foundation().foundation('reveal', 'open');
@@ -119,6 +115,34 @@ var ModalBitches = React.createClass({
 		return (
 			<div>
       <button onClick={this.handleClick}>Sign Up Modal</button>
+			</div>
+		);
+	}
+});
+
+var PreviewButton = React.createClass({
+	handleClick: function(e){
+		if(e && typeof e.preventDefault == 'function') {
+			e.preventDefault();
+		}
+		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
+		var reveal = $('<div class="preview reveal-modal" data-reveal>').append($('.modal').html()).append($(anchor));
+		$(reveal).foundation().foundation('reveal', 'open');
+		$(reveal).bind('closed.fndtn.reveal', function(e){
+      React.unmountComponentAtNode(this);
+    });
+
+		if(React.isValidElement(this.props.revealContent)) {
+			React.render(this.props.revealContent, $('#modal')[0]);
+		}
+		else {
+			$('#modal').append(this.props.revealContent);
+		}
+	},
+	render: function(){
+		return (
+			<div>
+      <button className="small-4" onClick={this.handleClick}> Preview </button>
 			</div>
 		);
 	}

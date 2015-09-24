@@ -141,7 +141,7 @@ var NewTripButton = React.createClass({
 			e.preventDefault();
 		}
 		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
-		var reveal = $('<div class="reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
+		var reveal = $('<div class="newTrip reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
 		$(reveal).foundation().foundation('reveal', 'open');
 		$(reveal).bind('closed.fndtn.reveal', function(e){
       React.unmountComponentAtNode(this);
