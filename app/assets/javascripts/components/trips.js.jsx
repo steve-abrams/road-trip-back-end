@@ -520,35 +520,39 @@ var MoreInfoModalButton = React.createClass({
     })
   },
   getInfo: function (placeId) {
-    return $.get("/show_info?place_id="+placeId, function(results){
+    $.get("/show_info?place_id="+placeId, function(results){
       if(this.isMounted()){
+        console.log(results);
         this.setState({
           info: results
         })
       }
     }.bind(this))
   },
-	handleClick: function(e){
-    var that = this;
-    this.getInfo(this.props.placeid).then(function (results) {
-      if(e && typeof e.preventDefault == 'function') {
-        e.preventDefault();
+	handleClick: function(){
+    $.get("/show_info?place_id="+this.props.placeid, function(results){
+      if(this.isMounted()){
+        console.log(results);
+        this.setState({
+          info: results
+        })
+    		var anchor = $('<a class="close-reveal-modal">&#215;</a>');
+        var eventInfo = $("<div><h2>Name:</h2><p>"+results.data.result.name+"</p><h3>Address:</h3><p>"+results.data.result.formatted_address+"</p><h3>Phone:</h3><p>"+results.data.result.formatted_phone_number+"</p><h3>Website:</h3><p><a href='"+results.data.result.website+"' target='_blank'>Click Here</a></p></div>");
+        $('#infocontent').html(null);
+        $('#infocontent').append(eventInfo);
+    		var reveal = $('<div class="reveal-modal" data-reveal>').append($('#modal').html()).append($(anchor));
+    		$(reveal).foundation().foundation('reveal', 'open');
+    		$(reveal).bind('closed.fndtn.reveal', function(e){
+          React.unmountComponentAtNode(this);
+        });
+    		if(React.isValidElement(this.props.revealContent)) {
+    			React.render(this.props.revealContent, $('#modal')[0]);
+    		}
+    		else {
+    			$('#infocontent').append(this.props.revealContent);
+    		}
       }
-      var contentDiv = $("<div><h1>HELLO</h1><p>"+this.state.info+"</p></div>");
-      var anchor = $('<a class="close-reveal-modal">&#215;</a>');
-      var reveal = $('<div class="reveal-modal" data-reveal>').append($(contentDiv)).append($(anchor));
-      $(reveal).foundation().foundation('reveal', 'open');
-      $(reveal).bind('closed.fndtn.reveal', function(e){
-        React.unmountComponentAtNode(this);
-      });
-
-      if(React.isValidElement(this.props.revealContent)) {
-        React.render(this.props.revealContent, $(contentDiv)[0]);
-      }
-      else {
-        $(contentDiv).append(this.props.revealContent);
-      }
-    }.bind(that))
+    }.bind(this))
 	},
 	render: function(){
 		return (
