@@ -313,14 +313,15 @@ var Activities = React.createClass({
       togglePlacesForm: false,
     }
   },
-  setLocationHere: function () {
-    $('#loclat').html(this.props.lat)
-    $('#loclong').html(this.props.long)
-  },
-  onClick: function(x, y, z) {
-    $('#loclat').html(x)
-    $('#loclong').html(y)
-    $('#destinationid').html(z)
+  onClick: function(lat, lng, id, name) {
+    if (name === "Here and Now") {
+      $('#loclat').html(this.props.lat)
+      $('#loclong').html(this.props.long)
+    } else {
+      $('#loclat').html(lat)
+      $('#loclong').html(lng)
+    }
+    $('#destinationid').html(id)
     this.state.togglePlacesForm === true ? this.setState({ togglePlacesForm: false }) : this.setState({ togglePlacesForm: true })
   },
   render: function () {
@@ -352,7 +353,6 @@ var Activities = React.createClass({
             <option value="stadium">Stadiums</option>
             <option value="casino">Casinos</option>
           </select>
-          <button className="small" onClick={this.setLocationHere} >Here & Now</button>
           {this.props.destinations.map(function (e) {
             return (<Destination onClick={this.onClick} getTripInfo={this.props.updateTrip} name={e.name} events={e.events} destinationid={e.destinationid} placeid={e.place_id} lat={e.lat} lng={e.lng}/>)
           }, this)}
@@ -375,7 +375,7 @@ var Destination = React.createClass({
   render: function () {
     return (
       <div>
-        <h3 className='destination' onClick={this.props.onClick.bind(this, this.props.lat, this.props.lng, this.props.destinationid)}>{this.props.name}</h3>
+        <h3 className='destination' onClick={this.props.onClick.bind(this, this.props.lat, this.props.lng, this.props.destinationid, this.props.name)}>{this.props.name}</h3>
       </div>
     )
   }

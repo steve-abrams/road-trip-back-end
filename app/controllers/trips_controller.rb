@@ -109,6 +109,7 @@ class TripsController < ApplicationController
     if @trip.save
       @destination_start = Destination.new
       @destination_end = Destination.new
+      @destination_here = Destination.new
       @destination_start.name = params[:trip][:start_location_city] + ", " + params[:trip][:start_location_state]
       @destination_start.trip_id = @trip.id
       @destination_start.place_id = res1["results"][0]["place_id"]
@@ -119,6 +120,10 @@ class TripsController < ApplicationController
       @destination_end.place_id = res2["results"][0]["place_id"]
       @destination_end.lat = res2["results"][0]["geometry"]["location"]["lat"]
       @destination_end.lng = res2["results"][0]["geometry"]["location"]["lng"]
+      @destination_here.name = "Here and Now"
+      @destination_here.trip_id = @trip.id
+      @destination_here.place_id = "hereAndNow"
+      @destination_here.save
       @destination_start.save
       @destination_end.save
       redirect_to user_trip_path(current_user.id, @trip.id)
