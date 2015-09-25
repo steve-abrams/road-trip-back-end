@@ -46,7 +46,7 @@ Rails.application.configure do
 
 # config/environments/production.rb
   # MyApp::Application.configure do
-  #   config.react.variant = :production
+    config.react.variant = :production
   # end
 
 
