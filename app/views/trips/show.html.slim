@@ -1,57 +1,14 @@
-
-/ h1= @trip.name
-/ p= @trip.start_location
-/ =link_to "delete trip", @trip, method: :delete
-
-/ - @trip.posts.each do |post|
-/   h5= post.name
-/   p= post.description
-/   =link_to "Delete Post", [@trip, post], method: :delete, data: { confirm: 'Are you sure?'}
-/
-/ = form_for [@trip, @post] do |f|
-/   = f.label :name
-/   = f.text_field :name
-/   = f.label :description
-/   = f.text_area :description
-/   = f.submit
-/ /
-
-  / h1=current_user.email
-
-  / =react_component('map')
-
-  / .row
 div.hideMe
   div#startLoc= @trip.start_location
   div#endLoc= @trip.end_location
   div#waypoints= @waypoints
-/ #map.map.large-6.columns
-/
+
 script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLEAPI']}&callback=initMap"
 
 
 .sidebar.large-6.columns
   =react_component('TripDashboard')
 
-  / <ul class="tabs" data-tab>
-  /   <li class="tab-title small-4 active"><a href="#panel1">Itinerary</a></li>
-  /   <li class="tab-title small-4"><a href="#panel2">Blog</a></li>
-  /   <li class="tab-title small-4"><a href="#panel3">Activities</a></li>
-  / </ul>
-  / <div class="tabs-content">
-  /   <div class="content active" id="panel1">
-  /     =react_component('GasInfo')
-  /     =react_component('NewDestinationButton')
-  /     =react_component('Itinerary')
-  /   </div>
-  /   <div class="content" id="panel2">
-  /     =react_component('newPostButton')
-  /     =react_component('BlogCarousel')
-  /   </div>
-  /   <div class="content" id="panel3">
-  /     =react_component('Activities')
-  /   </div>
-  / </div>
 .large-6.columns#map.map
 =react_component('GasInfo')
 
